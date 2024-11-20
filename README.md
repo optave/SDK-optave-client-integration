@@ -198,13 +198,18 @@ Below is a comprehensive example demonstrating how to initialize the SDK, authen
 ### Sample Module Using the SDK
 
 ```javascript
-const OptaveClientSDK = require('optave-client-sdk');
+const OptaveClientSDK = require('@optave/client-sdk');
 
 const optaveClient = new OptaveClientSDK({
-    websocketUrl: process.env.OPTAVE_WEBSOCKET_URL,
-    authenticationUrl: process.env.OPTAVE_AUTHENTICATION_URL,
-    clientId: process.env.OPTAVE_CLIENT_ID,
-    clientSecret: process.env.OPTAVE_CLIENT_SECRET,
+    websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
+
+    // These parameters are only required when using the authenticate() function.
+    // In some cases, the authentication token can be obtained manually or through
+    // another process, which makes the authenticate() call unnecessary. In this
+    // case, only the openConnection function has to be called, passing the existing token value
+    authenticationUrl: process.env.OPTAVE__AUTHENTICATION_URL,
+    clientId: process.env.OPTAVE__CLIENT_ID,
+    clientSecret: process.env.OPTAVE__CLIENT_SECRET,
 });
 
 async function run() {

@@ -1,4 +1,4 @@
-const OptaveClientSDK = require("../src/main.js");
+const OptaveClientSDK = require('@optave/client-sdk');
 
 const optaveClient = new OptaveClientSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
@@ -12,25 +12,25 @@ const optaveClient = new OptaveClientSDK({
     clientSecret: process.env.OPTAVE__CLIENT_SECRET,
 });
 
-
 async function run() {
-    // listen for messages from the websocket
+    // Listen for messages from the WebSocket
     optaveClient.on('message', payload => {
         const message = JSON.parse(payload);
         const { actionType, state, action } = message;
     
-        console.log(`Action: ${action} / State ${state} / Action Type: ${actionType}`);
+        console.log(`Action: ${action} / State: ${state} / Action Type: ${actionType}`);
     });
     
+    // Handle errors
     optaveClient.on('error', error => {
         if (typeof error === 'string') {
             console.error(error);
-        }
-        else {
+        } else {
             console.error('Error', error);
         }
     })
     
+    // When the connection is opened, send a customerinteraction message
     optaveClient.on('open', () => {
         const customerInteractionParams = {
             user: {
