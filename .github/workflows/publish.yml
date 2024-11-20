@@ -30,19 +30,15 @@ jobs:
             ${{ env.cache-name }}-
 
       - name: Install dependencies
-        working-directory: javascript
         run: npm ci --cache .npm --prefer-offline
 
       - name: Run tests
-        working-directory: javascript
         run: npm test
 
       - name: Build
-        working-directory: javascript
         run: npm run build
 
       - uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           registry: 'https://npm.pkg.github.com'
-          package: javascript
