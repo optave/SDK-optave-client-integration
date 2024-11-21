@@ -1,7 +1,7 @@
 {
 	"name": "@optave/client-sdk",
 	"version": "2.0.1",
-	"description": "",
+	"description": "This SDK allows the integration with Optave's AI systems.",
 	"private": false,
 	"main": "dist/optave.client.sdk.js",
 	"files": [
@@ -26,5 +26,21 @@
 		"jest-environment-jsdom": "^29.7.0",
 		"webpack": "^5.96.1",
 		"webpack-cli": "^5.1.4"
-	}
+	},
+	"directories": {
+		"example": "examples"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/optave/SDK-client-optave-integration.git"
+	},
+	"keywords": [
+		"sdk",
+		"optave"
+	],
+	"license": "Apache-2.0",
+	"bugs": {
+		"url": "https://github.com/optave/SDK-client-optave-integration/issues"
+	},
+	"homepage": "https://github.com/optave/SDK-client-optave-integration#readme"
 }
