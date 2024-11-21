@@ -1,4 +1,5 @@
 const OptaveClientSDK = require('@optave/client-sdk');
+// const OptaveClientSDK = require('../src/main');
 
 const optaveClient = new OptaveClientSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
@@ -31,12 +32,24 @@ async function run() {
     });
     
     // When the connection is opened, send a translate message
-    optaveClient.on('open', () => {
-        const translateParams = {
-            // Populate with appropriate fields
-        };
-    
-        optaveClient.translate(translateParams);
+    optaveClient.once('open', () => {
+        optaveClient.translate({
+            user: {
+                user_name: 'test',
+            },
+            agent: {
+                agent_name: 'test',
+            },
+            request: {
+                output_language: 'pt-BR',
+                interface_language: 'en-US',
+                settings: {
+                    disable_stream: true,
+                },
+                content: 'How can I help you?',
+                instruction: '',
+            },
+        });
     });
 
     // Authenticate and open the WebSocket connection

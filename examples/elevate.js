@@ -1,4 +1,5 @@
 const OptaveClientSDK = require('@optave/client-sdk');
+// const OptaveClientSDK = require('../src/main');
 
 const optaveClient = new OptaveClientSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
@@ -31,12 +32,24 @@ async function run() {
     });
     
     // When the connection is opened, send an elevate message
-    optaveClient.on('open', () => {
-        const elevateParams = {
-            // Populate with appropriate fields
-        };
-    
-        optaveClient.elevate(elevateParams);
+    optaveClient.once('open', () => {
+        optaveClient.elevate({
+            user: {
+                user_name: 'test',
+            },
+            agent: {
+                agent_name: 'test',
+            },
+            request: {
+                output_language: 'en-US',
+                interface_language: 'en-US',
+                settings: {
+                    disable_stream: true,
+                },
+                content: 'Hey man, sup? Need some help?',
+                instruction: '',
+            },
+        });
     });
 
     // Authenticate and open the WebSocket connection

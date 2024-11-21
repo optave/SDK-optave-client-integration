@@ -1,4 +1,5 @@
 const OptaveClientSDK = require('@optave/client-sdk');
+// const OptaveClientSDK = require('../src/main');
 
 const optaveClient = new OptaveClientSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
@@ -30,9 +31,9 @@ async function run() {
         }
     })
     
-    // When the connection is opened, send a customerinteraction message
-    optaveClient.on('open', () => {
-        const customerInteractionParams = {
+    // After the connection is opened, send a customerinteraction message
+    optaveClient.once('open', () => {
+        optaveClient.customerInteraction({
             user: {
                 user_name: 'test',
             },
@@ -57,9 +58,7 @@ async function run() {
                 content: 'test',
                 medium: 'voice',
             },
-        };
-    
-        optaveClient.customerInteraction(customerInteractionParams);
+        });
     });
 
     const token = await optaveClient.authenticate();
