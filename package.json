@@ -1,6 +1,6 @@
 {
 	"name": "@optave/client-sdk",
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"description": "This SDK allows the integration with Optave's AI systems.",
 	"private": false,
 	"main": "dist/optave.client.sdk.js",
@@ -13,7 +13,6 @@
 	},
 	"author": "",
 	"dependencies": {
-		"util": "^0.12.5",
 		"uuid": "^11.0.3",
 		"ws": "^8.18.0"
 	},
