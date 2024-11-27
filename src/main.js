@@ -1,5 +1,4 @@
 const EventEmitter = require('events');
-const { TextEncoder } = require('util');
 const uuid = require('uuid');
 
 let CONSTANTS = require('./constants');
@@ -409,7 +408,6 @@ class OptaveClientSDK extends EventEmitter {
                 this.handleError(event.data);
             }
             else {
-                console.log('RESPONSE PAYLOAD', event.data);
                 this.emit('message', event.data);
             }
         };
@@ -454,11 +452,12 @@ class OptaveClientSDK extends EventEmitter {
     }
 
     isPayloadSizeValid(payloadString) {
-        const encoder = new TextEncoder();
-        const sizeInBytes = encoder.encode(payloadString).length;
-        
+        if (!payloadString) {
+            return false;
+        }
+
         // Check if the size is within the limit
-        return (sizeInBytes / 1024) <= CONSTANTS.MAX_PAYLOAD_SIZE_KB;
+        return (payloadString.length / 1024) <= CONSTANTS.MAX_PAYLOAD_SIZE_KB;
     }
 
     buildPayload(requestType, action, params) {
@@ -508,7 +507,6 @@ class OptaveClientSDK extends EventEmitter {
             const payloadString = JSON.stringify(payload);
             
             if (this.isPayloadSizeValid(payloadString)) {
-                console.log('REQUEST PAYLOAD', payload);
                 this.wss.send(payloadString);
             }
             else {
