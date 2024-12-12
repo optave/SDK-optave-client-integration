@@ -31,7 +31,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/optave/SDK-client-optave-integration.git"
+		"url": "git+https://github.com/optave/SDK-optave-client-integration.git"
 	},
 	"keywords": [
 		"sdk",
@@ -39,7 +39,7 @@
 	],
 	"license": "Apache-2.0",
 	"bugs": {
-		"url": "https://github.com/optave/SDK-client-optave-integration/issues"
+		"url": "https://github.com/optave/SDK-optave-client-integration/issues"
 	},
-	"homepage": "https://github.com/optave/SDK-client-optave-integration#readme"
+	"homepage": "https://github.com/optave/SDK-optave-client-integration#readme"
 }
