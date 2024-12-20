@@ -1,0 +1,26 @@
+{
+    "1000": {
+        "description": "Normal Closure: The connection was closed normally.",
+        "httpEquivalent": 200
+    },
+    "1001": {
+        "description": "Going Away: The endpoint is shutting down, such as server closure or user navigating away.",
+        "httpEquivalent": 410
+    },
+    "1002": {
+        "description": "Protocol Error: The connection was terminated due to a protocol error.",
+        "httpEquivalent": 400
+    },
+    "1003": {
+        "description": "Unsupported Data: Received unsupported data type.",
+        "httpEquivalent": 415
+    },
+    "1006": {
+        "description": "Abnormal Closure: No close frame was sent or received.",
+        "httpEquivalent": 499
+    },
+    "1011": {
+        "description": "Internal Error: A server-side internal error occurred.",
+        "httpEquivalent": 500
+    }
+}
