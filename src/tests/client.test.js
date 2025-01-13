@@ -1,4 +1,4 @@
-const OptaveClientSDK = require('../main');
+const OptaveJavascriptSDK = require('../main');
 const EventEmitter = require('events');
 
 const token = 'mocked_token';
@@ -7,11 +7,11 @@ global.WebSocket = jest.fn();
 global.WebSocket.prototype.send = jest.fn();
 global.WebSocket.prototype.close = jest.fn();
 
-describe('OptaveClientSDK', () => {
+describe('OptaveJavascriptSDK', () => {
     let client;
 
     beforeEach(() => {
-        client = new OptaveClientSDK({
+        client = new OptaveJavascriptSDK({
             websocketUrl: 'someurl'
         });
     });
@@ -21,7 +21,7 @@ describe('OptaveClientSDK', () => {
     });
 
     it('tries to open an connection without a Websocket URL', () => {
-        const c = new OptaveClientSDK({});
+        const c = new OptaveJavascriptSDK({});
 
         const mockErrorCallback = jest.fn();
         c.on('error', mockErrorCallback);

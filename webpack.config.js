@@ -6,7 +6,7 @@ module.exports = {
 		filename: 'optave.client.sdk.js',
 		path: path.resolve(__dirname, 'dist'),
 		library: {
-			name: 'OptaveClientSDK',
+			name: 'OptaveJavascriptSDK',
 			type: 'umd',
 		},
 		globalObject: 'this',

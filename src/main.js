@@ -3,7 +3,7 @@ const uuid = require('uuid');
 
 let CONSTANTS = require('./constants');
 
-class OptaveClientSDK extends EventEmitter {
+class OptaveJavascriptSDK extends EventEmitter {
     options = {}
     
     wss = null;
@@ -527,7 +527,7 @@ class OptaveClientSDK extends EventEmitter {
     insights            = params => this.send('message', 'insights'           , params);
 }
 
-module.exports = OptaveClientSDK;
+module.exports = OptaveJavascriptSDK;
 
 // Explicitly add a default export for ES6 environments
-exports.default = OptaveClientSDK;
+exports.default = OptaveJavascriptSDK;

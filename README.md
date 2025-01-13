@@ -54,9 +54,9 @@ Before using the SDK, you need to configure it with the necessary parameters. Th
 ### Example Configuration
 
 ```javascript
-const OptaveClientSDK = require('client-sdk');
+const OptaveJavascriptSDK = require('client-sdk');
 
-const optaveClient = new OptaveClientSDK({
+const optaveClient = new OptaveJavascriptSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
     authenticationUrl: process.env.OPTAVE__AUTHENTICATION_URL,
     clientId: process.env.OPTAVE__CLIENT_ID,
@@ -198,9 +198,9 @@ Below is a comprehensive example demonstrating how to initialize the SDK, authen
 ### Sample Module Using the SDK
 
 ```javascript
-const OptaveClientSDK = require('@optave/client-sdk');
+const OptaveJavascriptSDK = require('@optave/client-sdk');
 
-const optaveClient = new OptaveClientSDK({
+const optaveClient = new OptaveJavascriptSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
 
     // These parameters are only required when using the authenticate() function.
@@ -276,9 +276,9 @@ run();
 
 ## API Reference
 
-### `OptaveClientSDK(options)`
+### `OptaveJavascriptSDK(options)`
 
-Creates a new instance of the OptaveClientSDK.
+Creates a new instance of the OptaveJavascriptSDK.
 
 - **Parameters**:
   - `options` *(Object)*: Configuration options.
@@ -328,7 +328,7 @@ These methods are shortcuts for sending specific types of messages.
 
 ### EventEmitter Methods
 
-Since `OptaveClientSDK` extends `EventEmitter`, you can use all standard `EventEmitter` methods such as `on`, `once`, `emit`, etc.
+Since `OptaveJavascriptSDK` extends `EventEmitter`, you can use all standard `EventEmitter` methods such as `on`, `once`, `emit`, etc.
 
 ## Error Handling
 
