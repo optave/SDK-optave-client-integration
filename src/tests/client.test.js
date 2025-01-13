@@ -69,4 +69,69 @@ describe('OptaveJavascriptSDK', () => {
         expect(global.WebSocket.prototype.send)
             .toHaveBeenCalledWith(expect.anything());
     });
+
+	it('detects an invalid schema', async () => {
+        await client.openConnection(token);
+        
+        const mockEvent = {};
+        client.wss.onopen(mockEvent);
+
+        const payload = {
+            invalid_thing: 1,
+        };
+
+        const validationResult = client.validate(payload);
+        expect(validationResult).toBe(false);
+    });
+
+	it('validates an invalid payload', async () => {
+        await client.openConnection(token);
+        
+        const mockEvent = {};
+        client.wss.onopen(mockEvent);
+
+        const payload = {
+            invalid_thing: 1,
+        };
+
+        const validationResult = client.validate(payload);
+        expect(validationResult).toBe(false);
+    });
+
+	it('validates a valid payload', async () => {
+        await client.openConnection(token);
+        
+        const mockEvent = {};
+        client.wss.onopen(mockEvent);
+
+        const payload = {
+            user: {
+                user_name: 'test',
+            },
+            agent: {
+                agent_name: 'test',
+            },
+            session: {
+                user_perspective: [
+                    {
+                        role: 'EndUser',
+                        content: 'testing',
+                        name: 'test-message',
+                    }
+                ]
+            },
+            request: {
+                output_language: 'en-US',
+                interface_language: 'en-US',
+                settings: {
+                    disable_stream: false,
+                },
+                content: 'test',
+                medium: 'voice',
+            },
+        };
+
+        const validationResult = client.validate(payload);
+        expect(validationResult).toBe(true);
+    });
 });
