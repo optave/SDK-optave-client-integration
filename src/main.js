@@ -11,256 +11,258 @@ class OptaveJavascriptSDK extends EventEmitter {
 
     wss = null;
 
+    // The validation schema
     schema = {
-        "type": "object",
-        "properties": {
-            "session": {
-                "type": "object",
-                "properties": {
-                    "sdk_version": {
-                        "type": "string"
+        type: "object",
+        additionalProperties: false,
+        properties: {
+            session: {
+                type: "object",
+                properties: {
+                    sdk_version: {
+                        type: "string"
                     },
-                    "trace_session_ID": {
-                        "type": "string"
+                    trace_session_ID: {
+                        type: "string"
                     },
-                    "trace_parent_ID": {
-                        "type": "string"
+                    trace_parent_ID: {
+                        type: "string"
                     },
-                    "user_perspective": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "timestamp": {
-                                    "type": "string",
-                                    "format": "date-time"
+                    user_perspective: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                timestamp: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "id": {
-                                    "type": "string"
+                                id: {
+                                    type: "string"
                                 },
-                                "role": {
-                                    "type": "string"
+                                role: {
+                                    type: "string"
                                 },
-                                "name": {
-                                    "type": "string"
+                                name: {
+                                    type: "string"
                                 },
-                                "content": {
-                                    "type": "string"
+                                content: {
+                                    type: "string"
                                 }
                             }
                         }
                     },
-                    "interactions": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "timestamp": {
-                                    "type": "string",
-                                    "format": "date-time"
+                    interactions: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                timestamp: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "id": {
-                                    "type": "string"
+                                id: {
+                                    type: "string"
                                 },
-                                "role": {
-                                    "type": "string"
+                                role: {
+                                    type: "string"
                                 },
-                                "name": {
-                                    "type": "string"
+                                name: {
+                                    type: "string"
                                 },
-                                "content": {
-                                    "type": "string"
+                                content: {
+                                    type: "string"
                                 }
                             }
                         }
                     },
-                    "feedbacks": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "feedback_ID": {
-                                    "type": "string"
+                    feedbacks: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                feedback_ID: {
+                                    type: "string"
                                 },
-                                "timestamp": {
-                                    "type": "string",
-                                    "format": "date-time"
+                                timestamp: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "rating": {
-                                    "type": "integer"
+                                rating: {
+                                    type: "integer"
                                 },
-                                "comments": {
-                                    "type": "string"
+                                comments: {
+                                    type: "string"
                                 },
-                                "suggestions": {
-                                    "type": "string"
+                                suggestions: {
+                                    type: "string"
                                 }
                             }
                         }
                     },
-                    "escalations": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "escalation_ID": {
-                                    "type": "string"
+                    escalations: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                escalation_ID: {
+                                    type: "string"
                                 },
-                                "timestamp": {
-                                    "type": "string",
-                                    "format": "date-time"
+                                timestamp: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "escalated_to": {
-                                    "type": "string"
+                                escalated_to: {
+                                    type: "string"
                                 },
-                                "reason": {
-                                    "type": "string"
+                                reason: {
+                                    type: "string"
                                 },
-                                "resolution_status": {
-                                    "type": "string"
+                                resolution_status: {
+                                    type: "string"
                                 }
                             }
                         }
                     },
-                    "notes": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "note_ID": {
-                                    "type": "string"
+                    notes: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                note_ID: {
+                                    type: "string"
                                 },
-                                "timestamp": {
-                                    "type": "string",
-                                    "format": "date-time"
+                                timestamp: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "author": {
-                                    "type": "string"
+                                author: {
+                                    type: "string"
                                 },
-                                "role": {
-                                    "type": "string"
+                                role: {
+                                    type: "string"
                                 },
-                                "content": {
-                                    "type": "string"
+                                content: {
+                                    type: "string"
                                 }
                             }
                         }
                     },
-                    "tags": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "tag_ID": {
-                                    "type": "string"
+                    tags: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                tag_ID: {
+                                    type: "string"
                                 },
-                                "tag": {
-                                    "type": "string"
+                                tag: {
+                                    type: "string"
                                 }
                             }
                         }
                     },
-                    "open_orders": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "order_ID": {
-                                    "type": "string"
+                    open_orders: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                order_ID: {
+                                    type: "string"
                                 },
-                                "order_content": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "sku": {
-                                                "type": "string"
+                                order_content: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            sku: {
+                                                type: "string"
                                             },
-                                            "title": {
-                                                "type": "string"
+                                            title: {
+                                                type: "string"
                                             },
-                                            "category": {
-                                                "type": "string"
+                                            category: {
+                                                type: "string"
                                             },
-                                            "price": {
-                                                "type": "number"
+                                            price: {
+                                                type: "number"
                                             },
-                                            "item_status": {
-                                                "type": "string"
+                                            item_status: {
+                                                type: "string"
                                             },
-                                            "supplier": {
-                                                "type": "string"
+                                            supplier: {
+                                                type: "string"
                                             },
-                                            "quantity": {
-                                                "type": "integer"
+                                            quantity: {
+                                                type: "integer"
                                             }
                                         }
                                     }
                                 },
-                                "payment_method": {
-                                    "type": "string"
+                                payment_method: {
+                                    type: "string"
                                 },
-                                "shipping_cost": {
-                                    "type": "number"
+                                shipping_cost: {
+                                    type: "number"
                                 },
-                                "total_price": {
-                                    "type": "number"
+                                total_price: {
+                                    type: "number"
                                 },
-                                "taxes": {
-                                    "type": "number"
+                                taxes: {
+                                    type: "number"
                                 },
-                                "order_status": {
-                                    "type": "string"
+                                order_status: {
+                                    type: "string"
                                 },
-                                "return_status": {
-                                    "type": "string"
+                                return_status: {
+                                    type: "string"
                                 },
-                                "purchase_date": {
-                                    "type": "string",
-                                    "format": "date-time"
+                                purchase_date: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "event_date": {
-                                    "type": "string",
-                                    "format": "date-time"
+                                event_date: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "discounts_applied": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "discount_code": {
-                                                "type": "string"
+                                discounts_applied: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            discount_code: {
+                                                type: "string"
                                             },
-                                            "amount": {
-                                                "type": "number"
+                                            amount: {
+                                                type: "number"
                                             }
                                         }
                                     }
                                 },
-                                "promo_codes_applied": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "promo_code": {
-                                                "type": "string"
+                                promo_codes_applied: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            promo_code: {
+                                                type: "string"
                                             },
-                                            "amount": {
-                                                "type": "number"
+                                            amount: {
+                                                type: "number"
                                             }
                                         }
                                     }
                                 },
-                                "gift_options": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "option": {
-                                                "type": "string"
+                                gift_options: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            option: {
+                                                type: "string"
                                             },
-                                            "details": {
-                                                "type": "string"
+                                            details: {
+                                                type: "string"
                                             }
                                         }
                                     }
@@ -270,131 +272,131 @@ class OptaveJavascriptSDK extends EventEmitter {
                     }
                 }
             },
-            "request": {
-                "type": "object",
-                "properties": {
-                    "request_ID": {
-                        "type": "string"
+            request: {
+                type: "object",
+                properties: {
+                    request_ID: {
+                        type: "string"
                     },
-                    "request_type": {
-                        "type": "string"
+                    request_type: {
+                        type: "string"
                     },
-                    "action": {
-                        "type": "string"
+                    action: {
+                        type: "string"
                     },
-                    "status": {
-                        "type": "string"
+                    status: {
+                        type: "string"
                     },
-                    "instruction": {
-                        "type": "string"
+                    instruction: {
+                        type: "string"
                     },
-                    "content": {
-                        "type": "string"
+                    content: {
+                        type: "string"
                     },
-                    "medium": {
-                        "type": "string"
+                    medium: {
+                        type: "string"
                     },
-                    "variation": {
-                        "type": "string"
+                    variation: {
+                        type: "string"
                     },
-                    "product_ID": {
-                        "type": "string"
+                    product_ID: {
+                        type: "string"
                     },
-                    "crm": {
-                        "type": "string"
+                    crm: {
+                        type: "string"
                     },
-                    "output_language": {
-                        "type": "string"
+                    output_language: {
+                        type: "string"
                     },
-                    "interface_language": {
-                        "type": "string"
+                    interface_language: {
+                        type: "string"
                     },
-                    "channel": {
-                        "type": "object",
-                        "properties": {
-                            "c_name": {
-                                "type": "string"
+                    channel: {
+                        type: "object",
+                        properties: {
+                            c_name: {
+                                type: "string"
                             },
-                            "c_language": {
-                                "type": "string"
+                            c_language: {
+                                type: "string"
                             },
-                            "c_section": {
-                                "type": "string"
+                            c_section: {
+                                type: "string"
                             }
                         }
                     },
-                    "settings": {
-                        "type": "object",
-                        "properties": {
-                            "disable_search": {
-                                "type": "boolean"
+                    settings: {
+                        type: "object",
+                        properties: {
+                            disable_search: {
+                                type: "boolean"
                             },
-                            "disable_stream": {
-                                "type": "boolean"
+                            disable_stream: {
+                                type: "boolean"
                             }
                         }
                     },
-                    "offering_details": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "code": {
-                                    "type": "string"
+                    offering_details: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                code: {
+                                    type: "string"
                                 },
-                                "title": {
-                                    "type": "string"
+                                title: {
+                                    type: "string"
                                 },
-                                "url": {
-                                    "type": "string"
+                                url: {
+                                    type: "string"
                                 },
-                                "description": {
-                                    "type": "string"
+                                description: {
+                                    type: "string"
                                 },
-                                "selectedTourGrade": {
-                                    "type": "object",
-                                    "properties": {
-                                        "title": {
-                                            "type": "string"
+                                selectedTourGrade: {
+                                    type: "object",
+                                    properties: {
+                                        title: {
+                                            type: "string"
                                         },
-                                        "description": {
-                                            "type": "string"
+                                        description: {
+                                            type: "string"
                                         },
-                                        "privateTour": {
-                                            "type": "boolean"
+                                        privateTour: {
+                                            type: "boolean"
                                         },
-                                        "pickupIncluded": {
-                                            "type": "boolean"
+                                        pickupIncluded: {
+                                            type: "boolean"
                                         },
-                                        "travelDate": {
-                                            "type": "string",
-                                            "format": "date"
+                                        travelDate: {
+                                            type: "string",
+                                            format: "date"
                                         },
-                                        "startTime": {
-                                            "type": "string"
+                                        startTime: {
+                                            type: "string"
                                         },
-                                        "price": {
-                                            "type": "object",
-                                            "properties": {
-                                                "currencyIsoCode": {
-                                                    "type": "string"
+                                        price: {
+                                            type: "object",
+                                            properties: {
+                                                currencyIsoCode: {
+                                                    type: "string"
                                                 },
-                                                "total": {
-                                                    "type": "number"
+                                                total: {
+                                                    type: "number"
                                                 },
-                                                "breakdown": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "type": {
-                                                                "type": "string"
+                                                breakdown: {
+                                                    type: "array",
+                                                    items: {
+                                                        type: "object",
+                                                        properties: {
+                                                            type: {
+                                                                type: "string"
                                                             },
-                                                            "count": {
-                                                                "type": "integer"
+                                                            count: {
+                                                                type: "integer"
                                                             },
-                                                            "amount": {
-                                                                "type": "number"
+                                                            amount: {
+                                                                type: "number"
                                                             }
                                                         }
                                                     }
@@ -408,444 +410,444 @@ class OptaveJavascriptSDK extends EventEmitter {
                     }
                 }
             },
-            "client": {
-                "type": "object",
-                "properties": {
-                    "client_ID": {
-                        "type": "string"
+            client: {
+                type: "object",
+                properties: {
+                    client_ID: {
+                        type: "string"
                     },
-                    "organization_name": {
-                        "type": "string"
+                    organization_name: {
+                        type: "string"
                     },
-                    "organization_ID": {
-                        "type": "string"
+                    organization_ID: {
+                        type: "string"
                     },
-                    "department_name": {
-                        "type": "string"
+                    department_name: {
+                        type: "string"
                     },
-                    "department_ID": {
-                        "type": "string"
+                    department_ID: {
+                        type: "string"
                     }
                 }
             },
-            "agent": {
-                "type": "object",
-                "properties": {
-                    "agent_ID": {
-                        "type": "string"
+            agent: {
+                type: "object",
+                properties: {
+                    agent_ID: {
+                        type: "string"
                     },
-                    "agent_name": {
-                        "type": "string"
+                    agent_name: {
+                        type: "string"
                     },
-                    "support_team_name": {
-                        "type": "string"
+                    support_team_name: {
+                        type: "string"
                     },
-                    "support_team_ID": {
-                        "type": "string"
+                    support_team_ID: {
+                        type: "string"
                     },
-                    "timezone": {
-                        "type": "string"
+                    timezone: {
+                        type: "string"
                     },
-                    "languages": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
+                    languages: {
+                        type: "array",
+                        items: {
+                            type: "string"
                         }
                     },
-                    "skills": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
+                    skills: {
+                        type: "array",
+                        items: {
+                            type: "string"
                         }
                     },
-                    "in_training": {
-                        "type": "boolean"
+                    in_training: {
+                        type: "boolean"
                     },
-                    "experience_level": {
-                        "type": "string"
+                    experience_level: {
+                        type: "string"
                     },
-                    "current_workload": {
-                        "type": "integer"
+                    current_workload: {
+                        type: "integer"
                     },
-                    "availability_status": {
-                        "type": "string"
+                    availability_status: {
+                        type: "string"
                     }
                 }
             },
-            "user": {
-                "type": "object",
-                "properties": {
-                    "user_ID": {
-                        "type": "string",
-                        "description": "Unique identifier for the user"
+            user: {
+                type: "object",
+                properties: {
+                    user_ID: {
+                        type: "string",
+                        description: "Unique identifier for the user"
                     },
-                    "user_name": {
-                        "type": "string",
-                        "description": "Name of the user"
+                    user_name: {
+                        type: "string",
+                        description: "Name of the user"
                     },
-                    "preferred_pronouns": {
-                        "type": "string",
-                        "description": "User's preferred pronouns"
+                    preferred_pronouns: {
+                        type: "string",
+                        description: "User's preferred pronouns"
                     },
-                    "user_type": {
-                        "type": "string",
-                        "description": "Type or category of the user"
+                    user_type: {
+                        type: "string",
+                        description: "Type or category of the user"
                     },
-                    "preferred_contact_method": {
-                        "type": "string",
-                        "description": "User's preferred method of contact"
+                    preferred_contact_method: {
+                        type: "string",
+                        description: "User's preferred method of contact"
                     },
-                    "preferred_contact_times": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
+                    preferred_contact_times: {
+                        type: "array",
+                        items: {
+                            type: "string"
                         },
-                        "description": "List of preferred times for contact"
+                        description: "List of preferred times for contact"
                     },
-                    "preferred_support_languages": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
+                    preferred_support_languages: {
+                        type: "array",
+                        items: {
+                            type: "string"
                         },
-                        "description": "List of languages preferred for support"
+                        description: "List of languages preferred for support"
                     },
-                    "primary_language": {
-                        "type": "string",
-                        "description": "User's primary language"
+                    primary_language: {
+                        type: "string",
+                        description: "User's primary language"
                     },
-                    "consent_and_preferences": {
-                        "type": "object",
-                        "properties": {
-                            "marketing_consent": {
-                                "type": "boolean",
-                                "description": "Whether user has consented to marketing communications"
+                    consent_and_preferences: {
+                        type: "object",
+                        properties: {
+                            marketing_consent: {
+                                type: "boolean",
+                                description: "Whether user has consented to marketing communications"
                             },
-                            "privacy_settings": {
-                                "type": "string",
-                                "description": "User's privacy preferences"
+                            privacy_settings: {
+                                type: "string",
+                                description: "User's privacy preferences"
                             }
                         }
                     },
-                    "loyalty_details": {
-                        "type": "object",
-                        "properties": {
-                            "points_balance": {
-                                "type": "integer",
-                                "description": "Current loyalty points balance"
+                    loyalty_details: {
+                        type: "object",
+                        properties: {
+                            points_balance: {
+                                type: "integer",
+                                description: "Current loyalty points balance"
                             },
-                            "tier_expiry_date": {
-                                "type": ["null", "string"],
-                                "format": "date-time",
-                                "description": "Expiration date of current loyalty tier"
+                            tier_expiry_date: {
+                                type: ["null", "string"],
+                                format: "date-time",
+                                description: "Expiration date of current loyalty tier"
                             }
                         }
                     },
-                    "total_spend": {
-                        "type": "number",
-                        "description": "Total amount spent by user"
+                    total_spend: {
+                        type: "number",
+                        description: "Total amount spent by user"
                     },
-                    "last_contacted_timestamp": {
-                        "type": ["null", "string"],
-                        "format": "date-time",
-                        "description": "Timestamp of last contact with user"
+                    last_contacted_timestamp: {
+                        type: ["null", "string"],
+                        format: "date-time",
+                        description: "Timestamp of last contact with user"
                     },
-                    "technical_information": {
-                        "type": "object",
-                        "properties": {
-                            "devices_used": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
+                    technical_information: {
+                        type: "object",
+                        properties: {
+                            devices_used: {
+                                type: "array",
+                                items: {
+                                    type: "string"
                                 },
-                                "description": "List of devices used by the user"
+                                description: "List of devices used by the user"
                             },
-                            "browser_or_app_version": {
-                                "type": "string",
-                                "description": "Browser or application version used"
+                            browser_or_app_version: {
+                                type: "string",
+                                description: "Browser or application version used"
                             }
                         }
                     },
-                    "behavioral_data": {
-                        "type": "object",
-                        "properties": {
-                            "average_response_time": {
-                                "type": "number",
-                                "description": "Average time taken to respond"
+                    behavioral_data: {
+                        type: "object",
+                        properties: {
+                            average_response_time: {
+                                type: "number",
+                                description: "Average time taken to respond"
                             },
-                            "interaction_frequency": {
-                                "type": "number",
-                                "description": "Frequency of interactions"
+                            interaction_frequency: {
+                                type: "number",
+                                description: "Frequency of interactions"
                             },
-                            "preferred_interaction_channels": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
+                            preferred_interaction_channels: {
+                                type: "array",
+                                items: {
+                                    type: "string"
                                 },
-                                "description": "Preferred channels for interaction"
+                                description: "Preferred channels for interaction"
                             },
-                            "product_preferences": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
+                            product_preferences: {
+                                type: "array",
+                                items: {
+                                    type: "string"
                                 },
-                                "description": "List of preferred products"
+                                description: "List of preferred products"
                             }
                         }
                     },
-                    "pending_queries": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "interaction_ID": {
-                                    "type": "string"
+                    pending_queries: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                interaction_ID: {
+                                    type: "string"
                                 },
-                                "created_timestamp": {
-                                    "type": "string",
-                                    "format": "date-time"
+                                created_timestamp: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "last_interaction_timestamp": {
-                                    "type": "string",
-                                    "format": "date-time"
+                                last_interaction_timestamp: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "agent_name": {
-                                    "type": "string"
+                                agent_name: {
+                                    type: "string"
                                 },
-                                "CSAT_rating": {
-                                    "type": "integer"
+                                CSAT_rating: {
+                                    type: "integer"
                                 },
-                                "ticket_status": {
-                                    "type": "string"
+                                ticket_status: {
+                                    type: "string"
                                 },
-                                "unanswered_queries_superpower_answer_1": {
-                                    "type": "string"
+                                unanswered_queries_superpower_answer_1: {
+                                    type: "string"
                                 },
-                                "escalation_history": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "escalation_timestamp": {
-                                                "type": "string",
-                                                "format": "date-time"
+                                escalation_history: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            escalation_timestamp: {
+                                                type: "string",
+                                                format: "date-time"
                                             },
-                                            "escalated_to": {
-                                                "type": "string"
+                                            escalated_to: {
+                                                type: "string"
                                             },
-                                            "reason": {
-                                                "type": "string"
+                                            reason: {
+                                                type: "string"
                                             }
                                         }
                                     }
                                 },
-                                "medium": {
-                                    "type": "string"
+                                medium: {
+                                    type: "string"
                                 },
-                                "channel": {
-                                    "type": "string"
+                                channel: {
+                                    type: "string"
                                 },
-                                "number_of_messages_exchanged": {
-                                    "type": "integer"
+                                number_of_messages_exchanged: {
+                                    type: "integer"
                                 },
-                                "agent_notes": {
-                                    "type": "string"
+                                agent_notes: {
+                                    type: "string"
                                 },
-                                "suggestions": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
+                                suggestions: {
+                                    type: "array",
+                                    items: {
+                                        type: "string"
                                     }
                                 },
-                                "conversation": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "timestamp": {
-                                                "type": "string",
-                                                "format": "date-time"
+                                conversation: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            timestamp: {
+                                                type: "string",
+                                                format: "date-time"
                                             },
-                                            "role": {
-                                                "type": "string"
+                                            role: {
+                                                type: "string"
                                             },
-                                            "name": {
-                                                "type": "string"
+                                            name: {
+                                                type: "string"
                                             },
-                                            "content": {
-                                                "type": "string"
+                                            content: {
+                                                type: "string"
                                             }
                                         }
                                     }
                                 },
-                                "summary": {
-                                    "type": "string"
+                                summary: {
+                                    type: "string"
                                 }
                             }
                         }
                     },
-                    "past_sessions": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "session_ID": {
-                                    "type": "string"
+                    past_sessions: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                session_ID: {
+                                    type: "string"
                                 },
-                                "started_timestamp": {
-                                    "type": "string",
-                                    "format": "date-time"
+                                started_timestamp: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "ended_timestamp": {
-                                    "type": "string",
-                                    "format": "date-time"
+                                ended_timestamp: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "agent_name": {
-                                    "type": "string"
+                                agent_name: {
+                                    type: "string"
                                 },
-                                "CSAT_rating": {
-                                    "type": "integer"
+                                CSAT_rating: {
+                                    type: "integer"
                                 },
-                                "ticket_status": {
-                                    "type": "string"
+                                ticket_status: {
+                                    type: "string"
                                 },
-                                "medium": {
-                                    "type": "string"
+                                medium: {
+                                    type: "string"
                                 },
-                                "channel": {
-                                    "type": "string"
+                                channel: {
+                                    type: "string"
                                 },
-                                "number_of_messages_exchanged": {
-                                    "type": "integer"
+                                number_of_messages_exchanged: {
+                                    type: "integer"
                                 },
-                                "suggestions": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
+                                suggestions: {
+                                    type: "array",
+                                    items: {
+                                        type: "string"
                                     }
                                 },
-                                "user_perspective": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "timestamp": {
-                                                "type": "string",
-                                                "format": "date-time"
+                                user_perspective: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            timestamp: {
+                                                type: "string",
+                                                format: "date-time"
                                             },
-                                            "id": {
-                                                "type": "string"
+                                            id: {
+                                                type: "string"
                                             },
-                                            "role": {
-                                                "type": "string"
+                                            role: {
+                                                type: "string"
                                             },
-                                            "name": {
-                                                "type": "string"
+                                            name: {
+                                                type: "string"
                                             },
-                                            "content": {
-                                                "type": "string"
+                                            content: {
+                                                type: "string"
                                             }
                                         }
                                     }
                                 },
-                                "all_interactions": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "timestamp": {
-                                                "type": "string",
-                                                "format": "date-time"
+                                all_interactions: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            timestamp: {
+                                                type: "string",
+                                                format: "date-time"
                                             },
-                                            "id": {
-                                                "type": "string"
+                                            id: {
+                                                type: "string"
                                             },
-                                            "role": {
-                                                "type": "string"
+                                            role: {
+                                                type: "string"
                                             },
-                                            "name": {
-                                                "type": "string"
+                                            name: {
+                                                type: "string"
                                             },
-                                            "content": {
-                                                "type": "string"
+                                            content: {
+                                                type: "string"
                                             }
                                         }
                                     }
                                 },
-                                "session_feedbacks": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "feedback_ID": {
-                                                "type": "string"
+                                session_feedbacks: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            feedback_ID: {
+                                                type: "string"
                                             },
-                                            "timestamp": {
-                                                "type": "string",
-                                                "format": "date-time"
+                                            timestamp: {
+                                                type: "string",
+                                                format: "date-time"
                                             },
-                                            "rating": {
-                                                "type": "integer"
+                                            rating: {
+                                                type: "integer"
                                             },
-                                            "comments": {
-                                                "type": "string"
+                                            comments: {
+                                                type: "string"
                                             },
-                                            "suggestions": {
-                                                "type": "string"
+                                            suggestions: {
+                                                type: "string"
                                             }
                                         }
                                     }
                                 },
-                                "session_notes": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "note_ID": {
-                                                "type": "string"
+                                session_notes: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            note_ID: {
+                                                type: "string"
                                             },
-                                            "timestamp": {
-                                                "type": "string",
-                                                "format": "date-time"
+                                            timestamp: {
+                                                type: "string",
+                                                format: "date-time"
                                             },
-                                            "author": {
-                                                "type": "string"
+                                            author: {
+                                                type: "string"
                                             },
-                                            "role": {
-                                                "type": "string"
+                                            role: {
+                                                type: "string"
                                             },
-                                            "content": {
-                                                "type": "string"
+                                            content: {
+                                                type: "string"
                                             }
                                         }
                                     }
                                 },
-                                "summary": {
-                                    "type": "string"
+                                summary: {
+                                    type: "string"
                                 }
                             }
                         }
                     },
-                    "follow_up_required": {
-                        "type": "boolean",
-                        "description": "Whether follow-up is needed"
+                    follow_up_required: {
+                        type: "boolean",
+                        description: "Whether follow-up is needed"
                     },
-                    "follow_up_details": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "follow_up_agent": {
-                                    "type": "string"
+                    follow_up_details: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                follow_up_agent: {
+                                    type: "string"
                                 },
-                                "follow_up_date": {
-                                    "type": "string",
-                                    "format": "date-time"
+                                follow_up_date: {
+                                    type: "string",
+                                    format: "date-time"
                                 },
-                                "follow_up_reason": {
-                                    "type": "string"
+                                follow_up_reason: {
+                                    type: "string"
                                 },
-                                "related_to_session_ID": {
-                                    "type": "string"
+                                related_to_session_ID: {
+                                    type: "string"
                                 }
                             }
                         }
