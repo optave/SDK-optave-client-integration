@@ -5,8 +5,852 @@ let CONSTANTS = require('./constants');
 
 class OptaveJavascriptSDK extends EventEmitter {
     options = {}
-    
+
     wss = null;
+
+    schema = {
+        "type": "object",
+        "properties": {
+            "session": {
+                "type": "object",
+                "properties": {
+                    "sdk_version": {
+                        "type": "string"
+                    },
+                    "trace_session_ID": {
+                        "type": "string"
+                    },
+                    "trace_parent_ID": {
+                        "type": "string"
+                    },
+                    "user_perspective": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "role": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "content": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "interactions": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "role": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "content": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "feedbacks": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "feedback_ID": {
+                                    "type": "string"
+                                },
+                                "timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "rating": {
+                                    "type": "integer"
+                                },
+                                "comments": {
+                                    "type": "string"
+                                },
+                                "suggestions": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "escalations": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "escalation_ID": {
+                                    "type": "string"
+                                },
+                                "timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "escalated_to": {
+                                    "type": "string"
+                                },
+                                "reason": {
+                                    "type": "string"
+                                },
+                                "resolution_status": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "notes": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "note_ID": {
+                                    "type": "string"
+                                },
+                                "timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "author": {
+                                    "type": "string"
+                                },
+                                "role": {
+                                    "type": "string"
+                                },
+                                "content": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "tag_ID": {
+                                    "type": "string"
+                                },
+                                "tag": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "open_orders": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "order_ID": {
+                                    "type": "string"
+                                },
+                                "order_content": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "sku": {
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "category": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "number"
+                                            },
+                                            "item_status": {
+                                                "type": "string"
+                                            },
+                                            "supplier": {
+                                                "type": "string"
+                                            },
+                                            "quantity": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    }
+                                },
+                                "payment_method": {
+                                    "type": "string"
+                                },
+                                "shipping_cost": {
+                                    "type": "number"
+                                },
+                                "total_price": {
+                                    "type": "number"
+                                },
+                                "taxes": {
+                                    "type": "number"
+                                },
+                                "order_status": {
+                                    "type": "string"
+                                },
+                                "return_status": {
+                                    "type": "string"
+                                },
+                                "purchase_date": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "event_date": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "discounts_applied": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "discount_code": {
+                                                "type": "string"
+                                            },
+                                            "amount": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                },
+                                "promo_codes_applied": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "promo_code": {
+                                                "type": "string"
+                                            },
+                                            "amount": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                },
+                                "gift_options": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "option": {
+                                                "type": "string"
+                                            },
+                                            "details": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "request": {
+                "type": "object",
+                "properties": {
+                    "request_ID": {
+                        "type": "string"
+                    },
+                    "request_type": {
+                        "type": "string"
+                    },
+                    "action": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "instruction": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "medium": {
+                        "type": "string"
+                    },
+                    "variation": {
+                        "type": "string"
+                    },
+                    "product_ID": {
+                        "type": "string"
+                    },
+                    "crm": {
+                        "type": "string"
+                    },
+                    "output_language": {
+                        "type": "string"
+                    },
+                    "interface_language": {
+                        "type": "string"
+                    },
+                    "channel": {
+                        "type": "object",
+                        "properties": {
+                            "c_name": {
+                                "type": "string"
+                            },
+                            "c_language": {
+                                "type": "string"
+                            },
+                            "c_section": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "settings": {
+                        "type": "object",
+                        "properties": {
+                            "disable_search": {
+                                "type": "boolean"
+                            },
+                            "disable_stream": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "offering_details": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "selectedTourGrade": {
+                                    "type": "object",
+                                    "properties": {
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "privateTour": {
+                                            "type": "boolean"
+                                        },
+                                        "pickupIncluded": {
+                                            "type": "boolean"
+                                        },
+                                        "travelDate": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "startTime": {
+                                            "type": "string"
+                                        },
+                                        "price": {
+                                            "type": "object",
+                                            "properties": {
+                                                "currencyIsoCode": {
+                                                    "type": "string"
+                                                },
+                                                "total": {
+                                                    "type": "number"
+                                                },
+                                                "breakdown": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "type": {
+                                                                "type": "string"
+                                                            },
+                                                            "count": {
+                                                                "type": "integer"
+                                                            },
+                                                            "amount": {
+                                                                "type": "number"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "client": {
+                "type": "object",
+                "properties": {
+                    "client_ID": {
+                        "type": "string"
+                    },
+                    "organization_name": {
+                        "type": "string"
+                    },
+                    "organization_ID": {
+                        "type": "string"
+                    },
+                    "department_name": {
+                        "type": "string"
+                    },
+                    "department_ID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "agent": {
+                "type": "object",
+                "properties": {
+                    "agent_ID": {
+                        "type": "string"
+                    },
+                    "agent_name": {
+                        "type": "string"
+                    },
+                    "support_team_name": {
+                        "type": "string"
+                    },
+                    "support_team_ID": {
+                        "type": "string"
+                    },
+                    "timezone": {
+                        "type": "string"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "skills": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "in_training": {
+                        "type": "boolean"
+                    },
+                    "experience_level": {
+                        "type": "string"
+                    },
+                    "current_workload": {
+                        "type": "integer"
+                    },
+                    "availability_status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "user": {
+                "type": "object",
+                "properties": {
+                    "user_ID": {
+                        "type": "string",
+                        "description": "Unique identifier for the user"
+                    },
+                    "user_name": {
+                        "type": "string",
+                        "description": "Name of the user"
+                    },
+                    "preferred_pronouns": {
+                        "type": "string",
+                        "description": "User's preferred pronouns"
+                    },
+                    "user_type": {
+                        "type": "string",
+                        "description": "Type or category of the user"
+                    },
+                    "preferred_contact_method": {
+                        "type": "string",
+                        "description": "User's preferred method of contact"
+                    },
+                    "preferred_contact_times": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of preferred times for contact"
+                    },
+                    "preferred_support_languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of languages preferred for support"
+                    },
+                    "primary_language": {
+                        "type": "string",
+                        "description": "User's primary language"
+                    },
+                    "consent_and_preferences": {
+                        "type": "object",
+                        "properties": {
+                            "marketing_consent": {
+                                "type": "boolean",
+                                "description": "Whether user has consented to marketing communications"
+                            },
+                            "privacy_settings": {
+                                "type": "string",
+                                "description": "User's privacy preferences"
+                            }
+                        }
+                    },
+                    "loyalty_details": {
+                        "type": "object",
+                        "properties": {
+                            "points_balance": {
+                                "type": "integer",
+                                "description": "Current loyalty points balance"
+                            },
+                            "tier_expiry_date": {
+                                "type": ["null", "string"],
+                                "format": "date-time",
+                                "description": "Expiration date of current loyalty tier"
+                            }
+                        }
+                    },
+                    "total_spend": {
+                        "type": "number",
+                        "description": "Total amount spent by user"
+                    },
+                    "last_contacted_timestamp": {
+                        "type": ["null", "string"],
+                        "format": "date-time",
+                        "description": "Timestamp of last contact with user"
+                    },
+                    "technical_information": {
+                        "type": "object",
+                        "properties": {
+                            "devices_used": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "List of devices used by the user"
+                            },
+                            "browser_or_app_version": {
+                                "type": "string",
+                                "description": "Browser or application version used"
+                            }
+                        }
+                    },
+                    "behavioral_data": {
+                        "type": "object",
+                        "properties": {
+                            "average_response_time": {
+                                "type": "number",
+                                "description": "Average time taken to respond"
+                            },
+                            "interaction_frequency": {
+                                "type": "number",
+                                "description": "Frequency of interactions"
+                            },
+                            "preferred_interaction_channels": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "Preferred channels for interaction"
+                            },
+                            "product_preferences": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "List of preferred products"
+                            }
+                        }
+                    },
+                    "pending_queries": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "interaction_ID": {
+                                    "type": "string"
+                                },
+                                "created_timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "last_interaction_timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "agent_name": {
+                                    "type": "string"
+                                },
+                                "CSAT_rating": {
+                                    "type": "integer"
+                                },
+                                "ticket_status": {
+                                    "type": "string"
+                                },
+                                "unanswered_queries_superpower_answer_1": {
+                                    "type": "string"
+                                },
+                                "escalation_history": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "escalation_timestamp": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "escalated_to": {
+                                                "type": "string"
+                                            },
+                                            "reason": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "medium": {
+                                    "type": "string"
+                                },
+                                "channel": {
+                                    "type": "string"
+                                },
+                                "number_of_messages_exchanged": {
+                                    "type": "integer"
+                                },
+                                "agent_notes": {
+                                    "type": "string"
+                                },
+                                "suggestions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "conversation": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "role": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "summary": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "past_sessions": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "session_ID": {
+                                    "type": "string"
+                                },
+                                "started_timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "ended_timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "agent_name": {
+                                    "type": "string"
+                                },
+                                "CSAT_rating": {
+                                    "type": "integer"
+                                },
+                                "ticket_status": {
+                                    "type": "string"
+                                },
+                                "medium": {
+                                    "type": "string"
+                                },
+                                "channel": {
+                                    "type": "string"
+                                },
+                                "number_of_messages_exchanged": {
+                                    "type": "integer"
+                                },
+                                "suggestions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "user_perspective": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "role": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "all_interactions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "role": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "session_feedbacks": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "feedback_ID": {
+                                                "type": "string"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "rating": {
+                                                "type": "integer"
+                                            },
+                                            "comments": {
+                                                "type": "string"
+                                            },
+                                            "suggestions": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "session_notes": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "note_ID": {
+                                                "type": "string"
+                                            },
+                                            "timestamp": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "author": {
+                                                "type": "string"
+                                            },
+                                            "role": {
+                                                "type": "string"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "summary": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "follow_up_required": {
+                        "type": "boolean",
+                        "description": "Whether follow-up is needed"
+                    },
+                    "follow_up_details": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "follow_up_agent": {
+                                    "type": "string"
+                                },
+                                "follow_up_date": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "follow_up_reason": {
+                                    "type": "string"
+                                },
+                                "related_to_session_ID": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // The default payload. The payload provided by the user is merged "on top" of this objects
     defaultPayload = {
@@ -14,104 +858,18 @@ class OptaveJavascriptSDK extends EventEmitter {
             sdk_version: '2.0.5',
             trace_session_ID: '',
             trace_parent_ID: '',
-            user_perspective: [ // in v1, this was called "history"
-                // {
-                //     timestamp: "datetime",
-                //     id: "string",
-                //     role: "string",
-                //     name: "string",
-                //     content: "string"
-                // }
-            ],
-            interactions: [
-                // {
-                //     timestamp: "datetime",
-                //     id: "string",
-                //     role: "string",
-                //     name: "string",
-                //     content: "string"
-                // }
-            ],
-            feedbacks: [
-                // {
-                //     feedback_ID: "string",
-                //     timestamp: "datetime",
-                //     rating: "integer",
-                //     comments: "string",
-                //     suggestions: "string"
-                // }
-            ],
-            escalations: [
-                // {
-                //     escalation_ID: "string",
-                //     timestamp: "datetime",
-                //     escalated_to: "string",
-                //     reason: "string",
-                //     resolution_status: "string"
-                // }
-            ],
-            notes: [
-                // {
-                //     note_ID: "string",
-                //     timestamp: "datetime",
-                //     author: "string",
-                //     role: "string",
-                //     content: "string"
-                // }
-            ],
-            tags: [
-                // {
-                //     tag_ID: "string",
-                //     tag: "string"
-                // }
-            ],
-            open_orders: [
-                // {
-                //     order_ID: "string",
-                //     order_content: [
-                //         {
-                //             sku: "string",
-                //             title: "string",
-                //             category: "string",
-                //             price: "number",
-                //             item_status: "string",
-                //             supplier: "string",
-                //             quantity: "integer"
-                //         }
-                //     ],
-                //     payment_method: "string",
-                //     shipping_cost: "number",
-                //     total_price: "number",
-                //     taxes: "number",
-                //     order_status: "string",
-                //     return_status: "string",
-                //     purchase_date: "datetime",
-                //     event_date: "datetime",
-                //     discounts_applied: [
-                //         {
-                //             discount_code: "string",
-                //             amount: "number"
-                //         }
-                //     ],
-                //     promo_codes_applied: [
-                //         {
-                //             promo_code: "string",
-                //             amount: "number"
-                //         }
-                //     ],
-                //     gift_options: [
-                //         {
-                //             option: "string",
-                //             details: "string"
-                //         }
-                //     ]
-                // }
-            ],
+            user_perspective: [], // in v1, this was called "history"
+            interactions: [],
+            feedbacks: [],
+            escalations: [],
+            notes: [],
+            tags: [],
+            open_orders: [],
         },
         request: {
             request_ID: '',
             request_type: '', // in v1, this was called "action"
-            action:  '',      // in v1, this was called  "actionType"
+            action: '',      // in v1, this was called  "actionType"
             status: '',
             instruction: '',
             content: '',
@@ -130,47 +888,7 @@ class OptaveJavascriptSDK extends EventEmitter {
                 disable_search: false,
                 disable_stream: false
             },
-            offering_details: [
-                // {
-                //     code: "string",
-                //     title: "string",
-                //     url: "string",
-                //     description: "string",
-                //     selectedTourGrade: {
-                //         title: "string",
-                //         description: "string",
-                //         privateTour: "boolean",
-                //         pickupIncluded: "boolean",
-                //         travelDate: "date",
-                //         startTime: "string",
-                //         price: {
-                //             currencyIsoCode: "string",
-                //             total: "number",
-                //             breakdown: [
-                //                 {
-                //                     type: "string",
-                //                     count: "integer",
-                //                     amount: "number"
-                //                 }
-                //             ]
-                //         }
-                //     },
-                //     priceFrom: {
-                //         travelDate: "date",
-                //         price: {
-                //             currencyIsoCode: "string",
-                //             total: "number",
-                //             breakdown: [
-                //                 {
-                //                     type: "string",
-                //                     count: "integer",
-                //                     amount: "number"
-                //                 }
-                //             ]
-                //         }
-                //     }
-                // }
-            ],
+            offering_details: [],
         },
         client: {
             client_ID: '',
@@ -185,12 +903,8 @@ class OptaveJavascriptSDK extends EventEmitter {
             support_team_name: '',
             support_team_ID: '',
             timezone: '',
-            languages: [
-                // "string"
-            ],
-            skills: [
-                // "string"
-            ],
+            languages: [],
+            skills: [],
             in_training: false,
             experience_level: '',
             current_workload: 0,
@@ -202,131 +916,19 @@ class OptaveJavascriptSDK extends EventEmitter {
             preferred_pronouns: '',
             user_type: '',
             preferred_contact_method: '',
-            preferred_contact_times: [
-                // "string"
-            ],
-            preferred_support_languages: [
-                // "string"
-            ],
+            preferred_contact_times: [],
+            preferred_support_languages: [],
             primary_language: '',
-            consent_and_preferences: {
-                // marketing_consent: true,
-                // privacy_settings: '',
-            },
-            loyalty_details: {
-                // points_balance: 0,
-                // tier_expiry_date: null
-            },
+            consent_and_preferences: {},
+            loyalty_details: {},
             total_spend: 0,
             last_contacted_timestamp: null,
-            technical_information: {
-                // devices_used: [
-                //     //"string"
-                // ],
-                // browser_or_app_version: '',
-            },
-            behavioral_data: {
-                // average_response_time: 0,
-                // interaction_frequency: 0,
-                // preferred_interaction_channels: [
-                //     //"string"
-                // ],
-                // product_preferences: [
-                //     //"string"
-                // ]
-            },
-            pending_queries: [
-                // {
-                //     interaction_ID: "string",
-                //     created_timestamp: "datetime",
-                //     last_interaction_timestamp: "datetime",
-                //     agent_name: "string",
-                //     CSAT_rating: "integer",
-                //     ticket_status: "string",
-                //     unanswered_queries_superpower_answer_1: "string",
-                //     escalation_history: [
-                //         {
-                //             escalation_timestamp: "datetime",
-                //             escalated_to: "string",
-                //             reason: "string"
-                //         }
-                //     ],
-                //     medium: "string",
-                //     channel: "string",
-                //     number_of_messages_exchanged: "integer",
-                //     agent_notes: "string",
-                //     suggestions: ["string"],
-                //     conversation: [
-                //         {
-                //             timestamp: "datetime",
-                //             role: "string",
-                //             name: "string",
-                //             content: "string"
-                //         }
-                //     ],
-                //     "summary": "string"
-                // }
-            ],
-            past_sessions: [
-                // {
-                //     session_ID: "string",
-                //     started_timestamp: "datetime",
-                //     ended_timestamp: "datetime",
-                //     agent_name: "string",
-                //     CSAT_rating: "integer",
-                //     ticket_status: "string",
-                //     medium: "string",
-                //     channel: "string",
-                //     number_of_messages_exchanged: "integer",
-                //     suggestions: ["string"],
-                //     user_perspective: [
-                //         {
-                //             timestamp: "datetime",
-                //             id: "string",
-                //             role: "string",
-                //             name: "string",
-                //             content: "string"
-                //         }
-                //     ],
-                //     all_interactions: [
-                //         {
-                //             timestamp: "datetime",
-                //             id: "string",
-                //             role: "string",
-                //             name: "string",
-                //             content: "string"
-                //         }
-                //     ],
-                //     session_feedbacks: [
-                //         {
-                //             feedback_ID: "string",
-                //             timestamp: "datetime",
-                //             rating: "integer",
-                //             comments: "string",
-                //             suggestions: "string"
-                //         }
-                //     ],
-                //     session_notes: [
-                //         {
-                //             note_ID: "string",
-                //             timestamp: "datetime",
-                //             author: "string",
-                //             role: "string",
-                //             content: "string"
-                //         }
-                //     ],
-                //     summary: "string"
-                // }
-            ],
+            technical_information: {},
+            behavioral_data: {},
+            pending_queries: [],
+            past_sessions: [],
             follow_up_required: false,
-            follow_up_details: [
-                // {
-                //     follow_up_agent: "string",
-                //     follow_up_date: "datetime",
-                //     follow_up_reason: "string",
-                //     related_to_session_ID: "string"
-                // },
-            ],
+            follow_up_details: [],
         }
     };
 
@@ -339,7 +941,7 @@ class OptaveJavascriptSDK extends EventEmitter {
         let params = {
             grant_type: 'client_credentials',
         };
-        
+
         if (!this.options.authenticationUrl) {
             this.handleError('Empty or invalid authentication URL');
             return null;
@@ -348,7 +950,7 @@ class OptaveJavascriptSDK extends EventEmitter {
         if (!this.options.clientId) {
             this.handleError('Empty or invalid authentication URL');
         }
-        
+
         params.client_id = this.options.clientId;
         params.client_secret = this.options.clientSecret;
 
@@ -357,11 +959,11 @@ class OptaveJavascriptSDK extends EventEmitter {
         const url = `${this.options.authenticationUrl}?${paramsString}`;
         const response = await fetch(
             url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            });
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
 
         const responseJson = await response.json();
 
@@ -379,7 +981,7 @@ class OptaveJavascriptSDK extends EventEmitter {
         }
 
         let params = {};
-        
+
         if (bearerToken) {
             params['Authorization'] = bearerToken;
         }
@@ -432,7 +1034,7 @@ class OptaveJavascriptSDK extends EventEmitter {
             // If both target and source are arrays, replace target with source
             return [...source];
         }
-    
+
         if (target instanceof Object && source instanceof Object) {
             const result = {};
             for (let key in target) {
@@ -446,7 +1048,7 @@ class OptaveJavascriptSDK extends EventEmitter {
             }
             return result;
         }
-    
+
         // For primitive values, return source value if it exists, else fallback to target
         return source !== undefined ? source : target;
     }
@@ -464,7 +1066,7 @@ class OptaveJavascriptSDK extends EventEmitter {
         let payload = this.selectiveDeepMerge(this.defaultPayload, params);
 
         payload.session.trace_session_ID = uuid.v4();
-        
+
         payload.request.variation = payload.request.variation.toUpperCase();
         payload.request.request_type = requestType;
         payload.request.action = action;
@@ -503,9 +1105,9 @@ class OptaveJavascriptSDK extends EventEmitter {
                     inputs: params,
                 }
             }
-            
+
             const payloadString = JSON.stringify(payload);
-            
+
             if (this.isPayloadSizeValid(payloadString)) {
                 this.wss.send(payloadString);
             }
@@ -518,13 +1120,13 @@ class OptaveJavascriptSDK extends EventEmitter {
     }
 
     // The following function send messages of a specific type to the Websocket
-    adjust              = params => this.send('message', 'adjust'             , params);
-    elevate             = params => this.send('message', 'elevate'            , params);
+    adjust = params => this.send('message', 'adjust', params);
+    elevate = params => this.send('message', 'elevate', params);
     customerInteraction = params => this.send('message', 'customerinteraction', params);
-    summarize           = params => this.send('message', 'summarize'          , params);
-    translate           = params => this.send('message', 'translate'          , params);
-    recommend           = params => this.send('message', 'recommend'          , params);
-    insights            = params => this.send('message', 'insights'           , params);
+    summarize = params => this.send('message', 'summarize', params);
+    translate = params => this.send('message', 'translate', params);
+    recommend = params => this.send('message', 'recommend', params);
+    insights = params => this.send('message', 'insights', params);
 }
 
 module.exports = OptaveJavascriptSDK;
