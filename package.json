@@ -13,6 +13,8 @@
 	},
 	"author": "",
 	"dependencies": {
+		"ajv": "^8.17.1",
+		"ajv-formats": "^3.0.1",
 		"uuid": "^11.0.3",
 		"ws": "^8.18.0"
 	},
