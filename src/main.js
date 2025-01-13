@@ -1116,7 +1116,12 @@ class OptaveJavascriptSDK extends EventEmitter {
             let payload;
 
             if (version > 1) {
-                payload = this.buildPayload(requestType, action, params)
+                if (!this.validate(params)) {
+                    this.handleError(this._validate.errors);
+                    return;
+                }
+
+                payload = this.buildPayload(requestType, action, params);
             }
             else {
                 // TO-DO: Remove support for version 1 when unused

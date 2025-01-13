@@ -134,4 +134,21 @@ describe('OptaveJavascriptSDK', () => {
         const validationResult = client.validate(payload);
         expect(validationResult).toBe(true);
     });
+
+	it('sends a customerInteraction with an invalid payload', async () => {
+        await client.openConnection(token);
+
+		client.on('error', error => {
+			expect(error[0].params.additionalProperty).toBe('invalid_thing');
+		});
+        
+        const mockEvent = {};
+        client.wss.onopen(mockEvent);
+
+        const payload = {
+            invalid_thing: 1,
+        };
+
+        client.customerInteraction(payload);
+    });
 });
