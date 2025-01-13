@@ -1,5 +1,4 @@
-const OptaveClientSDK = require('@optave/client-sdk');
-// const OptaveClientSDK = require('../src/main');
+const OptaveClientSDK = require('../src/main');
 
 const optaveClient = new OptaveClientSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
