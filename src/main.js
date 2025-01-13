@@ -1,6 +1,9 @@
 const EventEmitter = require('events');
 const uuid = require('uuid');
 
+const Ajv = require('ajv');
+import addFormats from "ajv-formats"
+
 let CONSTANTS = require('./constants');
 
 class OptaveJavascriptSDK extends EventEmitter {
@@ -932,9 +935,25 @@ class OptaveJavascriptSDK extends EventEmitter {
         }
     };
 
+    _validate = null;
+
     constructor(options) {
         super();
         this.options = { ...options };
+
+        const ajv = new Ajv();
+        addFormats(ajv, ['date', 'date-time']);
+
+        this._validate = ajv.compile(this.schema);
+    }
+
+    validate(jsonObject) {
+        if (!this._validate) {
+            return false;
+        }
+
+        // Validation function (created in the constructor)
+        return this._validate(jsonObject);
     }
 
     async authenticate() {
