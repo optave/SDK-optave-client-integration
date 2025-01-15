@@ -84,7 +84,7 @@ describe('OptaveJavascriptSDK', () => {
         expect(validationResult).toBe(false);
     });
 
-	it('validates an invalid payload', async () => {
+	it('validates a payload with a non-existing option', async () => {
         await client.openConnection(token);
         
         const mockEvent = {};
@@ -135,7 +135,7 @@ describe('OptaveJavascriptSDK', () => {
         expect(validationResult).toBe(true);
     });
 
-	it('sends a customerInteraction with an invalid payload', async () => {
+	it('sends a payload with a non-existing option', async () => {
         await client.openConnection(token);
 
 		client.on('error', error => {
@@ -147,6 +147,27 @@ describe('OptaveJavascriptSDK', () => {
 
         const payload = {
             invalid_thing: 1,
+        };
+
+        client.customerInteraction(payload);
+    });
+
+    it('sends a payload with an option of invalid type', async () => {
+        await client.openConnection(token);
+
+		client.on('error', error => {
+			expect(error[0].keyword).toBe('type');
+			expect(error[0].params.type).toBe('string');
+		});
+        
+        const mockEvent = {};
+        client.wss.onopen(mockEvent);
+
+        const payload = {
+            user: {
+                // user_name should be a string
+                user_name: 123,
+            },
         };
 
         client.customerInteraction(payload);
