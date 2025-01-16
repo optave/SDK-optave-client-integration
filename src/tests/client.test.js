@@ -139,7 +139,11 @@ describe('OptaveJavascriptSDK', () => {
         await client.openConnection(token);
 
 		client.on('error', error => {
-			expect(error[0].params.additionalProperty).toBe('invalid_thing');
+            expect(error.category).toBe('VALIDATION');
+            expect(error.code).toBe('PAYLOAD_SCHEMA_MISMATCH');
+
+            const details = error.details;
+			expect(details[0].params.additionalProperty).toBe('invalid_thing');
 		});
         
         const mockEvent = {};
@@ -156,8 +160,12 @@ describe('OptaveJavascriptSDK', () => {
         await client.openConnection(token);
 
 		client.on('error', error => {
-			expect(error[0].keyword).toBe('type');
-			expect(error[0].params.type).toBe('string');
+            expect(error.category).toBe('VALIDATION');
+            expect(error.code).toBe('PAYLOAD_SCHEMA_MISMATCH');
+
+            const details = error.details
+			expect(details[0].keyword).toBe('type');
+			expect(details[0].params.type).toBe('string');
 		});
         
         const mockEvent = {};
