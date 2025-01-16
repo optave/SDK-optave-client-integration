@@ -6,6 +6,13 @@ import addFormats from "ajv-formats"
 
 let CONSTANTS = require('./constants');
 
+const ErrorCategory = Object.freeze({
+    AUTHENTICATION: 'AUTHENTICATION',
+    OCO: 'OCO',
+    VALIDATION: 'VALIDATION',
+    WEBSOCKET: 'WEBSOCKET',
+});
+
 class OptaveJavascriptSDK extends EventEmitter {
     options = {}
 
@@ -964,12 +971,19 @@ class OptaveJavascriptSDK extends EventEmitter {
         };
 
         if (!this.options.authenticationUrl) {
-            this.handleError('Empty or invalid authentication URL');
+            this.handleError(
+                ErrorCategory.AUTHENTICATION,
+                'INVALID_AUTHENTICATION_URL',
+                'Empty or invalid authentication URL');
             return null;
         }
 
         if (!this.options.clientId) {
-            this.handleError('Empty or invalid authentication URL');
+            this.handleError(
+                ErrorCategory.AUTHENTICATION,
+                'INVALID_CLIENT_ID',
+                'Empty or invalid client ID');
+            return null;
         }
 
         params.client_id = this.options.clientId;
@@ -989,7 +1003,11 @@ class OptaveJavascriptSDK extends EventEmitter {
         const responseJson = await response.json();
 
         if (!response.ok) {
-            this.handleError(`Could not fetch token. Error: ${responseJson.error}`);
+            this.handleError(
+                ErrorCategory.AUTHENTICATION,
+                'INVALID_AUTHENTICATION_RESPONSE',
+                'Could not fetch token',
+                responseJson.error);
         }
 
         return responseJson.access_token;
@@ -997,7 +1015,11 @@ class OptaveJavascriptSDK extends EventEmitter {
 
     openConnection(bearerToken) {
         if (!this.options.websocketUrl) {
-            this.handleError('Empty or invalid Websocket URL');
+            this.handleError(
+                ErrorCategory.WEBSOCKET,
+                'INVALID_WEBSOCKET_URL',
+                'Empty or invalid Websocket URL',
+                this.options.websocketUrl);
             return;
         }
 
@@ -1016,7 +1038,11 @@ class OptaveJavascriptSDK extends EventEmitter {
         try {
             this.wss = new WebSocket(`${this.options.websocketUrl}?${paramsString}`);
         } catch (error) {
-            this.handleError(error);
+            this.handleError(
+                ErrorCategory.WEBSOCKET,
+                'WEBSOCKET_ERROR',
+                'Error creating Websocket instance',
+                error);
             return;
         }
 
@@ -1028,7 +1054,11 @@ class OptaveJavascriptSDK extends EventEmitter {
             const { state } = event.data;
 
             if (state === 'error') {
-                this.handleError(event.data);
+                this.handleError(
+                    ErrorCategory.OCO,
+                    'ERROR_STATE_MESSAGE',
+                    'Received message in error state',
+                    event.data);
             }
             else {
                 this.emit('message', event.data);
@@ -1040,7 +1070,11 @@ class OptaveJavascriptSDK extends EventEmitter {
         };
 
         this.wss.onerror = event => {
-            this.handleError(event);
+            this.handleError(
+                ErrorCategory.WEBSOCKET,
+                'CONNECTION_ERROR',
+                'Websocket connection error',
+                event);
         }
     }
 
@@ -1098,7 +1132,7 @@ class OptaveJavascriptSDK extends EventEmitter {
         return payload;
     }
 
-    handleError(error) {
+    handleError(category, code, message, details = null, suggestions = []) {
         // If the error is just a string and no error callbacks were attached,
         // just print the message, as it may be helpful for someone
         if (this.listenerCount('error') == 0) {
@@ -1107,7 +1141,13 @@ class OptaveJavascriptSDK extends EventEmitter {
             }
         }
         else {
-            this.emit('error', error);
+            this.emit('error', {
+                category,
+                code,
+                message,
+                details,
+                suggestions,
+            });
         }
     }
 
@@ -1117,7 +1157,11 @@ class OptaveJavascriptSDK extends EventEmitter {
 
             if (version > 1) {
                 if (!this.validate(params)) {
-                    this.handleError(this._validate.errors);
+                    this.handleError(
+                        ErrorCategory.VALIDATION,
+                        'PAYLOAD_SCHEMA_MISMATCH',
+                        'Validation error',
+                        this._validate.errors);
                     return;
                 }
 
@@ -1138,10 +1182,17 @@ class OptaveJavascriptSDK extends EventEmitter {
                 this.wss.send(payloadString);
             }
             else {
-                this.handleError(`Request not sent: payload size is too large (max size = ${CONSTANTS.MAX_PAYLOAD_SIZE_KB} KB)`)
+                this.handleError(
+                    ErrorCategory.VALIDATION,
+                    'PAYLOAD_TOO_LARGE',
+                    `Request not sent: payload size is too large (max size = ${CONSTANTS.MAX_PAYLOAD_SIZE_KB} KB)`,
+                    CONSTANTS.MAX_PAYLOAD_SIZE_KB)
             }
         } else {
-            this.handleError('WebSocket is not open. Unable to send message.');
+            this.handleError(
+                ErrorCategory.WEBSOCKET,
+                'WEBSOCKET_NOT_IN_OPEN_STATE',
+                'Websocket not in OPEN state. Unable to send message.');
         }
     }
 
