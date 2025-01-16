@@ -349,3 +349,16 @@ optaveClient.on('error', (error) => {
 - **Missing Configuration**: Errors will be emitted if required configuration options like `websocketUrl` or `authenticationUrl` are missing.
 - **Authentication Failure**: If authentication fails, an error with the corresponding message will be emitted.
 - **WebSocket Issues**: Errors related to WebSocket connections, such as connection failures or unexpected closures, will be emitted.
+
+### Error Object Structure
+
+When an error is emitted, it follows the following structure:
+
+```javascript
+{
+    category: 'WEBSOCKET', // Error category (available types: AUTHENTICATION, OCO, VALIDATION, WEBSOCKET)
+    code: 'INVALID_WEBSOCKET_URL', // Error code that identifies which error just happened
+    message: 'Empty or invalid Websocket URL', // Error message explaining the problem
+    details: null // Error details which may or not bring additional information
+    suggestions: [] // List of suggestions on how to fix the error
+}
