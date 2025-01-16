@@ -8,7 +8,7 @@ let CONSTANTS = require('./constants');
 
 const ErrorCategory = Object.freeze({
     AUTHENTICATION: 'AUTHENTICATION',
-    OCO: 'OCO',
+    ORCHESTRATOR: 'ORCHESTRATOR',
     VALIDATION: 'VALIDATION',
     WEBSOCKET: 'WEBSOCKET',
 });
@@ -1055,7 +1055,7 @@ class OptaveJavascriptSDK extends EventEmitter {
 
             if (state === 'error') {
                 this.handleError(
-                    ErrorCategory.OCO,
+                    ErrorCategory.ORCHESTRATOR,
                     'ERROR_STATE_MESSAGE',
                     'Received message in error state',
                     event.data);
