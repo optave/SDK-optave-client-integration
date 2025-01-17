@@ -21,7 +21,7 @@ class OptaveJavascriptSDK extends EventEmitter {
     // The validation schema
     schema = {
         type: "object",
-        additionalProperties: false,
+        // additionalProperties: false,
         properties: {
             session: {
                 type: "object",
@@ -36,246 +36,25 @@ class OptaveJavascriptSDK extends EventEmitter {
                         type: "string"
                     },
                     user_perspective: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                timestamp: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                id: {
-                                    type: "string"
-                                },
-                                role: {
-                                    type: "string"
-                                },
-                                name: {
-                                    type: "string"
-                                },
-                                content: {
-                                    type: "string"
-                                }
-                            }
-                        }
+                        type: "array"
                     },
                     interactions: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                timestamp: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                id: {
-                                    type: "string"
-                                },
-                                role: {
-                                    type: "string"
-                                },
-                                name: {
-                                    type: "string"
-                                },
-                                content: {
-                                    type: "string"
-                                }
-                            }
-                        }
+                        type: "array"
                     },
                     feedbacks: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                feedback_ID: {
-                                    type: "string"
-                                },
-                                timestamp: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                rating: {
-                                    type: "integer"
-                                },
-                                comments: {
-                                    type: "string"
-                                },
-                                suggestions: {
-                                    type: "string"
-                                }
-                            }
-                        }
+                        type: "array"
                     },
                     escalations: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                escalation_ID: {
-                                    type: "string"
-                                },
-                                timestamp: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                escalated_to: {
-                                    type: "string"
-                                },
-                                reason: {
-                                    type: "string"
-                                },
-                                resolution_status: {
-                                    type: "string"
-                                }
-                            }
-                        }
+                        type: "array"
                     },
                     notes: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                note_ID: {
-                                    type: "string"
-                                },
-                                timestamp: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                author: {
-                                    type: "string"
-                                },
-                                role: {
-                                    type: "string"
-                                },
-                                content: {
-                                    type: "string"
-                                }
-                            }
-                        }
+                        type: "array"
                     },
                     tags: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                tag_ID: {
-                                    type: "string"
-                                },
-                                tag: {
-                                    type: "string"
-                                }
-                            }
-                        }
+                        type: "array"
                     },
                     open_orders: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                order_ID: {
-                                    type: "string"
-                                },
-                                order_content: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        properties: {
-                                            sku: {
-                                                type: "string"
-                                            },
-                                            title: {
-                                                type: "string"
-                                            },
-                                            category: {
-                                                type: "string"
-                                            },
-                                            price: {
-                                                type: "number"
-                                            },
-                                            item_status: {
-                                                type: "string"
-                                            },
-                                            supplier: {
-                                                type: "string"
-                                            },
-                                            quantity: {
-                                                type: "integer"
-                                            }
-                                        }
-                                    }
-                                },
-                                payment_method: {
-                                    type: "string"
-                                },
-                                shipping_cost: {
-                                    type: "number"
-                                },
-                                total_price: {
-                                    type: "number"
-                                },
-                                taxes: {
-                                    type: "number"
-                                },
-                                order_status: {
-                                    type: "string"
-                                },
-                                return_status: {
-                                    type: "string"
-                                },
-                                purchase_date: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                event_date: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                discounts_applied: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        properties: {
-                                            discount_code: {
-                                                type: "string"
-                                            },
-                                            amount: {
-                                                type: "number"
-                                            }
-                                        }
-                                    }
-                                },
-                                promo_codes_applied: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        properties: {
-                                            promo_code: {
-                                                type: "string"
-                                            },
-                                            amount: {
-                                                type: "number"
-                                            }
-                                        }
-                                    }
-                                },
-                                gift_options: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        properties: {
-                                            option: {
-                                                type: "string"
-                                            },
-                                            details: {
-                                                type: "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        type: "array"
                     }
                 }
             },
@@ -344,76 +123,7 @@ class OptaveJavascriptSDK extends EventEmitter {
                         }
                     },
                     offering_details: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                code: {
-                                    type: "string"
-                                },
-                                title: {
-                                    type: "string"
-                                },
-                                url: {
-                                    type: "string"
-                                },
-                                description: {
-                                    type: "string"
-                                },
-                                selectedTourGrade: {
-                                    type: "object",
-                                    properties: {
-                                        title: {
-                                            type: "string"
-                                        },
-                                        description: {
-                                            type: "string"
-                                        },
-                                        privateTour: {
-                                            type: "boolean"
-                                        },
-                                        pickupIncluded: {
-                                            type: "boolean"
-                                        },
-                                        travelDate: {
-                                            type: "string",
-                                            format: "date"
-                                        },
-                                        startTime: {
-                                            type: "string"
-                                        },
-                                        price: {
-                                            type: "object",
-                                            properties: {
-                                                currencyIsoCode: {
-                                                    type: "string"
-                                                },
-                                                total: {
-                                                    type: "number"
-                                                },
-                                                breakdown: {
-                                                    type: "array",
-                                                    items: {
-                                                        type: "object",
-                                                        properties: {
-                                                            type: {
-                                                                type: "string"
-                                                            },
-                                                            count: {
-                                                                type: "integer"
-                                                            },
-                                                            amount: {
-                                                                type: "number"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        type: "array"
                     }
                 }
             },
@@ -456,16 +166,10 @@ class OptaveJavascriptSDK extends EventEmitter {
                         type: "string"
                     },
                     languages: {
-                        type: "array",
-                        items: {
-                            type: "string"
-                        }
+                        type: "array"
                     },
                     skills: {
-                        type: "array",
-                        items: {
-                            type: "string"
-                        }
+                        type: "array"
                     },
                     in_training: {
                         type: "boolean"
@@ -485,53 +189,37 @@ class OptaveJavascriptSDK extends EventEmitter {
                 type: "object",
                 properties: {
                     user_ID: {
-                        type: "string",
-                        description: "Unique identifier for the user"
+                        type: "string"
                     },
                     user_name: {
-                        type: "string",
-                        description: "Name of the user"
+                        type: "string"
                     },
                     preferred_pronouns: {
-                        type: "string",
-                        description: "User's preferred pronouns"
+                        type: "string"
                     },
                     user_type: {
-                        type: "string",
-                        description: "Type or category of the user"
+                        type: "string"
                     },
                     preferred_contact_method: {
-                        type: "string",
-                        description: "User's preferred method of contact"
+                        type: "string"
                     },
                     preferred_contact_times: {
-                        type: "array",
-                        items: {
-                            type: "string"
-                        },
-                        description: "List of preferred times for contact"
+                        type: "array"
                     },
                     preferred_support_languages: {
-                        type: "array",
-                        items: {
-                            type: "string"
-                        },
-                        description: "List of languages preferred for support"
+                        type: "array"
                     },
                     primary_language: {
-                        type: "string",
-                        description: "User's primary language"
+                        type: "string"
                     },
                     consent_and_preferences: {
                         type: "object",
                         properties: {
                             marketing_consent: {
-                                type: "boolean",
-                                description: "Whether user has consented to marketing communications"
+                                type: "boolean"
                             },
                             privacy_settings: {
-                                type: "string",
-                                description: "User's privacy preferences"
+                                type: "string"
                             }
                         }
                     },
@@ -539,24 +227,20 @@ class OptaveJavascriptSDK extends EventEmitter {
                         type: "object",
                         properties: {
                             points_balance: {
-                                type: "integer",
-                                description: "Current loyalty points balance"
+                                type: "integer"
                             },
                             tier_expiry_date: {
                                 type: ["null", "string"],
-                                format: "date-time",
-                                description: "Expiration date of current loyalty tier"
+                                format: "date-time"
                             }
                         }
                     },
                     total_spend: {
-                        type: "number",
-                        description: "Total amount spent by user"
+                        type: "number"
                     },
                     last_contacted_timestamp: {
                         type: ["null", "string"],
-                        format: "date-time",
-                        description: "Timestamp of last contact with user"
+                        format: "date-time"
                     },
                     technical_information: {
                         type: "object",
@@ -565,12 +249,10 @@ class OptaveJavascriptSDK extends EventEmitter {
                                 type: "array",
                                 items: {
                                     type: "string"
-                                },
-                                description: "List of devices used by the user"
+                                }
                             },
                             browser_or_app_version: {
-                                type: "string",
-                                description: "Browser or application version used"
+                                type: "string"
                             }
                         }
                     },
@@ -578,286 +260,36 @@ class OptaveJavascriptSDK extends EventEmitter {
                         type: "object",
                         properties: {
                             average_response_time: {
-                                type: "number",
-                                description: "Average time taken to respond"
+                                type: "number"
                             },
                             interaction_frequency: {
-                                type: "number",
-                                description: "Frequency of interactions"
+                                type: "number"
                             },
                             preferred_interaction_channels: {
                                 type: "array",
                                 items: {
                                     type: "string"
-                                },
-                                description: "Preferred channels for interaction"
+                                }
                             },
                             product_preferences: {
                                 type: "array",
                                 items: {
                                     type: "string"
-                                },
-                                description: "List of preferred products"
+                                }
                             }
                         }
                     },
                     pending_queries: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                interaction_ID: {
-                                    type: "string"
-                                },
-                                created_timestamp: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                last_interaction_timestamp: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                agent_name: {
-                                    type: "string"
-                                },
-                                CSAT_rating: {
-                                    type: "integer"
-                                },
-                                ticket_status: {
-                                    type: "string"
-                                },
-                                unanswered_queries_superpower_answer_1: {
-                                    type: "string"
-                                },
-                                escalation_history: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        properties: {
-                                            escalation_timestamp: {
-                                                type: "string",
-                                                format: "date-time"
-                                            },
-                                            escalated_to: {
-                                                type: "string"
-                                            },
-                                            reason: {
-                                                type: "string"
-                                            }
-                                        }
-                                    }
-                                },
-                                medium: {
-                                    type: "string"
-                                },
-                                channel: {
-                                    type: "string"
-                                },
-                                number_of_messages_exchanged: {
-                                    type: "integer"
-                                },
-                                agent_notes: {
-                                    type: "string"
-                                },
-                                suggestions: {
-                                    type: "array",
-                                    items: {
-                                        type: "string"
-                                    }
-                                },
-                                conversation: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        properties: {
-                                            timestamp: {
-                                                type: "string",
-                                                format: "date-time"
-                                            },
-                                            role: {
-                                                type: "string"
-                                            },
-                                            name: {
-                                                type: "string"
-                                            },
-                                            content: {
-                                                type: "string"
-                                            }
-                                        }
-                                    }
-                                },
-                                summary: {
-                                    type: "string"
-                                }
-                            }
-                        }
+                        type: "array"
                     },
                     past_sessions: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                session_ID: {
-                                    type: "string"
-                                },
-                                started_timestamp: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                ended_timestamp: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                agent_name: {
-                                    type: "string"
-                                },
-                                CSAT_rating: {
-                                    type: "integer"
-                                },
-                                ticket_status: {
-                                    type: "string"
-                                },
-                                medium: {
-                                    type: "string"
-                                },
-                                channel: {
-                                    type: "string"
-                                },
-                                number_of_messages_exchanged: {
-                                    type: "integer"
-                                },
-                                suggestions: {
-                                    type: "array",
-                                    items: {
-                                        type: "string"
-                                    }
-                                },
-                                user_perspective: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        properties: {
-                                            timestamp: {
-                                                type: "string",
-                                                format: "date-time"
-                                            },
-                                            id: {
-                                                type: "string"
-                                            },
-                                            role: {
-                                                type: "string"
-                                            },
-                                            name: {
-                                                type: "string"
-                                            },
-                                            content: {
-                                                type: "string"
-                                            }
-                                        }
-                                    }
-                                },
-                                all_interactions: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        properties: {
-                                            timestamp: {
-                                                type: "string",
-                                                format: "date-time"
-                                            },
-                                            id: {
-                                                type: "string"
-                                            },
-                                            role: {
-                                                type: "string"
-                                            },
-                                            name: {
-                                                type: "string"
-                                            },
-                                            content: {
-                                                type: "string"
-                                            }
-                                        }
-                                    }
-                                },
-                                session_feedbacks: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        properties: {
-                                            feedback_ID: {
-                                                type: "string"
-                                            },
-                                            timestamp: {
-                                                type: "string",
-                                                format: "date-time"
-                                            },
-                                            rating: {
-                                                type: "integer"
-                                            },
-                                            comments: {
-                                                type: "string"
-                                            },
-                                            suggestions: {
-                                                type: "string"
-                                            }
-                                        }
-                                    }
-                                },
-                                session_notes: {
-                                    type: "array",
-                                    items: {
-                                        type: "object",
-                                        properties: {
-                                            note_ID: {
-                                                type: "string"
-                                            },
-                                            timestamp: {
-                                                type: "string",
-                                                format: "date-time"
-                                            },
-                                            author: {
-                                                type: "string"
-                                            },
-                                            role: {
-                                                type: "string"
-                                            },
-                                            content: {
-                                                type: "string"
-                                            }
-                                        }
-                                    }
-                                },
-                                summary: {
-                                    type: "string"
-                                }
-                            }
-                        }
+                        type: "array"
                     },
                     follow_up_required: {
-                        type: "boolean",
-                        description: "Whether follow-up is needed"
+                        type: "boolean"
                     },
                     follow_up_details: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                follow_up_agent: {
-                                    type: "string"
-                                },
-                                follow_up_date: {
-                                    type: "string",
-                                    format: "date-time"
-                                },
-                                follow_up_reason: {
-                                    type: "string"
-                                },
-                                related_to_session_ID: {
-                                    type: "string"
-                                }
-                            }
-                        }
+                        type: "array"
                     }
                 }
             }

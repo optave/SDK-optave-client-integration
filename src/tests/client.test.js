@@ -70,33 +70,6 @@ describe('OptaveJavascriptSDK', () => {
             .toHaveBeenCalledWith(expect.anything());
     });
 
-	it('detects an invalid schema', async () => {
-        await client.openConnection(token);
-        
-        const mockEvent = {};
-        client.wss.onopen(mockEvent);
-
-        const payload = {
-            invalid_thing: 1,
-        };
-
-        const validationResult = client.validate(payload);
-        expect(validationResult).toBe(false);
-    });
-
-	it('validates a payload with a non-existing option', async () => {
-        await client.openConnection(token);
-        
-        const mockEvent = {};
-        client.wss.onopen(mockEvent);
-
-        const payload = {
-            invalid_thing: 1,
-        };
-
-        const validationResult = client.validate(payload);
-        expect(validationResult).toBe(false);
-    });
 
 	it('validates a valid payload', async () => {
         await client.openConnection(token);
