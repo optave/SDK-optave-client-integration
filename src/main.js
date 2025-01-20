@@ -116,8 +116,8 @@ class OptaveClientSDK extends EventEmitter {
             instruction: '',
             content: '',
             medium: '',
-            variation: 'A',
             product_ID: '',
+            variant: 'A',
             crm: '',
             output_language: '',
             interface_language: '',
@@ -464,8 +464,13 @@ class OptaveClientSDK extends EventEmitter {
         let payload = this.selectiveDeepMerge(this.defaultPayload, params);
 
         payload.session.trace_session_ID = uuid.v4();
-        
-        payload.request.variation = payload.request.variation.toUpperCase();
+
+        // TODO: remove when v2 is phased out
+        if (params?.request?.variation) {
+            payload.request.variant = params.request.variation;
+        }
+
+        payload.request.variant = payload.request.variant.toUpperCase();
         payload.request.request_type = requestType;
         payload.request.action = action;
 

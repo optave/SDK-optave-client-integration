@@ -69,4 +69,21 @@ describe('OptaveClientSDK', () => {
         expect(global.WebSocket.prototype.send)
             .toHaveBeenCalledWith(expect.anything());
     });
+
+    it('checks if a payload sent with "variation" is converted to "variant"', async () => {
+        await client.openConnection(token);
+
+        const mockEvent = {};
+        client.wss.onopen(mockEvent);
+
+        const payload = {
+            request: {
+                variation: 'b',
+            }
+        };
+
+        const builtPayload = client.buildPayload('message', 'customerinteraction', payload);
+
+        expect(builtPayload.request.variant).toBe('B')
+    });
 });
