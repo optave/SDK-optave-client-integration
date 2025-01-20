@@ -85,8 +85,22 @@ class OptaveJavascriptSDK extends EventEmitter {
                     variation: {
                         type: "string"
                     },
-                    product_ID: {
-                        type: "string"
+                    product: {
+                        type: "object",
+                        properties: {
+                            product_ID: {
+                                type: "string"
+                            },
+                            product_location: {
+                                type: "string"
+                            },
+                            product_category: {
+                                type: "string"
+                            },
+                            product_model: {
+                                type: "string"
+                            }
+                        }
                     },
                     crm: {
                         type: "string"
@@ -319,7 +333,12 @@ class OptaveJavascriptSDK extends EventEmitter {
             content: '',
             medium: '',
             variation: 'A',
-            product_ID: '',
+            product: {
+                product_ID: '',
+                product_location: '',
+                product_category: '',
+                product_model: ''
+            },
             crm: '',
             output_language: '',
             interface_language: '',
