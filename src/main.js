@@ -313,7 +313,7 @@ class OptaveJavascriptSDK extends EventEmitter {
     // The default payload. The payload provided by the user is merged "on top" of this objects
     defaultPayload = {
         session: {
-            sdk_version: '3.0.0-rc.1',
+            sdk_version: '3.0.0-rc.2',
             trace_session_ID: '',
             trace_parent_ID: '',
             user_perspective: [], // in v1, this was called "history"
@@ -607,7 +607,7 @@ class OptaveJavascriptSDK extends EventEmitter {
         }
     }
 
-    send(requestType, action, params, version = 2) {
+    send(requestType, action, params, version = 3) {
         if (this.wss && this.wss.readyState === WebSocket.OPEN) {
             let payload;
 
