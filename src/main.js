@@ -82,7 +82,7 @@ class OptaveJavascriptSDK extends EventEmitter {
                     medium: {
                         type: "string"
                     },
-                    variation: {
+                    variant: {
                         type: "string"
                     },
                     product: {
@@ -332,7 +332,7 @@ class OptaveJavascriptSDK extends EventEmitter {
             instruction: '',
             content: '',
             medium: '',
-            variation: 'A',
+            variant: 'A',
             product: {
                 product_ID: '',
                 product_location: '',
@@ -573,7 +573,12 @@ class OptaveJavascriptSDK extends EventEmitter {
 
         payload.session.trace_session_ID = uuid.v4();
 
-        payload.request.variation = payload.request.variation.toUpperCase();
+        // TODO: remove when v2 is phased out
+        if (params?.request?.variation) {
+            payload.request.variant = params.request.variation;
+        }
+
+        payload.request.variant = payload.request.variant.toUpperCase();
         payload.request.request_type = requestType;
         payload.request.action = action;
 
