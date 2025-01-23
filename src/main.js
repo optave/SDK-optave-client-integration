@@ -313,7 +313,7 @@ class OptaveJavascriptSDK extends EventEmitter {
     // The default payload. The payload provided by the user is merged "on top" of this objects
     defaultPayload = {
         session: {
-            sdk_version: '3.0.0-rc.2',
+            sdk_version: '3.0.0-rc.3',
             trace_session_ID: '',
             trace_parent_ID: '',
             user_perspective: [], // in v1, this was called "history"
