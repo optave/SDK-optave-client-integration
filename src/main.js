@@ -2,7 +2,7 @@ const EventEmitter = require('events');
 const uuid = require('uuid');
 
 const Ajv = require('ajv');
-import addFormats from "ajv-formats"
+const addFormats = require('ajv-formats');
 
 let CONSTANTS = require('./constants');
 
