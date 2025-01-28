@@ -4,6 +4,7 @@
 	"description": "This SDK allows the integration with Optave's AI systems.",
 	"private": false,
 	"main": "dist/optave.client.sdk.js",
+	"type": "module",
 	"files": [
 		"dist/**/*"
 	],

@@ -1,5 +1,5 @@
-const OptaveJavascriptSDK = require('../main');
-const EventEmitter = require('events');
+import OptaveJavascriptSDK from '../main';
+import EventEmitter from 'events';
 
 const token = 'mocked_token';
 

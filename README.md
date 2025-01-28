@@ -54,7 +54,7 @@ Before using the SDK, you need to configure it with the necessary parameters. Th
 ### Example Configuration
 
 ```javascript
-const OptaveJavascriptSDK = require('client-sdk');
+import OptaveJavascriptSDK from '@optave/client-sdk';
 
 const optaveClient = new OptaveJavascriptSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
@@ -198,7 +198,7 @@ Below is a comprehensive example demonstrating how to initialize the SDK, authen
 ### Sample Module Using the SDK
 
 ```javascript
-const OptaveJavascriptSDK = require('@optave/client-sdk');
+import OptaveJavascriptSDK from '@optave/client-sdk';
 
 const optaveClient = new OptaveJavascriptSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,

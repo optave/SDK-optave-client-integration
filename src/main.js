@@ -1,10 +1,10 @@
-const EventEmitter = require('events');
-const uuid = require('uuid');
+import EventEmitter from 'events';
+import { v4 as uuidv4 } from 'uuid';
 
-const Ajv = require('ajv');
-const addFormats = require('ajv-formats');
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
 
-let CONSTANTS = require('./constants');
+import CONSTANTS from './constants.js';
 
 const ErrorCategory = Object.freeze({
     AUTHENTICATION: 'AUTHENTICATION',
@@ -571,7 +571,7 @@ class OptaveJavascriptSDK extends EventEmitter {
     buildPayload(requestType, action, params) {
         let payload = this.selectiveDeepMerge(this.defaultPayload, params);
 
-        payload.session.trace_session_ID = uuid.v4();
+        payload.session.trace_session_ID = uuidv4();
 
         // TODO: remove when v2 is phased out
         if (params?.request?.variation) {
@@ -662,7 +662,4 @@ class OptaveJavascriptSDK extends EventEmitter {
     insights = params => this.send('message', 'insights', params);
 }
 
-module.exports = OptaveJavascriptSDK;
-
-// Explicitly add a default export for ES6 environments
-exports.default = OptaveJavascriptSDK;
+export default OptaveJavascriptSDK;
