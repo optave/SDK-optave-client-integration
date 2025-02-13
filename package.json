@@ -1,6 +1,6 @@
 {
 	"name": "@optave/client-sdk",
-	"version": "3.0.0-rc.4",
+	"version": "3.0.1",
 	"description": "This SDK allows the integration with Optave's AI systems.",
 	"private": false,
 	"main": "dist/optave.client.sdk.js",

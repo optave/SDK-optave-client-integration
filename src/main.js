@@ -5,7 +5,6 @@ import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 
 import CONSTANTS from './constants.js';
-import PACKAGE from '../package.json';
 
 const ErrorCategory = Object.freeze({
     AUTHENTICATION: 'AUTHENTICATION',
@@ -314,7 +313,7 @@ class OptaveJavascriptSDK extends EventEmitter {
     // The default payload. The payload provided by the user is merged "on top" of this objects
     defaultPayload = {
         session: {
-            sdk_version: PACKAGE.version,
+            sdk_version: '3.0.1',
             trace_session_ID: '',
             trace_parent_ID: '',
             user_perspective: [], // in v1, this was called "history"
