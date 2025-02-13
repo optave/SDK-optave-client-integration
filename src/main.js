@@ -13,7 +13,7 @@ const ErrorCategory = Object.freeze({
     WEBSOCKET: 'WEBSOCKET',
 });
 
-class OptaveJavascriptSDK extends EventEmitter {
+class OptaveJavaScriptSDK extends EventEmitter {
     options = {}
 
     wss = null;
@@ -662,4 +662,4 @@ class OptaveJavascriptSDK extends EventEmitter {
     insights = params => this.send('message', 'insights', params);
 }
 
-export default OptaveJavascriptSDK;
+export default OptaveJavaScriptSDK;

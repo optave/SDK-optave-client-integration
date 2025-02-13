@@ -6,7 +6,7 @@ export default {
 		filename: 'optave.client.sdk.js',
 		path: path.resolve('dist'),
 		library: {
-			name: 'OptaveJavascriptSDK',
+			name: 'OptaveJavaScriptSDK',
 			type: 'umd',
 		},
 		libraryExport: 'default',
