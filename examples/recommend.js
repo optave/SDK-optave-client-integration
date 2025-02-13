@@ -1,4 +1,4 @@
-import OptaveJavascriptSDK from '../src/main';
+import OptaveJavascriptSDK from '../src/main.js';
 
 const optaveClient = new OptaveJavascriptSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
