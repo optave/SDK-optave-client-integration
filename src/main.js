@@ -314,6 +314,7 @@ class OptaveJavaScriptSDK extends EventEmitter {
     defaultPayload = {
         session: {
             sdk_version: '3.0.1',
+            sdk_version: '2.0.6',
             trace_session_ID: '',
             trace_parent_ID: '',
             user_perspective: [], // in v1, this was called "history"
@@ -570,6 +571,7 @@ class OptaveJavaScriptSDK extends EventEmitter {
 
     buildPayload(requestType, action, params) {
         let payload = this.selectiveDeepMerge(this.defaultPayload, params);
+
 
         payload.session.trace_session_ID = uuidv4();
 

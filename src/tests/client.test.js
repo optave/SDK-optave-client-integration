@@ -70,8 +70,7 @@ describe('OptaveJavaScriptSDK', () => {
             .toHaveBeenCalledWith(expect.anything());
     });
 
-
-	it('validates a valid payload', async () => {
+	  it('validates a valid payload', async () => {
         await client.openConnection(token);
         
         const mockEvent = {};
@@ -108,16 +107,16 @@ describe('OptaveJavaScriptSDK', () => {
         expect(validationResult).toBe(true);
     });
 
-	it('sends a payload with a non-existing option', async () => {
+	  it('sends a payload with a non-existing option', async () => {
         await client.openConnection(token);
 
-		client.on('error', error => {
+		    client.on('error', error => {
             expect(error.category).toBe('VALIDATION');
             expect(error.code).toBe('PAYLOAD_SCHEMA_MISMATCH');
 
             const details = error.details;
-			expect(details[0].params.additionalProperty).toBe('invalid_thing');
-		});
+			      expect(details[0].params.additionalProperty).toBe('invalid_thing');
+		    });
         
         const mockEvent = {};
         client.wss.onopen(mockEvent);
@@ -132,14 +131,14 @@ describe('OptaveJavaScriptSDK', () => {
     it('sends a payload with an option of invalid type', async () => {
         await client.openConnection(token);
 
-		client.on('error', error => {
+		    client.on('error', error => {
             expect(error.category).toBe('VALIDATION');
             expect(error.code).toBe('PAYLOAD_SCHEMA_MISMATCH');
 
-            const details = error.details
-			expect(details[0].keyword).toBe('type');
-			expect(details[0].params.type).toBe('string');
-		});
+            const details = error.details;
+            expect(details[0].keyword).toBe('type');
+            expect(details[0].params.type).toBe('string');
+		    });
         
         const mockEvent = {};
         client.wss.onopen(mockEvent);
