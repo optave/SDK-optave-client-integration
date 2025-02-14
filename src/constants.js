@@ -5,4 +5,4 @@ const CONSTANTS = {
     MAX_PAYLOAD_SIZE_KB: 128,
 };
 
-module.exports = CONSTANTS;
+export default CONSTANTS;

@@ -54,9 +54,9 @@ Before using the SDK, you need to configure it with the necessary parameters. Th
 ### Example Configuration
 
 ```javascript
-const OptaveClientSDK = require('client-sdk');
+import OptaveJavaScriptSDK from '@optave/client-sdk';
 
-const optaveClient = new OptaveClientSDK({
+const optaveClient = new OptaveJavaScriptSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
     authenticationUrl: process.env.OPTAVE__AUTHENTICATION_URL,
     clientId: process.env.OPTAVE__CLIENT_ID,
@@ -198,9 +198,9 @@ Below is a comprehensive example demonstrating how to initialize the SDK, authen
 ### Sample Module Using the SDK
 
 ```javascript
-const OptaveClientSDK = require('@optave/client-sdk');
+import OptaveJavaScriptSDK from '@optave/client-sdk';
 
-const optaveClient = new OptaveClientSDK({
+const optaveClient = new OptaveJavaScriptSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
 
     // These parameters are only required when using the authenticate() function.
@@ -276,9 +276,9 @@ run();
 
 ## API Reference
 
-### `OptaveClientSDK(options)`
+### `OptaveJavaScriptSDK(options)`
 
-Creates a new instance of the OptaveClientSDK.
+Creates a new instance of the OptaveJavaScriptSDK.
 
 - **Parameters**:
   - `options` *(Object)*: Configuration options.
@@ -328,7 +328,7 @@ These methods are shortcuts for sending specific types of messages.
 
 ### EventEmitter Methods
 
-Since `OptaveClientSDK` extends `EventEmitter`, you can use all standard `EventEmitter` methods such as `on`, `once`, `emit`, etc.
+Since `OptaveJavaScriptSDK` extends `EventEmitter`, you can use all standard `EventEmitter` methods such as `on`, `once`, `emit`, etc.
 
 ## Error Handling
 
@@ -349,3 +349,16 @@ optaveClient.on('error', (error) => {
 - **Missing Configuration**: Errors will be emitted if required configuration options like `websocketUrl` or `authenticationUrl` are missing.
 - **Authentication Failure**: If authentication fails, an error with the corresponding message will be emitted.
 - **WebSocket Issues**: Errors related to WebSocket connections, such as connection failures or unexpected closures, will be emitted.
+
+### Error Object Structure
+
+When an error is emitted, it follows the following structure:
+
+```javascript
+{
+    category: 'WEBSOCKET', // Error category (available types: AUTHENTICATION, OCO, VALIDATION, WEBSOCKET)
+    code: 'INVALID_WEBSOCKET_URL', // Error code that identifies which error just happened
+    message: 'Empty or invalid Websocket URL', // Error message explaining the problem
+    details: null // Error details which may or not bring additional information
+    suggestions: [] // List of suggestions on how to fix the error
+}

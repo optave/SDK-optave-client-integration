@@ -1,7 +1,6 @@
-const OptaveClientSDK = require('@optave/client-sdk');
-// const OptaveClientSDK = require('../src/main');
+import OptaveJavaScriptSDK from '../src/main.js';
 
-const optaveClient = new OptaveClientSDK({
+const optaveClient = new OptaveJavaScriptSDK({
     websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
 
     // These parameters are only required when using the authenticate() function.

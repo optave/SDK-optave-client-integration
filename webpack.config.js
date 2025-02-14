@@ -1,14 +1,15 @@
-const path = require('path');
+import path from 'path';
 
-module.exports = {
+export default {
 	entry: './src/main.js',
 	output: {
 		filename: 'optave.client.sdk.js',
-		path: path.resolve(__dirname, 'dist'),
+		path: path.resolve('dist'),
 		library: {
-			name: 'OptaveClientSDK',
+			name: 'OptaveJavaScriptSDK',
 			type: 'umd',
 		},
+		libraryExport: 'default',
 		globalObject: 'this',
 	},
 	mode: 'development',
