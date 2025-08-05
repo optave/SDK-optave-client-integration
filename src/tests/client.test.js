@@ -77,30 +77,53 @@ describe('OptaveJavaScriptSDK', () => {
         client.wss.onopen(mockEvent);
 
         const payload = {
-            user: {
-                user_name: 'test',
-            },
-            agent: {
-                agent_name: 'test',
-            },
             session: {
-                user_perspective: [
-                    {
-                        role: 'EndUser',
-                        content: 'testing',
-                        name: 'test-message',
-                    }
-                ]
+                session_id: "test_session",
+                trace_id: "test_trace",
+                channel: {
+                    medium: "voice",
+                    language: "en-US",
+                },
+                interface: {
+                    type: "custom_components",
+                    category: "app",
+                    name: "test_app",
+                    language: "en-US",
+                }
             },
             request: {
-                output_language: 'en-US',
-                interface_language: 'en-US',
+                request_id: "test_request_001",
+                context: {
+                    tenant_id: "tenant_test",
+                    organization_id: "org_test",
+                },
+                connections: {
+                    parent_id: "",
+                    thread_id: "thread_test_001",
+                },
+                attributes: {
+                    type: "",
+                    action: "",
+                    instruction: "",
+                    content: 'test',
+                    variant: 'A',
+                },
+                scope: {
+                    conversations: [
+                        {
+                            timestamp: "2024-01-15T10:30:00.000Z",
+                            participant_id: "user_test_001",
+                            role: 'EndUser',
+                            display_name: 'test-message',
+                            content: 'testing',
+                        }
+                    ]
+                },
                 settings: {
                     disable_stream: false,
-                },
-                content: 'test',
-                medium: 'voice',
-            },
+                    output_language: 'en-US',
+                }
+            }
         };
 
         const validationResult = client.validate(payload);
@@ -144,9 +167,9 @@ describe('OptaveJavaScriptSDK', () => {
         client.wss.onopen(mockEvent);
 
         const payload = {
-            user: {
-                // user_name should be a string
-                user_name: 123,
+            session: {
+                // session_id should be a string
+                session_id: 123,
             },
         };
 
@@ -167,6 +190,6 @@ describe('OptaveJavaScriptSDK', () => {
 
         const builtPayload = client.buildPayload('message', 'customerinteraction', payload);
 
-        expect(builtPayload.request.variant).toBe('B')
+        expect(builtPayload.request.attributes.variant).toBe('B')
     });
 });
