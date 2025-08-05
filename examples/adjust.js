@@ -78,13 +78,6 @@ async function run() {
                             role: "EndUser",
                             display_name: "John Doe",
                             content: "Hi, can you help me?",
-                        },
-                        {
-                            timestamp: "2024-01-15T10:30:15.000Z",
-                            participant_id: "agent_5b8c9d0e-2f4a-6b1c-9d8e-123456789xyz",
-                            role: "Agent",
-                            display_name: "Sarah Smith",
-                            content: "Of course! I'd be happy to help you with anything you need.",
                         }
                     ]
                 }
