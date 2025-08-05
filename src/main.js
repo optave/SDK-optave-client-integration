@@ -21,107 +21,280 @@ class OptaveJavaScriptSDK extends EventEmitter {
     // The validation schema
     schema = {
         type: "object",
-        // additionalProperties: false,
         properties: {
             session: {
                 type: "object",
                 properties: {
-                    sdk_version: {
+                    session_id: {
                         type: "string"
                     },
-                    trace_session_ID: {
+                    trace_id: {
                         type: "string"
                     },
-                    trace_parent_ID: {
-                        type: "string"
+                    channel: {
+                        type: "object",
+                        properties: {
+                            medium: {
+                                type: "string"
+                            },
+                            section: {
+                                type: "string"
+                            },
+                            language: {
+                                type: "string"
+                            },
+                            location: {
+                                type: "string"
+                            },
+                            device_info: {
+                                type: "string"
+                            },
+                            device_type: {
+                                type: "string"
+                            },
+                            browser: {
+                                type: "string"
+                            },
+                            metadata: {
+                                type: "array"
+                            }
+                        }
                     },
-                    user_perspective: {
-                        type: "array"
+                    interface: {
+                        type: "object",
+                        properties: {
+                            sdk_version: {
+                                type: "string"
+                            },
+                            app_version: {
+                                type: "string"
+                            },
+                            type: {
+                                type: "string"
+                            },
+                            category: {
+                                type: "string"
+                            },
+                            name: {
+                                type: "string"
+                            },
+                            language: {
+                                type: "string"
+                            }
+                        }
                     },
-                    interactions: {
-                        type: "array"
-                    },
-                    feedbacks: {
-                        type: "array"
-                    },
-                    escalations: {
-                        type: "array"
-                    },
-                    notes: {
-                        type: "array"
-                    },
-                    tags: {
-                        type: "array"
-                    },
-                    open_orders: {
-                        type: "array"
+                    network: {
+                        type: "object",
+                        properties: {
+                            latency_ms: {
+                                type: "number"
+                            }
+                        }
                     }
                 }
             },
             request: {
                 type: "object",
                 properties: {
-                    request_ID: {
+                    request_id: {
                         type: "string"
                     },
-                    request_type: {
-                        type: "string"
-                    },
-                    action: {
-                        type: "string"
-                    },
-                    status: {
-                        type: "string"
-                    },
-                    instruction: {
-                        type: "string"
-                    },
-                    content: {
-                        type: "string"
-                    },
-                    medium: {
-                        type: "string"
-                    },
-                    variant: {
-                        type: "string"
-                    },
-                    product: {
+                    context: {
                         type: "object",
                         properties: {
-                            product_ID: {
+                            tenant_id: {
                                 type: "string"
                             },
-                            product_location: {
+                            organization_id: {
                                 type: "string"
                             },
-                            product_category: {
+                            department_id: {
                                 type: "string"
                             },
-                            product_model: {
+                            operator_id: {
+                                type: "string"
+                            },
+                            user_id: {
+                                type: "string"
+                            },
+                            case_id: {
                                 type: "string"
                             }
                         }
                     },
-                    crm: {
-                        type: "string"
-                    },
-                    output_language: {
-                        type: "string"
-                    },
-                    interface_language: {
-                        type: "string"
-                    },
-                    channel: {
+                    connections: {
                         type: "object",
                         properties: {
-                            c_name: {
+                            parent_id: {
                                 type: "string"
                             },
-                            c_language: {
+                            thread_id: {
                                 type: "string"
                             },
-                            c_section: {
+                            journey_id: {
                                 type: "string"
+                            }
+                        }
+                    },
+                    attributes: {
+                        type: "object",
+                        properties: {
+                            type: {
+                                type: "string"
+                            },
+                            action: {
+                                type: "string"
+                            },
+                            instruction: {
+                                type: "string"
+                            },
+                            content: {
+                                type: "string"
+                            },
+                            variant: {
+                                type: "string"
+                            }
+                        }
+                    },
+                    reference: {
+                        type: "object",
+                        properties: {
+                            tags: {
+                                type: "array"
+                            },
+                            labels: {
+                                type: "array"
+                            },
+                            ids: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        name: {
+                                            type: "string"
+                                        },
+                                        value: {
+                                            type: "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    scope: {
+                        type: "object",
+                        properties: {
+                            orders: {
+                                type: "array"
+                            },
+                            offers: {
+                                type: "array"
+                            },
+                            operators: {
+                                type: "array"
+                            },
+                            users: {
+                                type: "array"
+                            },
+                            transactions: {
+                                type: "array"
+                            },
+                            conversations: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        timestamp: {
+                                            type: "string"
+                                        },
+                                        participant_id: {
+                                            type: "string"
+                                        },
+                                        role: {
+                                            type: "string"
+                                        },
+                                        display_name: {
+                                            type: "string"
+                                        },
+                                        content: {
+                                            type: "string"
+                                        }
+                                    }
+                                }
+                            },
+                            interactions: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        timestamp: {
+                                            type: "string"
+                                        },
+                                        id: {
+                                            type: "string"
+                                        },
+                                        role: {
+                                            type: "string"
+                                        },
+                                        name: {
+                                            type: "string"
+                                        },
+                                        content: {
+                                            type: "string"
+                                        }
+                                    }
+                                }
+                            },
+                            bookings: {
+                                type: "array"
+                            },
+                            tickets: {
+                                type: "array"
+                            },
+                            properties: {
+                                type: "array"
+                            },
+                            assets: {
+                                type: "array"
+                            },
+                            subscriptions: {
+                                type: "array"
+                            },
+                            services: {
+                                type: "array"
+                            },
+                            policies: {
+                                type: "array"
+                            },
+                            accounts: {
+                                type: "array"
+                            },
+                            cases: {
+                                type: "array"
+                            },
+                            documents: {
+                                type: "array"
+                            },
+                            items: {
+                                type: "array"
+                            },
+                            events: {
+                                type: "array"
+                            },
+                            appointments: {
+                                type: "array"
+                            },
+                            organizations: {
+                                type: "array"
+                            },
+                            persons: {
+                                type: "array"
+                            },
+                            products: {
+                                type: "array"
+                            },
+                            locations: {
+                                type: "array"
                             }
                         }
                     },
@@ -133,266 +306,180 @@ class OptaveJavaScriptSDK extends EventEmitter {
                             },
                             disable_stream: {
                                 type: "boolean"
-                            }
-                        }
-                    },
-                    offering_details: {
-                        type: "array"
-                    }
-                }
-            },
-            client: {
-                type: "object",
-                properties: {
-                    client_ID: {
-                        type: "string"
-                    },
-                    organization_name: {
-                        type: "string"
-                    },
-                    organization_ID: {
-                        type: "string"
-                    },
-                    department_name: {
-                        type: "string"
-                    },
-                    department_ID: {
-                        type: "string"
-                    }
-                }
-            },
-            agent: {
-                type: "object",
-                properties: {
-                    agent_ID: {
-                        type: "string"
-                    },
-                    agent_name: {
-                        type: "string"
-                    },
-                    support_team_name: {
-                        type: "string"
-                    },
-                    support_team_ID: {
-                        type: "string"
-                    },
-                    timezone: {
-                        type: "string"
-                    },
-                    languages: {
-                        type: "array"
-                    },
-                    skills: {
-                        type: "array"
-                    },
-                    in_training: {
-                        type: "boolean"
-                    },
-                    experience_level: {
-                        type: "string"
-                    },
-                    current_workload: {
-                        type: "integer"
-                    },
-                    availability_status: {
-                        type: "string"
-                    }
-                }
-            },
-            user: {
-                type: "object",
-                properties: {
-                    user_ID: {
-                        type: "string"
-                    },
-                    user_name: {
-                        type: "string"
-                    },
-                    preferred_pronouns: {
-                        type: "string"
-                    },
-                    user_type: {
-                        type: "string"
-                    },
-                    preferred_contact_method: {
-                        type: "string"
-                    },
-                    preferred_contact_times: {
-                        type: "array"
-                    },
-                    preferred_support_languages: {
-                        type: "array"
-                    },
-                    primary_language: {
-                        type: "string"
-                    },
-                    consent_and_preferences: {
-                        type: "object",
-                        properties: {
-                            marketing_consent: {
+                            },
+                            disable_sources: {
                                 type: "boolean"
                             },
-                            privacy_settings: {
+                            disable_tools: {
+                                type: "boolean"
+                            },
+                            disable_browsing: {
+                                type: "boolean"
+                            },
+                            max_response_length: {
+                                type: "number"
+                            },
+                            output_language: {
                                 type: "string"
                             }
                         }
                     },
-                    loyalty_details: {
+                    cursor: {
                         type: "object",
                         properties: {
-                            points_balance: {
-                                type: "integer"
+                            since: {
+                                type: "string",
+                                format: "date-time"
                             },
-                            tier_expiry_date: {
-                                type: ["null", "string"],
+                            until: {
+                                type: "string",
                                 format: "date-time"
                             }
                         }
                     },
-                    total_spend: {
-                        type: "number"
-                    },
-                    last_contacted_timestamp: {
-                        type: ["null", "string"],
-                        format: "date-time"
-                    },
-                    technical_information: {
-                        type: "object",
-                        properties: {
-                            devices_used: {
-                                type: "array",
-                                items: {
+                    a2a: {
+                        type: "array",
+                        items: {
+                            type: "object",
+                            properties: {
+                                id: {
                                     type: "string"
-                                }
-                            },
-                            browser_or_app_version: {
-                                type: "string"
-                            }
-                        }
-                    },
-                    behavioral_data: {
-                        type: "object",
-                        properties: {
-                            average_response_time: {
-                                type: "number"
-                            },
-                            interaction_frequency: {
-                                type: "number"
-                            },
-                            preferred_interaction_channels: {
-                                type: "array",
-                                items: {
+                                },
+                                name: {
                                     type: "string"
-                                }
-                            },
-                            product_preferences: {
-                                type: "array",
-                                items: {
+                                },
+                                type: {
                                     type: "string"
                                 }
                             }
                         }
-                    },
-                    pending_queries: {
-                        type: "array"
-                    },
-                    past_sessions: {
-                        type: "array"
-                    },
-                    follow_up_required: {
-                        type: "boolean"
-                    },
-                    follow_up_details: {
-                        type: "array"
                     }
                 }
             }
         }
     }
 
-    // The default payload. The payload provided by the user is merged "on top" of this objects
+    // The default payload. The payload provided by the user is merged "on top" of these objects
     defaultPayload = {
         session: {
-            sdk_version: '3.0.1',
-            sdk_version: '2.0.6',
-            trace_session_ID: '',
-            trace_parent_ID: '',
-            user_perspective: [], // in v1, this was called "history"
-            interactions: [],
-            feedbacks: [],
-            escalations: [],
-            notes: [],
-            tags: [],
-            open_orders: [],
+            session_id: "", // custom - lasts for the duration of a chat session or a call
+            trace_id: "", // in v2, this was called "trace_session_ID"
+            channel: {
+                medium: "",  // options: "chat", "voice", "email" (defaults to chat)
+                section: "", // e.g. "cart", "product_page"
+                language: "",
+                location: "", // e.g. "45.42,-75.69"
+                device_info: "", // e.g. "iOS/18.2, iPhone15,3"
+                device_type: "",
+                browser: "",
+                metadata: [], // custom metadata
+            },
+            interface: {
+                sdk_version: "3.1.1", 
+                app_version: "", // custom
+                type: "", // e.g. "custom_components", "marketplace", "channel"
+                category: "", // e.g. "crm", "app", "auto", "widget"
+                name: "", // e.g. "salesforce", "zendesk"
+                language: "", // the language from the crm agent
+            },
+            network: {
+                latency_ms: 120,
+            }
         },
         request: {
-            request_ID: '',
-            request_type: '', // in v1, this was called "action"
-            action: '',      // in v1, this was called  "actionType"
-            status: '',
-            instruction: '',
-            content: '',
-            medium: '',
-            variant: 'A',
-            product: {
-                product_ID: '',
-                product_location: '',
-                product_category: '',
-                product_model: ''
+            request_id: "",
+            context: { // generated by optave
+                tenant_id: "",
+                organization_id: "",
+                department_id: "", // advanced mode
+                operator_id: "", // advanced mode
+                user_id: "", // advanced mode
+                case_id: "", // advanced mode
             },
-            crm: '',
-            output_language: '',
-            interface_language: '',
-            channel: {
-                c_name: '',
-                c_language: '',
-                c_section: '',
+            connections: {
+                parent_id: "", // in v2, this was called "trace_parent_ID"
+                thread_id: "", // this ID should remain unique across all the requests related to the same ticket/case/conversation
+                journey_id: ""
+            },
+            attributes: {
+                type: "", 
+                action: "",      
+                instruction: "",
+                content: "",
+                variant: "A",
+            },
+             reference: { // optionally generated by client, used for analytics
+                tags: [],
+                labels: [],
+                ids: [
+                    { name: "", value: ""}
+                ],
+            },
+            // Items below should only be sent if they are directly related to the request
+            // There are two ways of sending it:
+            // 1. Reference a previously created object (advanced mode)
+            // Format: { id: "", name: "", type: "", timestamp: "" }, (mandatory: id)
+            // 2. Send the object itself (risk: may exceed the payload size limit) - easy mode
+            scope: {
+                orders: [],
+                offers: [], // in v2, this was called "offering_details"
+                operators: [],
+                users: [],
+                transactions: [],
+                conversations: [ // in v2, this was called "user_perspective"
+                    {
+                        timestamp: "",
+                        participant_id: "", // sent by the client - optional
+                        role: "", // options: "EndUser", "Agent", "Bot"
+                        display_name: "",
+                        content: ""
+                    },
+                ], 
+                interactions: [
+                    {
+                        timestamp: "datetime",
+                        id: "string",
+                        role: "string", // options: "System"
+                        name: "string",
+                        content: "string"
+                    }
+                ],
+                bookings :[],
+                tickets :[],
+                properties: [],
+                assets: [],
+                subscriptions: [],
+                services: [],
+                policies: [],
+                accounts: [],
+                cases: [], 
+                documents: [],
+                items: [],
+                events: [],
+                appointments: [],
+                organizations: [],
+                persons: [],
+                products: [],
+                locations: []
+                // Missing something? We can add it for you, please contact our sales team.
             },
             settings: {
                 disable_search: false,
-                disable_stream: false
+                disable_stream: false,
+                disable_sources: false,
+                disable_tools: false,
+                disable_browsing: false,
+                max_response_length: 0,
+                output_language: "" // override the channel language
             },
-            offering_details: [],
-        },
-        client: {
-            client_ID: '',
-            organization_name: '',
-            organization_ID: '',
-            department_name: '',
-            department_ID: '',
-        },
-        agent: {
-            agent_ID: '',
-            agent_name: '',
-            support_team_name: '',
-            support_team_ID: '',
-            timezone: '',
-            languages: [],
-            skills: [],
-            in_training: false,
-            experience_level: '',
-            current_workload: 0,
-            availability_status: '',
-        },
-        user: {
-            user_ID: '',
-            user_name: '',
-            preferred_pronouns: '',
-            user_type: '',
-            preferred_contact_method: '',
-            preferred_contact_times: [],
-            preferred_support_languages: [],
-            primary_language: '',
-            consent_and_preferences: {},
-            loyalty_details: {},
-            total_spend: 0,
-            last_contacted_timestamp: null,
-            technical_information: {},
-            behavioral_data: {},
-            pending_queries: [],
-            past_sessions: [],
-            follow_up_required: false,
-            follow_up_details: [],
+            // Advanced mode:
+            cursor: { 
+                since: "", // e.g. "2024-01-15T10:30:00.000Z"
+                until: "" // e.g. "2024-01-15T11:00:00.000Z"
+            },
+            a2a: [
+                { id: "", name: "", type: "" } // e.g. { id: "bot_55", name: "Bot 55", type: "chatbot" }
+            ]
         }
     };
 
@@ -572,17 +659,16 @@ class OptaveJavaScriptSDK extends EventEmitter {
     buildPayload(requestType, action, params) {
         let payload = this.selectiveDeepMerge(this.defaultPayload, params);
 
-
-        payload.session.trace_session_ID = uuidv4();
+        payload.session.trace_id = uuidv4();
 
         // TODO: remove when v2 is phased out
         if (params?.request?.variation) {
-            payload.request.variant = params.request.variation;
+            payload.request.attributes.variant = params.request.variation;
         }
 
-        payload.request.variant = payload.request.variant.toUpperCase();
-        payload.request.request_type = requestType;
-        payload.request.action = action;
+        payload.request.attributes.variant = payload.request.attributes.variant.toUpperCase();
+        payload.request.attributes.type = requestType;
+        payload.request.attributes.action = action;
 
         // TO-DO: remove when unused (when everyone is using version 2 or later)
         payload.action = requestType;
@@ -591,7 +677,7 @@ class OptaveJavaScriptSDK extends EventEmitter {
     }
 
     handleError(category, code, message, details = null, suggestions = []) {
-        // If the error is just a string and no error callbacks were attached,
+        // If the error is just a string and no error callbacks are attached,
         // just print the message, as it may be helpful for someone
         if (this.listenerCount('error') == 0) {
             if (typeof error === 'string') {
@@ -654,7 +740,7 @@ class OptaveJavaScriptSDK extends EventEmitter {
         }
     }
 
-    // The following function send messages of a specific type to the Websocket
+    // The following functions send messages of a specific type to the WebSocket
     adjust = params => this.send('message', 'adjust', params);
     elevate = params => this.send('message', 'elevate', params);
     customerInteraction = params => this.send('message', 'customerinteraction', params);
