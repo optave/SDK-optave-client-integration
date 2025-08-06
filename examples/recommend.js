@@ -72,24 +72,6 @@ async function run() {
                         {
                             // Please contact your optave representative to define the object you should send here
                         }
-                    ],
-                    links: [
-                        {
-                            id: "payment_001",
-                            type: "payment_link",
-                            url: "https://checkout.stripe.com/pay/cs_test...",
-                            label: "Complete Payment",
-                            html: false,
-                            expires_at: "2025-08-06T00:00:00Z"
-                        }
-                    ],
-                    codes: [
-                        {
-                            id: "order_001",
-                            type: "order_number",
-                            value: "ORD-12345",
-                            label: "Order Number"
-                        }
                     ]
                 },
                 scope: {

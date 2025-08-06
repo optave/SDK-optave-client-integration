@@ -67,6 +67,31 @@ async function run() {
                 attributes: {
                     variant: "A"
                 },
+                resources: {
+                    offers: [
+                        {
+                            // Please contact your optave representative to define the object you should send here
+                        }
+                    ],
+                    links: [
+                        {
+                            id: "20382320302",
+                            type: "payment_link",
+                            url: "https://checkout.stripe.com/pay/cs_test...",
+                            label: "Complete Payment",
+                            html: false,
+                            expires_at: "2025-08-06T00:00:00Z"
+                        }
+                    ],
+                    codes: [
+                        {
+                            id: "328123-123812312-13023f08asdxjfw0e",
+                            type: "order_number",
+                            value: "ORD-12345",
+                            label: "Order Number"
+                        }
+                    ]
+                },
                 scope: {
                     conversations: [ // REQUIRED
                         {
