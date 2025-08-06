@@ -447,6 +447,44 @@ describe('OptaveJavaScriptSDK', () => {
         expect(validationResult).toBe(true);
     });
 
+    it('validates resources object with offers, links, and codes', async () => {
+        const payload = {
+            session: {
+                session_id: "test_session",
+                trace_id: "test_trace"
+            },
+            request: {
+                request_id: "test_request",
+                resources: {
+                    offers: [
+                        { id: "offer_001", name: "Special Discount", type: "discount" }
+                    ],
+                    links: [
+                        {
+                            id: "link_001",
+                            type: "payment_link",
+                            url: "https://checkout.stripe.com/pay/cs_test...",
+                            label: "Click here to pay",
+                            html: false,
+                            expires_at: "2025-08-06T00:00:00Z"
+                        }
+                    ],
+                    codes: [
+                        {
+                            id: "code_001",
+                            type: "order_number",
+                            value: "ORD-56789",
+                            label: "Order Number"
+                        }
+                    ]
+                }
+            }
+        };
+
+        const validationResult = client.validate(payload);
+        expect(validationResult).toBe(true);
+    });
+
     it('validates context object with all advanced fields', async () => {
         const payload = {
             session: {

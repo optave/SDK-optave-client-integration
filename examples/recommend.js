@@ -67,6 +67,31 @@ async function run() {
                 attributes: {
                     variant: "A",
                 },
+                resources: {
+                    offers: [ // REQUIRED
+                        {
+                            // Please contact your optave representative to define the object you should send here
+                        }
+                    ],
+                    links: [
+                        {
+                            id: "payment_001",
+                            type: "payment_link",
+                            url: "https://checkout.stripe.com/pay/cs_test...",
+                            label: "Complete Payment",
+                            html: false,
+                            expires_at: "2025-08-06T00:00:00Z"
+                        }
+                    ],
+                    codes: [
+                        {
+                            id: "order_001",
+                            type: "order_number",
+                            value: "ORD-12345",
+                            label: "Order Number"
+                        }
+                    ]
+                },
                 scope: {
                     conversations: [ // REQUIRED
                         {
@@ -82,11 +107,6 @@ async function run() {
                             role: "Agent",
                             display_name: "Sarah Smith",
                             content: "Hello! I'd be happy to assist you today. What can I help you with?",
-                        }
-                    ],
-                    offers: [ // REQUIRED
-                        {
-                            // Please contact your optave representative to define the object you should send here
                         }
                     ]
                 }
