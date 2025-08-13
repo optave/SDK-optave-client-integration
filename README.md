@@ -214,7 +214,7 @@ const customerInteractionParams = {
             disable_tools: false,
             disable_browsing: false,
             max_response_length: 2000,
-            output_language: "en-US"
+            override_output_language: "en-US"
         }
     }
 };
@@ -345,7 +345,7 @@ async function run() {
                     disable_tools: false,
                     disable_browsing: false,
                     max_response_length: 2000,
-                    output_language: "en-US"
+                    override_output_language: "en-US"
                 }
             }
         });

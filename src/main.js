@@ -373,7 +373,10 @@ class OptaveJavaScriptSDK extends EventEmitter {
                             max_response_length: {
                                 type: "number"
                             },
-                            output_language: {
+                            override_output_language: {
+                                type: "string"
+                            },
+                            override_interface_language: {
                                 type: "string"
                             }
                         }
@@ -544,7 +547,8 @@ class OptaveJavaScriptSDK extends EventEmitter {
                 disable_tools: false,
                 disable_browsing: false,
                 max_response_length: 0,
-                output_language: "" // override the channel language
+                override_output_language: "", // replaces the channel language
+                override_interface_language: ""
             },
             // Advanced mode:
             cursor: { 
