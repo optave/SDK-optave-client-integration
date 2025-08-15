@@ -244,6 +244,7 @@ class OptaveJavaScriptSDK extends EventEmitter {
                             locations: { type: "array" },
                             offers: { type: "array" },
                             operators: { type: "array" },
+                            orders: { type: "array" },
                             organizations: { type: "array" },
                             persons: { type: "array" },
                             policies: { type: "array" },
@@ -329,22 +330,22 @@ class OptaveJavaScriptSDK extends EventEmitter {
             session_id: "", // custom - lasts for the duration of a chat session or a call
             trace_id: "", // in v2, this was called "trace_session_ID"
             channel: {
-                medium: "",  // options: "chat", "voice", "email" (defaults to chat)
-                section: "", // e.g. "cart", "product_page"
-                language: "",
-                location: "", // e.g. "45.42,-75.69"
+                browser: "",
                 device_info: "", // e.g. "iOS/18.2, iPhone15,3"
                 device_type: "",
-                browser: "",
+                language: "",
+                location: "", // e.g. "45.42,-75.69"
+                medium: "",  // options: "chat", "voice", "email" (defaults to chat)
                 metadata: [], // custom metadata
+                section: "", // e.g. "cart", "product_page"
             },
             interface: {
-                sdk_version: "3.1.1", 
                 app_version: "", // custom
-                type: "", // e.g. "custom_components", "marketplace", "channel"
                 category: "", // e.g. "crm", "app", "auto", "widget"
-                name: "", // e.g. "salesforce", "zendesk"
                 language: "", // the language from the crm agent
+                name: "", // e.g. "salesforce", "zendesk"
+                sdk_version: "3.1.1", 
+                type: "", // e.g. "custom_components", "marketplace", "channel"
             },
             network: {
                 latency_ms: 120,
@@ -435,6 +436,7 @@ class OptaveJavaScriptSDK extends EventEmitter {
                 locations: [],
                 offers: [],
                 operators: [],
+                orders: [],
                 organizations: [],
                 persons: [],
                 policies: [],
