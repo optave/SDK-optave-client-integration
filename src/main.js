@@ -25,70 +25,39 @@ class OptaveJavaScriptSDK extends EventEmitter {
             session: {
                 type: "object",
                 properties: {
-                    session_id: {
-                        type: "string"
-                    },
-                    trace_id: {
-                        type: "string"
-                    },
+                    // Keep pinned at top (do not move)
+                    session_id: { type: "string" },
+                    trace_id: { type: "string" },
+                    // Alphabetize remaining: channel, interface, network
                     channel: {
                         type: "object",
                         properties: {
-                            medium: {
-                                type: "string"
-                            },
-                            section: {
-                                type: "string"
-                            },
-                            language: {
-                                type: "string"
-                            },
-                            location: {
-                                type: "string"
-                            },
-                            device_info: {
-                                type: "string"
-                            },
-                            device_type: {
-                                type: "string"
-                            },
-                            browser: {
-                                type: "string"
-                            },
-                            metadata: {
-                                type: "array"
-                            }
+                            // Alphabetical
+                            browser: { type: "string" },
+                            device_info: { type: "string" },
+                            device_type: { type: "string" },
+                            language: { type: "string" },
+                            location: { type: "string" },
+                            medium: { type: "string" },
+                            metadata: { type: "array" },
+                            section: { type: "string" }
                         }
                     },
                     interface: {
                         type: "object",
                         properties: {
-                            sdk_version: {
-                                type: "string"
-                            },
-                            app_version: {
-                                type: "string"
-                            },
-                            type: {
-                                type: "string"
-                            },
-                            category: {
-                                type: "string"
-                            },
-                            name: {
-                                type: "string"
-                            },
-                            language: {
-                                type: "string"
-                            }
+                            app_version: { type: "string" },
+                            category: { type: "string" },
+                            language: { type: "string" },
+                            name: { type: "string" },
+                            sdk_version: { type: "string" },
+                            type: { type: "string" }
                         }
                     },
                     network: {
                         type: "object",
                         properties: {
-                            latency_ms: {
-                                type: "number"
-                            }
+                            latency_ms: { type: "number" }
                         }
                     }
                 }
@@ -99,13 +68,44 @@ class OptaveJavaScriptSDK extends EventEmitter {
                     request_id: {
                         type: "string"
                     },
+                    attributes: {
+                        type: "object",
+                        properties: {
+                            action: {
+                                type: "string"
+                            },
+                            content: {
+                                type: "string"
+                            },
+                            instruction: {
+                                type: "string"
+                            },
+                            type: {
+                                type: "string"
+                            },
+                            variant: {
+                                type: "string"
+                            }
+                        }
+                    },
+                    connections: {
+                        type: "object",
+                        properties: {
+                            journey_id: {
+                                type: "string"
+                            },
+                            parent_id: {
+                                type: "string"
+                            },
+                            thread_id: {
+                                type: "string"
+                            }
+                        }
+                    },
                     context: {
                         type: "object",
                         properties: {
-                            tenant_id: {
-                                type: "string"
-                            },
-                            organization_id: {
+                            case_id: {
                                 type: "string"
                             },
                             department_id: {
@@ -114,111 +114,20 @@ class OptaveJavaScriptSDK extends EventEmitter {
                             operator_id: {
                                 type: "string"
                             },
+                            organization_id: {
+                                type: "string"
+                            },
+                            tenant_id: {
+                                type: "string"
+                            },
                             user_id: {
                                 type: "string"
-                            },
-                            case_id: {
-                                type: "string"
-                            }
-                        }
-                    },
-                    connections: {
-                        type: "object",
-                        properties: {
-                            parent_id: {
-                                type: "string"
-                            },
-                            thread_id: {
-                                type: "string"
-                            },
-                            journey_id: {
-                                type: "string"
-                            }
-                        }
-                    },
-                    attributes: {
-                        type: "object",
-                        properties: {
-                            type: {
-                                type: "string"
-                            },
-                            action: {
-                                type: "string"
-                            },
-                            instruction: {
-                                type: "string"
-                            },
-                            content: {
-                                type: "string"
-                            },
-                            variant: {
-                                type: "string"
-                            }
-                        }
-                    },
-                    resources: {
-                        type: "object",
-                        properties: {
-                            offers: {
-                                type: "array"
-                            },
-                            links: {
-                                type: "array",
-                                items: {
-                                    type: "object",
-                                    properties: {
-                                        id: {
-                                            type: "string"
-                                        },
-                                        type: {
-                                            type: "string"
-                                        },
-                                        url: {
-                                            type: "string"
-                                        },
-                                        label: {
-                                            type: "string"
-                                        },
-                                        html: {
-                                            type: "boolean"
-                                        },
-                                        expires_at: {
-                                            type: "string"
-                                        }
-                                    }
-                                }
-                            },
-                            codes: {
-                                type: "array",
-                                items: {
-                                    type: "object",
-                                    properties: {
-                                        id: {
-                                            type: "string"
-                                        },
-                                        type: {
-                                            type: "string"
-                                        },
-                                        value: {
-                                            type: "string"
-                                        },
-                                        label: {
-                                            type: "string"
-                                        }
-                                    }
-                                }
                             }
                         }
                     },
                     reference: {
                         type: "object",
                         properties: {
-                            tags: {
-                                type: "array"
-                            },
-                            labels: {
-                                type: "array"
-                            },
                             ids: {
                                 type: "array",
                                 items: {
@@ -232,148 +141,150 @@ class OptaveJavaScriptSDK extends EventEmitter {
                                         }
                                     }
                                 }
+                            },
+                            labels: {
+                                type: "array"
+                            },
+                            tags: {
+                                type: "array"
+                            }
+                        }
+                    },
+                    resources: {
+                        type: "object",
+                        properties: {
+                            codes: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        id: {
+                                            type: "string"
+                                        },
+                                        label: {
+                                            type: "string"
+                                        },
+                                        type: {
+                                            type: "string"
+                                        },
+                                        value: {
+                                            type: "string"
+                                        }
+                                    }
+                                }
+                            },
+                            links: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        expires_at: {
+                                            type: "string"
+                                        },
+                                        html: {
+                                            type: "boolean"
+                                        },
+                                        id: {
+                                            type: "string"
+                                        },
+                                        label: {
+                                            type: "string"
+                                        },
+                                        type: {
+                                            type: "string"
+                                        },
+                                        url: {
+                                            type: "string"
+                                        }
+                                    }
+                                }
+                            },
+                            offers: {
+                                type: "array"
                             }
                         }
                     },
                     scope: {
                         type: "object",
                         properties: {
-                            orders: {
-                                type: "array"
-                            },
-                            offers: {
-                                type: "array"
-                            },
-                            operators: {
-                                type: "array"
-                            },
-                            users: {
-                                type: "array"
-                            },
-                            transactions: {
-                                type: "array"
-                            },
+                            accounts: { type: "array" },
+                            appointments: { type: "array" },
+                            assets: { type: "array" },
+                            bookings: { type: "array" },
+                            cases: { type: "array" },
                             conversations: {
                                 type: "array",
                                 items: {
                                     type: "object",
                                     properties: {
-                                        timestamp: {
-                                            type: "string"
-                                        },
-                                        participant_id: {
-                                            type: "string"
-                                        },
-                                        role: {
-                                            type: "string"
-                                        },
-                                        display_name: {
-                                            type: "string"
-                                        },
-                                        content: {
-                                            type: "string"
-                                        }
+                                        content: { type: "string" },
+                                        display_name: { type: "string" },
+                                        participant_id: { type: "string" },
+                                        role: { type: "string" },
+                                        timestamp: { type: "string" }
                                     }
                                 }
                             },
+                            documents: { type: "array" },
+                            events: { type: "array" },
                             interactions: {
                                 type: "array",
                                 items: {
                                     type: "object",
                                     properties: {
-                                        timestamp: {
-                                            type: "string"
-                                        },
-                                        id: {
-                                            type: "string"
-                                        },
-                                        role: {
-                                            type: "string"
-                                        },
-                                        name: {
-                                            type: "string"
-                                        },
-                                        content: {
-                                            type: "string"
-                                        }
+                                        content: { type: "string" },
+                                        id: { type: "string" },
+                                        name: { type: "string" },
+                                        role: { type: "string" },
+                                        timestamp: { type: "string" }
                                     }
                                 }
                             },
-                            bookings: {
-                                type: "array"
-                            },
-                            tickets: {
-                                type: "array"
-                            },
-                            properties: {
-                                type: "array"
-                            },
-                            assets: {
-                                type: "array"
-                            },
-                            subscriptions: {
-                                type: "array"
-                            },
-                            services: {
-                                type: "array"
-                            },
-                            policies: {
-                                type: "array"
-                            },
-                            accounts: {
-                                type: "array"
-                            },
-                            cases: {
-                                type: "array"
-                            },
-                            documents: {
-                                type: "array"
-                            },
-                            items: {
-                                type: "array"
-                            },
-                            events: {
-                                type: "array"
-                            },
-                            appointments: {
-                                type: "array"
-                            },
-                            organizations: {
-                                type: "array"
-                            },
-                            persons: {
-                                type: "array"
-                            },
-                            products: {
-                                type: "array"
-                            },
-                            locations: {
-                                type: "array"
-                            }
+                            items: { type: "array" },
+                            locations: { type: "array" },
+                            offers: { type: "array" },
+                            operators: { type: "array" },
+                            orders: { type: "array" },
+                            organizations: { type: "array" },
+                            persons: { type: "array" },
+                            policies: { type: "array" },
+                            products: { type: "array" },
+                            properties: { type: "array" },
+                            services: { type: "array" },
+                            subscriptions: { type: "array" },
+                            tickets: { type: "array" },
+                            transactions: { type: "array" },
+                            users: { type: "array" }
                         }
                     },
                     settings: {
                         type: "object",
                         properties: {
-                            disable_search: {
+                            disable_browsing: {
                                 type: "boolean"
                             },
-                            disable_stream: {
+                            disable_search: {
                                 type: "boolean"
                             },
                             disable_sources: {
                                 type: "boolean"
                             },
-                            disable_tools: {
+                            disable_stream: {
                                 type: "boolean"
                             },
-                            disable_browsing: {
+                            disable_tools: {
                                 type: "boolean"
                             },
                             max_response_length: {
                                 type: "number"
                             },
-                            output_language: {
+                            override_channel_medium: {
+                                type: "string"
+                            },
+                            override_interface_language: {
+                                type: "string"
+                            },
+                            override_output_language: {
                                 type: "string"
                             }
                         }
@@ -409,9 +320,9 @@ class OptaveJavaScriptSDK extends EventEmitter {
                         }
                     }
                 }
-            }
+            },
         }
-    }
+    };
 
     // The default payload. The payload provided by the user is merged "on top" of these objects
     defaultPayload = {
@@ -419,22 +330,22 @@ class OptaveJavaScriptSDK extends EventEmitter {
             session_id: "", // custom - lasts for the duration of a chat session or a call
             trace_id: "", // in v2, this was called "trace_session_ID"
             channel: {
-                medium: "",  // options: "chat", "voice", "email" (defaults to chat)
-                section: "", // e.g. "cart", "product_page"
-                language: "",
-                location: "", // e.g. "45.42,-75.69"
+                browser: "",
                 device_info: "", // e.g. "iOS/18.2, iPhone15,3"
                 device_type: "",
-                browser: "",
+                language: "",
+                location: "", // e.g. "45.42,-75.69"
+                medium: "",  // options: "chat", "voice", "email" (defaults to chat)
                 metadata: [], // custom metadata
+                section: "", // e.g. "cart", "product_page"
             },
             interface: {
-                sdk_version: "3.1.1", 
                 app_version: "", // custom
-                type: "", // e.g. "custom_components", "marketplace", "channel"
                 category: "", // e.g. "crm", "app", "auto", "widget"
-                name: "", // e.g. "salesforce", "zendesk"
                 language: "", // the language from the crm agent
+                name: "", // e.g. "salesforce", "zendesk"
+                sdk_version: "3.1.1", 
+                type: "", // e.g. "custom_components", "marketplace", "channel"
             },
             network: {
                 latency_ms: 120,
@@ -442,53 +353,53 @@ class OptaveJavaScriptSDK extends EventEmitter {
         },
         request: {
             request_id: "",
-            context: { // generated by optave
-                tenant_id: "",
-                organization_id: "",
-                department_id: "", // advanced mode
-                operator_id: "", // advanced mode
-                user_id: "", // advanced mode
-                case_id: "", // advanced mode
-            },
-            connections: {
-                parent_id: "", // in v2, this was called "trace_parent_ID"
-                thread_id: "", // this ID should remain unique across all the requests related to the same ticket/case/conversation
-                journey_id: ""
-            },
             attributes: {
-                type: "", 
                 action: "",      
-                instruction: "",
                 content: "",
+                instruction: "",
+                type: "",
                 variant: "A",
             },
-            resources: {
-                offers: [], // in v2, this was called "offering_details"
-                links: [
-                    {
-                        id: "", //optional
-                        type: "", // e.g., "payment_link", etc.  
-                        url: "", // e.g. "https://checkout.stripe.com/pay/cs_test..."
-                        label: "", //optional - e.g. "Click here to pay"
-                        html: false, //optional
-                        expires_at: "" //optional - e.g. "2025-08-06T00:00:00Z"
-                    }
-                ],
-                codes: [
-                    {
-                        id: "", // optional for tracking/mapping
-                        type: "", // e.g., "order_number", "booking_reference", "ticket_code", etc.
-                        value: "", // e.g. "ORD-56789"
-                        label: "" // optional, helps for display/templating - e.g. "Order Number"
-                    }
-                ]
+            connections: {
+                journey_id: "",
+                parent_id: "", // in v2, this was called "trace_parent_ID"
+                thread_id: "", // this ID should remain unique across all the requests related to the same ticket/case/conversation
+            },
+            context: { // generated by optave
+                case_id: "", // advanced mode
+                department_id: "", // advanced mode
+                operator_id: "", // advanced mode
+                organization_id: "",
+                tenant_id: "",
+                user_id: "", // advanced mode
             },
             reference: { // optionally generated by client, used for analytics
-                tags: [],
-                labels: [],
                 ids: [
                     { name: "", value: ""}
                 ],
+                labels: [],
+                tags: [],
+            },
+            resources: {
+                codes: [
+                    {
+                        id: "", // optional for tracking/mapping
+                        label: "", // optional, helps for display/templating - e.g. "Order Number"
+                        type: "", // e.g., "order_number", "booking_reference", "ticket_code", etc.
+                        value: "" // e.g. "ORD-56789"
+                    }
+                ],
+                links: [
+                    {
+                        expires_at: "", //optional - e.g. "2025-08-06T00:00:00Z"
+                        html: false, //optional
+                        id: "", //optional
+                        label: "", //optional - e.g. "Click here to pay"
+                        type: "", // e.g., "payment_link", etc.  
+                        url: "" // e.g. "https://checkout.stripe.com/pay/cs_test..."
+                    }
+                ],
+                offers: [], // in v2, this was called "offering_details"
             },
             // Items below should only be sent if they are directly related to the request
             // There are two ways of sending it:
@@ -496,55 +407,58 @@ class OptaveJavaScriptSDK extends EventEmitter {
             // Format: { id: "", name: "", type: "", timestamp: "" }, (mandatory: id)
             // 2. Send the object itself (risk: may exceed the payload size limit) - easy mode
             scope: {
-                orders: [],
-                operators: [],
-                users: [],
-                transactions: [],
+                accounts: [],
+                appointments: [],
+                assets: [],
+                bookings :[],
+                cases: [], 
                 conversations: [ // in v2, this was called "user_perspective"
                     {
-                        timestamp: "",
+                        content: "",
+                        display_name: "",
                         participant_id: "", // sent by the client - optional
                         role: "", // options: "EndUser", "Agent", "Bot"
-                        display_name: "",
-                        content: ""
+                        timestamp: ""
                     },
                 ], 
+                documents: [],
+                events: [],
                 interactions: [
                     {
-                        timestamp: "datetime",
+                        content: "string",
                         id: "string",
-                        role: "string", // options: "System"
                         name: "string",
-                        content: "string"
+                        role: "string", // options: "System"
+                        timestamp: "datetime"
                     }
                 ],
-                bookings :[],
-                tickets :[],
-                properties: [],
-                assets: [],
-                subscriptions: [],
-                services: [],
-                policies: [],
-                accounts: [],
-                cases: [], 
-                documents: [],
                 items: [],
-                events: [],
-                appointments: [],
+                locations: [],
+                offers: [],
+                operators: [],
+                orders: [],
                 organizations: [],
                 persons: [],
+                policies: [],
                 products: [],
-                locations: []
+                properties: [],
+                services: [],
+                subscriptions: [],
+                tickets :[],
+                transactions: [],
+                users: []
                 // Missing something? We can add it for you, please contact our sales team.
             },
             settings: {
-                disable_search: false,
-                disable_stream: false,
-                disable_sources: false,
-                disable_tools: false,
                 disable_browsing: false,
+                disable_search: false,
+                disable_sources: false,
+                disable_stream: false,
+                disable_tools: false,
                 max_response_length: 0,
-                output_language: "" // override the channel language
+                override_channel_medium: "",
+                override_interface_language: "",
+                override_output_language: "" // replaces the channel language
             },
             // Advanced mode:
             cursor: { 

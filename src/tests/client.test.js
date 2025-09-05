@@ -169,7 +169,7 @@ describe('OptaveJavaScriptSDK', () => {
                     disable_tools: false,
                     disable_browsing: false,
                     max_response_length: 2000,
-                    output_language: "en-US"
+                    override_output_language: "en-US"
                 },
                 cursor: {
                     since: "2024-01-15T10:00:00.000Z",
@@ -390,7 +390,7 @@ describe('OptaveJavaScriptSDK', () => {
                     disable_tools: false,
                     disable_browsing: true,
                     max_response_length: 1500,
-                    output_language: "es-ES"
+                    override_output_language: "es-ES"
                 }
             }
         };
