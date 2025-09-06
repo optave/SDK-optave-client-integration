@@ -495,6 +495,83 @@ class OptaveJavaScriptSDK extends EventEmitter {
         return this._validate(jsonObject);
     }
 
+    // Validates action-specific required fields
+    validateRequiredFields(params, action) {
+        const errors = [];
+
+        // Common required fields for all actions
+        if (!params.request?.context?.organization_id) {
+            errors.push('request.context.organization_id is required');
+        }
+        if (!params.request?.context?.tenant_id) {
+            errors.push('request.context.tenant_id is required');
+        }
+        if (!params.request?.connections?.thread_id) {
+            errors.push('request.connections.thread_id is required');
+        }
+
+        // Action-specific required fields
+        switch (action) {
+            case 'adjust':
+                if (!params.request?.attributes?.content) {
+                    errors.push('request.attributes.content is required for adjust');
+                }
+                if (!params.request?.attributes?.instruction) {
+                    errors.push('request.attributes.instruction is required for adjust');
+                }
+                if (!params.request?.connections?.parent_id) {
+                    errors.push('request.connections.parent_id is required for adjust');
+                }
+                if (!params.request?.scope?.conversations || !Array.isArray(params.request.scope.conversations) || params.request.scope.conversations.length === 0) {
+                    errors.push('request.scope.conversations is required for adjust and must be a non-empty array');
+                }
+                break;
+
+            case 'elevate':
+                if (!params.request?.attributes?.content) {
+                    errors.push('request.attributes.content is required for elevate');
+                }
+                if (!params.request?.connections?.parent_id) {
+                    errors.push('request.connections.parent_id is required for elevate');
+                }
+                if (!params.request?.scope?.conversations || !Array.isArray(params.request.scope.conversations) || params.request.scope.conversations.length === 0) {
+                    errors.push('request.scope.conversations is required for elevate and must be a non-empty array');
+                }
+                break;
+
+            case 'translate':
+            case 'summarize':
+            case 'insights':
+                if (!params.request?.scope?.conversations || !Array.isArray(params.request.scope.conversations) || params.request.scope.conversations.length === 0) {
+                    errors.push(`request.scope.conversations is required for ${action} and must be a non-empty array`);
+                }
+                break;
+
+            case 'recommend':
+                if (!params.request?.resources?.offers || !Array.isArray(params.request.resources.offers) || params.request.resources.offers.length === 0) {
+                    errors.push('request.resources.offers is required for recommend and must be a non-empty array');
+                }
+                if (!params.request?.scope?.conversations || !Array.isArray(params.request.scope.conversations) || params.request.scope.conversations.length === 0) {
+                    errors.push('request.scope.conversations is required for recommend and must be a non-empty array');
+                }
+                break;
+
+            case 'customerinteraction':
+                // CustomerInteraction has specific resource requirements but they're optional
+                // Only thread_id, organization_id, and tenant_id are required (already checked above)
+                break;
+
+            default:
+                // For unknown actions, just check common required fields
+                break;
+        }
+
+        return {
+            isValid: errors.length === 0,
+            errors: errors
+        };
+    }
+
     async authenticate() {
         let params = {
             grant_type: 'client_credentials',
@@ -785,6 +862,17 @@ class OptaveJavaScriptSDK extends EventEmitter {
                         'PAYLOAD_SCHEMA_MISMATCH',
                         'Validation error',
                         this._validate.errors);
+                    return;
+                }
+
+                // Validate required fields based on action type
+                const requiredFieldValidation = this.validateRequiredFields(action, params);
+                if (!requiredFieldValidation.valid) {
+                    this.handleError(
+                        ErrorCategory.VALIDATION,
+                        'REQUIRED_FIELDS_MISSING',
+                        `Missing required fields for action '${action}': ${requiredFieldValidation.missingFields.join(', ')}`,
+                        requiredFieldValidation.missingFields);
                     return;
                 }
 
