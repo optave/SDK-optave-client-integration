@@ -18,6 +18,9 @@ class OptaveJavaScriptSDK extends EventEmitter {
 
     wss = null;
 
+    // Track pending promises for correlation-based replies
+    _pendingReplies = new Map();
+
     // The validation schema
     schema = {
         type: "object",
@@ -553,11 +556,11 @@ class OptaveJavaScriptSDK extends EventEmitter {
         let params = {};
 
         if (bearerToken) {
-            params['Authorization'] = bearerToken;
+            params['authorization'] = bearerToken;
         }
 
         if (this.sessionId) {
-            params['OptaveTraceChatSessionId'] = this.sessionId;
+            params['x-optave-session-id'] = this.sessionId;
         }
 
         const paramsString = new URLSearchParams(params).toString();
@@ -578,21 +581,70 @@ class OptaveJavaScriptSDK extends EventEmitter {
         };
 
         this.wss.onmessage = event => {
-            const { state } = event.data;
-
-            if (state === 'error') {
-                this.handleError(
-                    ErrorCategory.ORCHESTRATOR,
-                    'ERROR_STATE_MESSAGE',
-                    'Received message in error state',
-                    event.data);
+            let message;
+            
+            try {
+                message = JSON.parse(event.data);
+            } catch (error) {
+                // Handle legacy or malformed messages
+                const { state } = event.data;
+                if (state === 'error') {
+                    this.handleError(
+                        ErrorCategory.ORCHESTRATOR,
+                        'ERROR_STATE_MESSAGE',
+                        'Received message in error state',
+                        event.data);
+                } else {
+                    this.emit('message', event.data);
+                }
+                return;
             }
-            else {
-                this.emit('message', event.data);
+
+            // Determine if this is an enveloped message (version 3+) or legacy format
+            const isEnvelopedMessage = message.headers && message.payload;
+            
+            if (isEnvelopedMessage) {
+                // Handle enveloped message (version 3+)
+                const correlationId = message.headers.correlationId;
+                
+                // Check if this is a response to a pending correlation
+                if (correlationId && this._pendingReplies.has(correlationId)) {
+                    const pending = this._pendingReplies.get(correlationId);
+                    
+                    // Clear timeout and resolve the promise
+                    clearTimeout(pending.timeoutId);
+                    this._pendingReplies.delete(correlationId);
+                    pending.resolve(message);
+                    return;
+                }
+
+                // Emit typed event based on schema reference or fall back to 'message'
+                const eventType = message.headers.schemaRef || 'message';
+                this.emit(eventType, message);
+            } else {
+                // Handle legacy message format (version 1-2)
+                const { state } = message;
+                
+                if (state === 'error') {
+                    this.handleError(
+                        ErrorCategory.ORCHESTRATOR,
+                        'ERROR_STATE_MESSAGE',
+                        'Received message in error state',
+                        message);
+                } else {
+                    this.emit('message', message);
+                }
             }
         };
 
         this.wss.onclose = event => {
+            // Reject all pending replies with connection closed error
+            this._pendingReplies.forEach((pending, correlationId) => {
+                clearTimeout(pending.timeoutId);
+                pending.reject(new Error(`WebSocket connection closed while waiting for response to correlationId: ${correlationId}`));
+            });
+            this._pendingReplies.clear();
+            
             this.emit('close', event);
         };
 
@@ -664,6 +716,45 @@ class OptaveJavaScriptSDK extends EventEmitter {
         return payload;
     }
 
+    // Maps action and request type to standardized AsyncAPI message ID
+    resolveMessageId(requestType, action) {
+        return `${action}.${requestType}.v3`.toLowerCase(); // e.g., "adjust.message.v3"
+    }
+
+    // Wraps payload in message envelope with headers for tracking and versioning
+    buildMessageEnvelope(payload) {
+        const messageId = this.resolveMessageId(
+            payload?.request?.attributes?.type || 'message',
+            payload?.request?.attributes?.action || 'unknown'
+        );
+        
+        return {
+            headers: {
+                messageId: uuidv4(),
+                correlationId: payload?.request?.request_id || payload?.session?.trace_id || uuidv4(),
+                schemaRef: messageId
+            },
+            payload
+        };
+    }
+
+    // Wait for a response that matches the given correlationId
+    awaitResponse(correlationId, { timeoutMs = 15000 } = {}) {
+        return new Promise((resolve, reject) => {
+            // Store the promise resolvers
+            this._pendingReplies.set(correlationId, { resolve, reject });
+
+            // Set up timeout
+            const timeoutId = setTimeout(() => {
+                this._pendingReplies.delete(correlationId);
+                reject(new Error(`Response timeout after ${timeoutMs}ms for correlationId: ${correlationId}`));
+            }, timeoutMs);
+
+            // Store timeout ID so we can clear it if response arrives
+            this._pendingReplies.get(correlationId).timeoutId = timeoutId;
+        });
+    }
+
     handleError(category, code, message, details = null, suggestions = []) {
         // If the error is just a string and no error callbacks are attached,
         // just print the message, as it may be helpful for someone
@@ -698,6 +789,11 @@ class OptaveJavaScriptSDK extends EventEmitter {
                 }
 
                 payload = this.buildPayload(requestType, action, params);
+
+                // For version 3+, wrap in message envelope
+                if (version >= 3) {
+                    payload = this.buildMessageEnvelope(payload);
+                }
             }
             else {
                 // TO-DO: Remove support for version 1 when unused
@@ -728,14 +824,51 @@ class OptaveJavaScriptSDK extends EventEmitter {
         }
     }
 
+    // Send message and optionally await response
+    async sendAndAwait(requestType, action, params, { awaitResponse = false, timeoutMs = 15000, version = 3 } = {}) {
+        if (!awaitResponse) {
+            this.send(requestType, action, params, version);
+            return;
+        }
+
+        // Only support correlation for version 3+ (enveloped messages)
+        if (version < 3) {
+            throw new Error('awaitResponse requires version 3 or higher for message correlation');
+        }
+
+        // Build the payload to get the correlation ID
+        const payload = this.buildPayload(requestType, action, params);
+        const envelope = this.buildMessageEnvelope(payload);
+        const correlationId = envelope.headers.correlationId;
+
+        // Set up the promise to await the response
+        const responsePromise = this.awaitResponse(correlationId, { timeoutMs });
+
+        // Send the message
+        this.send(requestType, action, params, version);
+
+        // Return the promise that will resolve when the response arrives
+        return responsePromise;
+    }
+
     // The following functions send messages of a specific type to the WebSocket
-    adjust = params => this.send('message', 'adjust', params);
-    elevate = params => this.send('message', 'elevate', params);
-    customerInteraction = params => this.send('message', 'customerinteraction', params);
-    summarize = params => this.send('message', 'summarize', params);
-    translate = params => this.send('message', 'translate', params);
-    recommend = params => this.send('message', 'recommend', params);
-    insights = params => this.send('message', 'insights', params);
+    // They default to version 3 (enveloped) for new users, but can be overridden
+    adjust = (params, version = 3) => this.send('message', 'adjust', params, version);
+    elevate = (params, version = 3) => this.send('message', 'elevate', params, version);
+    customerInteraction = (params, version = 3) => this.send('message', 'customerinteraction', params, version);
+    summarize = (params, version = 3) => this.send('message', 'summarize', params, version);
+    translate = (params, version = 3) => this.send('message', 'translate', params, version);
+    recommend = (params, version = 3) => this.send('message', 'recommend', params, version);
+    insights = (params, version = 3) => this.send('message', 'insights', params, version);
+    
+    // Async versions that can await responses (version 3+ only)
+    adjustAndAwait = (params, options = {}) => this.sendAndAwait('message', 'adjust', params, { awaitResponse: true, ...options });
+    elevateAndAwait = (params, options = {}) => this.sendAndAwait('message', 'elevate', params, { awaitResponse: true, ...options });
+    customerInteractionAndAwait = (params, options = {}) => this.sendAndAwait('message', 'customerinteraction', params, { awaitResponse: true, ...options });
+    summarizeAndAwait = (params, options = {}) => this.sendAndAwait('message', 'summarize', params, { awaitResponse: true, ...options });
+    translateAndAwait = (params, options = {}) => this.sendAndAwait('message', 'translate', params, { awaitResponse: true, ...options });
+    recommendAndAwait = (params, options = {}) => this.sendAndAwait('message', 'recommend', params, { awaitResponse: true, ...options });
+    insightsAndAwait = (params, options = {}) => this.sendAndAwait('message', 'insights', params, { awaitResponse: true, ...options });
 }
 
 export default OptaveJavaScriptSDK;
