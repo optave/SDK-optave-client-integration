@@ -1,0 +1,684 @@
+asyncapi: 3.0.0
+info:
+  title: Optave Client WebSocket API
+  version: 3.1.1
+  description: |
+    AsyncAPI specification for the Optave API.
+    This API enables integration with Optave's AI systems for customer interactions,
+    content translation, summarization, recommendations, and insights generation.
+    The WebSocket connection handles bidirectional communication between clients
+    and Optave's orchestrator service for real-time AI-powered operations.
+defaultContentType: application/json
+servers:
+  production:
+    host: '{websocketUrl}'
+    protocol: wss
+    description: Production WebSocket server
+    variables: 
+      websocketUrl:
+        description: WebSocket server URL
+        default: 'ws-incubator.oco.optave.tech'
+    security:
+      - $ref: "#/components/securitySchemes/oauth2"
+  development:
+    host: '{websocketUrl}'
+    protocol: wss
+    description: Development WebSocket server
+    variables: 
+      websocketUrl:
+        description: WebSocket server URL
+        default: 'ws-dev.oco.optave.tech'
+    security:
+      - $ref: "#/components/securitySchemes/oauth2"
+channels:
+  main:
+    address: main
+    messages:
+      publishAdjust.message:
+        $ref: '#/components/messages/AdjustMessage'
+      publishCustomerInteraction.message:
+        $ref: '#/components/messages/CustomerInteractionMessage'
+      publishElevate.message:
+        $ref: '#/components/messages/ElevateMessage'
+      publishInsights.message:
+        $ref: '#/components/messages/InsightsMessage'
+      publishRecommend.message:
+        $ref: '#/components/messages/RecommendMessage'
+      publishSummarize.message:
+        $ref: '#/components/messages/SummarizeMessage'
+      publishTranslate.message:
+        $ref: '#/components/messages/TranslateMessage'
+      superpowerResponse.message:
+        $ref: '#/components/messages/SuperpowerResponseMessage'
+      errorResponse.message:
+        $ref: '#/components/messages/ErrorResponseMessage'
+    description: >-
+      Single WebSocket channel (all actions multiplexed via request.request_id +
+      attributes.action)
+operations:
+  publishAdjust:
+    action: receive
+    channel:
+      $ref: '#/channels/main'
+    summary: Client sends an adjust action request
+    tags:
+      - name: adjust
+    messages:
+      - $ref: '#/channels/main/messages/publishAdjust.message'
+  publishCustomerInteraction:
+    action: receive
+    channel:
+      $ref: '#/channels/main'
+    summary: Client sends a customer interaction action request
+    tags:
+      - name: customerinteraction
+    messages:
+      - $ref: '#/channels/main/messages/publishCustomerInteraction.message'
+  publishElevate:
+    action: receive
+    channel:
+      $ref: '#/channels/main'
+    summary: Client sends an elevate action request
+    tags:
+      - name: elevate
+    messages:
+      - $ref: '#/channels/main/messages/publishElevate.message'
+  publishInsights:
+    action: receive
+    channel:
+      $ref: '#/channels/main'
+    summary: Client sends an insights action request
+    tags:
+      - name: insights
+    messages:
+      - $ref: '#/channels/main/messages/publishInsights.message'
+  publishRecommend:
+    action: receive
+    channel:
+      $ref: '#/channels/main'
+    summary: Client sends a recommend action request
+    tags:
+      - name: recommend
+    messages:
+      - $ref: '#/channels/main/messages/publishRecommend.message'
+  publishSummarize:
+    action: receive
+    channel:
+      $ref: '#/channels/main'
+    summary: Client sends a summarize action request
+    tags:
+      - name: summarize
+    messages:
+      - $ref: '#/channels/main/messages/publishSummarize.message'
+  publishTranslate:
+    action: receive
+    channel:
+      $ref: '#/channels/main'
+    summary: Client sends a translate action request
+    tags:
+      - name: translate
+    messages:
+      - $ref: '#/channels/main/messages/publishTranslate.message'
+  superpowerResponse:
+    action: send
+    channel:
+      $ref: '#/channels/main'
+    summary: Server sends superpower response back to client
+    tags:
+      - name: response
+    messages:
+      - $ref: '#/channels/main/messages/superpowerResponse.message'
+  errorResponse:
+    action: send
+    channel:
+      $ref: '#/channels/main'
+    summary: Server sends error response back to client
+    tags:
+      - name: error
+    messages:
+      - $ref: '#/channels/main/messages/errorResponse.message'
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth2 client credentials flow for authentication
+      flows:
+        clientCredentials:
+          tokenUrl: https://incubator.oco.optave.tech/auth/oauth2/token/
+          availableScopes:
+            client: "Client access scope for Optave API operations"
+  messages:
+    AdjustMessage:
+      name: AdjustMessage
+      title: Adjust Action Request
+      summary: Client request initiating an adjust action.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/Correlation'
+      payload:
+        $ref: '#/components/schemas/Payload'
+      examples:
+        - name: basic
+          summary: Complete adjust payload example
+          payload:
+            session:
+              session_id: "79012345-6789-0123-456789abcdef"
+              channel:
+                browser: "Safari 17.0"
+                device_info: "iOS/18.2, iPhone15,3"
+                device_type: "mobile"
+                language: "en-US"
+                location: "40.7128,-74.0060"
+                medium: "chat"
+                section: "support_chat"
+              interface:
+                app_version: "2.1.0"
+                category: "crm"
+                language: "en-US"
+                name: "support_dashboard"
+                type: "custom_components"
+              network:
+                latency_ms: 95
+            request:
+              request_id: "89012345-6789-0123-456789abcdef"
+              attributes:
+                content: "Of course! I'd be happy to help you with anything you need."
+                instruction: "Make it very friendly and funny"
+                variant: "A"
+              connections:
+                parent_id: "9e8d7c6b-5a4f-3e2d-1c0b-0987654321ab"
+                thread_id: "9e8d7c6b-5a4f-3e2d-1c0b-0987654321ab"
+              context:
+                organization_id: "f7e8d9c0-b1a2-3456-7890-123456789abc"
+                tenant_id: "a1b2c3d4-e5f6-7890-1234-56789abcdef0"
+              scope:
+                conversations:
+                  - content: "Hi, can you help me?"
+                    display_name: "John Doe"
+                    participant_id: "2c4f8a9b-1d3e-5f70-8293-456789012def"
+                    role: "EndUser"
+                    timestamp: "2024-01-15T10:30:00.000Z"
+    CustomerInteractionMessage:
+      name: CustomerInteractionMessage
+      title: Customer Interaction Action Request
+      summary: Client request initiating a customer interaction action.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/Correlation'
+      payload:
+        $ref: '#/components/schemas/Payload'
+      examples:
+        - name: basic
+          summary: Customer interaction payload example
+          payload:
+            session:
+              session_id: "a1b2c3e6-e5f6-7890-1234-56789abcdef0"
+              channel:
+                browser: "Safari 17.0"
+                device_info: "iOS/18.2, iPhone15,3"
+                device_type: "mobile"
+                language: "en-US"
+                location: "40.7128,-74.0060"
+                medium: "chat"
+                section: "support_page"
+              interface:
+                app_version: "2.1.0"
+                category: "crm"
+                language: "en-US"
+                name: "my_support_app"
+                type: "custom_components"
+              network:
+                latency_ms: 120
+            request:
+              request_id: "a1b2c3d4-e5f6-7890-1234-56789ab2345"
+              attributes:
+                variant: "A"
+              connections:
+                thread_id: "9e8d7c6b-5a49-3827-1605-948372615abc"
+              context:
+                organization_id: "f7e8d9c0-b1a2-3456-7890-123456789abc"
+                tenant_id: "a1b2c3d4-e5f6-7890-1234-56789abcdef0"
+              resources:
+                links:
+                  - expires_at: "2025-08-06T00:00:00Z"
+                    html: false
+                    id: "20382320302"
+                    label: "Complete Payment"
+                    type: "payment_link"
+                    url: "https://checkout.stripe.com/pay/cs_test..."
+              scope:
+                conversations:
+                  - content: "Hi, can you help me?"
+                    display_name: "John Doe"
+                    participant_id: "2c4f8a9b-1d3e-5f70-8293-456789012def"
+                    role: "EndUser"
+                    timestamp: "2024-01-15T10:30:00.000Z"
+                  - content: "Hello! I'd be happy to assist you today. What can I help you with?"
+                    display_name: "Sarah Smith"
+                    participant_id: "5b8c9d0e-2f4a-6b1c-9d8e-123456789xyz"
+                    role: "Agent"
+                    timestamp: "2024-01-15T10:30:15.000Z"
+    ElevateMessage:
+      name: ElevateMessage
+      title: Elevate Action Request
+      summary: Client request initiating an elevate action.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/Correlation'
+      payload:
+        $ref: '#/components/schemas/Payload'
+      examples:
+        - name: basic
+          summary: Elevate payload example
+          payload:
+            session:
+              session_id: "79012345-6789-0123-456789abcdef"
+              channel:
+                browser: "Safari 17.0"
+                device_info: "iOS/18.2, iPhone15,3"
+                device_type: "mobile"
+                language: "en-US"
+                location: "40.7128,-74.0060"
+                medium: "chat"
+                section: "support_chat"
+              interface:
+                app_version: "2.1.0"
+                category: "crm"
+                language: "en-US"
+                name: "support_dashboard"
+                type: "custom_components"
+              network:
+                latency_ms: 95
+            request:
+              request_id: "89012345-6789-0123-456789abcdef"
+              attributes:
+                content: "Hello! How can I assist you today?"
+                variant: "A"
+              connections:
+                parent_id: "9e8d7c6b-5a4f-3e2d-1c0b-0987654321ab"
+                thread_id: "9e8d3c6b-5a4f-3e2d-1c0b-0987654321ab"
+              context:
+                organization_id: "f7e8d9c0-b1a2-3456-7890-123456789abc"
+                tenant_id: "a1b2c3d4-e5f6-7890-1234-56789abcdef0"
+              scope:
+                conversations:
+                  - content: "Hi, can you help me?"
+                    display_name: "John Doe"
+                    participant_id: "2c4f8a9b-1d3e-5f70-8293-456789012def"
+                    role: "EndUser"
+                    timestamp: "2024-01-15T10:30:00.000Z"
+    InsightsMessage:
+      name: InsightsMessage
+      title: Insights Action Request
+      summary: Client request initiating an insights action.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/Correlation'
+      payload:
+        $ref: '#/components/schemas/Payload'
+      examples:
+        - name: basic
+          summary: Insights payload example
+          payload:
+            session:
+              session_id: "a1b2c3e6-e5f6-7890-1234-56789abcdef0"
+              channel:
+                browser: "Safari 17.0"
+                device_info: "iOS/18.2, iPhone15,3"
+                device_type: "mobile"
+                language: "en-US"
+                location: "40.7128,-74.0060"
+                medium: "chat"
+                section: "support_page"
+              interface:
+                app_version: "2.1.0"
+                category: "crm"
+                language: "en-US"
+                name: "my_support_app"
+                type: "custom_components"
+              network:
+                latency_ms: 120
+            request:
+              request_id: "89012345-6789-0123-456789abcdef"
+              attributes:
+                variant: "A"
+              connections:
+                thread_id: "9e8d3c6b-5a4f-3e2d-1c0b-0987654321ab"
+              context:
+                organization_id: "f7e8d9c0-b1a2-3456-7890-123456789abc"
+                tenant_id: "a1b2c3d4-e5f6-7890-1234-56789abcdef0"
+              scope:
+                conversations:
+                  - content: "Hi, can you help me?"
+                    display_name: "John Doe"
+                    participant_id: "2c4f8a9b-1d3e-5f70-8293-456789012def"
+                    role: "EndUser"
+                    timestamp: "2024-01-15T10:30:00.000Z"
+                  - content: "Hello! I'd be happy to assist you today. What can I help you with?"
+                    display_name: "Sarah Smith"
+                    participant_id: "5b8c9d0e-2f4a-6b1c-9d8e-123456789xyz"
+                    role: "Agent"
+                    timestamp: "2024-01-15T10:30:15.000Z"
+    RecommendMessage:
+      name: RecommendMessage
+      title: Recommend Action Request
+      summary: Client request initiating a recommend action.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/Correlation'
+      payload:
+        $ref: '#/components/schemas/Payload'
+      examples:
+        - name: basic
+          summary: Recommend payload example
+          payload:
+            session:
+              session_id: "a1b2c3e6-e5f6-7890-1234-56789abcdef0"
+              channel:
+                browser: "Safari 17.0"
+                device_info: "iOS/18.2, iPhone15,3"
+                device_type: "mobile"
+                language: "en-US"
+                location: "40.7128,-74.0060"
+                medium: "chat"
+                section: "support_page"
+              interface:
+                app_version: "2.1.0"
+                category: "crm"
+                language: "en-US"
+                name: "my_support_app"
+                type: "custom_components"
+              network:
+                latency_ms: 120
+            request:
+              request_id: "89012345-6789-0123-456789abcdef"
+              attributes:
+                variant: "A"
+              connections:
+                thread_id: "9e8d3c6b-5a4f-3e2d-1c0b-0987654321ab"
+              context:
+                organization_id: "f7e8d9c0-b1a2-3456-7890-123456789abc"
+                tenant_id: "a1b2c3d4-e5f6-7890-1234-56789abcdef0"
+              resources:
+                offers:
+                  - {}
+              scope:
+                conversations:
+                  - content: "Hi, can you help me?"
+                    display_name: "John Doe"
+                    participant_id: "2c4f8a9b-1d3e-5f70-8293-456789012def"
+                    role: "EndUser"
+                    timestamp: "2024-01-15T10:30:00.000Z"
+                  - content: "Hello! I'd be happy to assist you today. What can I help you with?"
+                    display_name: "Sarah Smith"
+                    participant_id: "5b8c9d0e-2f4a-6b1c-9d8e-123456789xyz"
+                    role: "Agent"
+                    timestamp: "2024-01-15T10:30:15.000Z"
+    SummarizeMessage:
+      name: SummarizeMessage
+      title: Summarize Action Request
+      summary: Client request initiating a summarize action.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/Correlation'
+      payload:
+        $ref: '#/components/schemas/Payload'
+      examples:
+        - name: basic
+          summary: Summarize payload example
+          payload:
+            session:
+              session_id: "a1b2c3e6-e5f6-7890-1234-56789abcdef0"
+              channel:
+                browser: "Safari 17.0"
+                device_info: "iOS/18.2, iPhone15,3"
+                device_type: "mobile"
+                language: "en-US"
+                location: "40.7128,-74.0060"
+                medium: "chat"
+                section: "support_page"
+              interface:
+                app_version: "2.1.0"
+                category: "crm"
+                language: "en-US"
+                name: "my_support_app"
+                type: "custom_components"
+              network:
+                latency_ms: 120
+            request:
+              request_id: "89012345-6789-0123-456789abcdef"
+              attributes:
+                variant: "A"
+              connections:
+                thread_id: "9e8d3c6b-5a4f-3e2d-1c0b-0987654321ab"
+              context:
+                organization_id: "f7e8d9c0-b1a2-3456-7890-123456789abc"
+                tenant_id: "a1b2c3d4-e5f6-7890-1234-56789abcdef0"
+              scope:
+                conversations:
+                  - content: "Hi, can you help me?"
+                    display_name: "John Doe"
+                    participant_id: "2c4f8a9b-1d3e-5f70-8293-456789012def"
+                    role: "EndUser"
+                    timestamp: "2024-01-15T10:30:00.000Z"
+                  - content: "Hello! I'd be happy to assist you today. What can I help you with?"
+                    display_name: "Sarah Smith"
+                    participant_id: "5b8c9d0e-2f4a-6b1c-9d8e-123456789xyz"
+                    role: "Agent"
+                    timestamp: "2024-01-15T10:30:15.000Z"
+    TranslateMessage:
+      name: TranslateMessage
+      title: Translate Action Request
+      summary: Client request initiating a translate action.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/Correlation'
+      payload:
+        $ref: '#/components/schemas/Payload'
+      examples:
+        - name: basic
+          summary: Translate payload example
+          payload:
+            session:
+              session_id: "a1b2c3e6-e5f6-7890-1234-56789abcdef0"
+              channel:
+                browser: "Safari 17.0"
+                device_info: "iOS/18.2, iPhone15,3"
+                device_type: "mobile"
+                language: "es-MX"
+                location: "40.7128,-74.0060"
+                medium: "chat"
+                section: "support_page"
+              interface:
+                app_version: "2.1.0"
+                category: "crm"
+                language: "es-MX"
+                name: "my_support_app"
+                type: "custom_components"
+              network:
+                latency_ms: 120
+            request:
+              request_id: "89012345-6789-0123-456789abcdef"
+              attributes:
+                variant: "A"
+              connections:
+                thread_id: "9e8d3c6b-5a4f-3e2d-1c0b-0987654321ab"
+              context:
+                organization_id: "f7e8d9c0-b1a2-3456-7890-123456789abc"
+                tenant_id: "a1b2c3d4-e5f6-7890-1234-56789abcdef0"
+              scope:
+                conversations:
+                  - content: "Hola, ¿me puede ayudar con mi consulta?"
+                    display_name: "John Doe"
+                    participant_id: "2c4f8a9b-1d3e-5f70-8293-456789012def"
+                    role: "EndUser"
+                    timestamp: "2024-01-15T10:30:00.000Z"
+                  - content: "¡Por supuesto! Estaré encantada de ayudarle con su consulta."
+                    display_name: "Sarah Smith"
+                    participant_id: "5b8c9d0e-2f4a-6b1c-9d8e-123456789xyz"
+                    role: "Agent"
+                    timestamp: "2024-01-15T10:30:15.000Z"
+    SuperpowerResponseMessage:
+      name: SuperpowerResponseMessage
+      title: Superpower Response
+      summary: Server response containing superpower results.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/Correlation'
+      payload:
+        $ref: '#/components/schemas/SuperpowerResponse'
+      examples:
+        - name: basic
+          summary: Successful superpower response example
+          payload:
+            action: "superpower"
+            actionType: "adjust"
+            state: "completed"
+            message:
+              results:
+                - response:
+                    - content: "Absolutely! I'd be thrilled to help you with whatever you need! 😊"
+                      type: "adjusted_content"
+    ErrorResponseMessage:
+      name: ErrorResponseMessage
+      title: Error Response
+      summary: Server error response when operation fails.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/Correlation'
+      payload:
+        $ref: '#/components/schemas/ErrorResponse'
+      examples:
+        - name: basic
+          summary: Error response example
+          payload:
+            action: "superpower"
+            actionType: "adjust"
+            state: "error"
+            message:
+              results:
+                - response:
+                    - content: "Error while fetching results"
+                      error_code: "PROCESSING_FAILED"
+  messageTraits:
+    Correlation:
+      correlationId:
+        location: $message.payload#/session/trace_id
+        description: Trace ID generated per request and echoed by responses.
+  schemas:
+    Payload:
+      type: object
+      required:
+        - request
+      properties:
+        session:
+          type: object
+          properties:
+            session_id:
+              type: string
+              description: Unique session identifier
+            trace_id:
+              type: string
+              description: Unique identifier for request tracing
+            channel:
+              type: object
+            interface:
+              type: object
+            network:
+              type: object
+        request:
+          type: object
+          properties:
+            request_id:
+              type: string
+            attributes:
+              type: object
+            connections:
+              type: object
+            context:
+              type: object
+            reference:
+              type: object
+            resources:
+              type: object
+            scope:
+              type: object
+            settings:
+              type: object
+            cursor:
+              type: object
+            a2a:
+              type: array
+              items:
+                type: object
+    SuperpowerResponse:
+      type: object
+      required:
+        - action
+        - actionType
+        - state
+        - message
+      properties:
+        action:
+          type: string
+          enum: [superpower]
+        actionType:
+          type: string
+          description: Type of superpower (e.g., adjust_suggestion, sentiment_analysis, risk_assessment)
+        state:
+          type: string
+          enum: [completed, processing, error]
+        message:
+          type: object
+          required:
+            - results
+          properties:
+            results:
+              type: array
+              items:
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      description: Response content varies by superpower type
+    ErrorResponse:
+      type: object
+      required:
+        - action
+        - actionType
+        - state
+        - message
+      properties:
+        action:
+          type: string
+          enum: [superpower]
+        actionType:
+          type: string
+          description: Type of operation that failed
+        state:
+          type: string
+          enum: [error]
+        message:
+          type: object
+          required:
+            - results
+          properties:
+            results:
+              type: array
+              items:
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        content:
+                          type: string
+                        error_code:
+                          type: string
+                      required:
+                        - content
