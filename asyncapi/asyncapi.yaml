@@ -17,7 +17,7 @@ servers:
     variables: 
       websocketUrl:
         description: WebSocket server URL
-        default: 'ws-incubator.oco.optave.tech'
+        default: '{websocketUrl}'
     security:
       - $ref: "#/components/securitySchemes/oauth2"
   development:
@@ -27,7 +27,7 @@ servers:
     variables: 
       websocketUrl:
         description: WebSocket server URL
-        default: 'ws-dev.oco.optave.tech'
+        default: '{websocketUrl}'
     security:
       - $ref: "#/components/securitySchemes/oauth2"
 channels:
