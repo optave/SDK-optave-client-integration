@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "sources": [
+    "browser.umd.js"
+  ],
+  "names": [],
+  "mappings": "",
+  "file": "browser.umd.js"
+}

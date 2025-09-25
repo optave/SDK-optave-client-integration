@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "sources": [
+    "server.umd.js"
+  ],
+  "names": [],
+  "mappings": "",
+  "file": "server.umd.js"
+}
