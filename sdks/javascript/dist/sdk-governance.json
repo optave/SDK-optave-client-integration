@@ -1,0 +1,110 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2025-09-25T08:21:29.741Z",
+    "sdkVersion": "3.2.1",
+    "nodeVersion": "v22.19.0"
+  },
+  "buildTargets": [
+    {
+      "name": "browser-esm",
+      "file": "browser.mjs",
+      "format": "ESM",
+      "platform": "browser",
+      "description": "Browser-optimized ES Module build",
+      "path": "dist/browser.mjs",
+      "exists": true,
+      "size": {
+        "raw": 74474,
+        "gzipped": 19604
+      },
+      "hash": "b55c1ca6c83cda2ad868f50a96730e1f7094a0ec1b90aac28efed56410dff3ef",
+      "exportMethodCount": 27
+    },
+    {
+      "name": "server-esm",
+      "file": "server.mjs",
+      "format": "ESM",
+      "platform": "node",
+      "description": "Node.js ES Module build",
+      "path": "dist/server.mjs",
+      "exists": true,
+      "size": {
+        "raw": 184628,
+        "gzipped": 51100
+      },
+      "hash": "35df01a2414e1c3ae08d272b6837f4261dfaabdf59ecc49b21cd5c5603146b12",
+      "exportMethodCount": 68
+    },
+    {
+      "name": "browser-umd",
+      "file": "browser.umd.js",
+      "format": "UMD",
+      "platform": "browser",
+      "description": "Browser UMD build for CSP compliance",
+      "path": "dist/browser.umd.js",
+      "exists": true,
+      "size": {
+        "raw": 86992,
+        "gzipped": 21868
+      },
+      "hash": "983411a3d1a39fd27f4435a2c8d5633aff67d65df5286019a8f5f82de78df3e1",
+      "exportMethodCount": 31
+    },
+    {
+      "name": "server-umd",
+      "file": "server.umd.js",
+      "format": "UMD",
+      "platform": "node",
+      "description": "Node.js UMD build",
+      "path": "dist/server.umd.js",
+      "exists": true,
+      "size": {
+        "raw": 56763,
+        "gzipped": 16377
+      },
+      "hash": "e742ce5fb89b54e0da3eee33776bcf5bb2d35f1e8339648ceb6e0734b5456304",
+      "exportMethodCount": 18
+    },
+    {
+      "name": "typescript-definitions",
+      "file": "index.d.ts",
+      "format": "TypeScript",
+      "platform": "universal",
+      "description": "TypeScript declaration files",
+      "path": "dist/index.d.ts",
+      "exists": true,
+      "size": {
+        "raw": 3464,
+        "gzipped": 1078
+      },
+      "hash": "0818b682447228a97d80aa3ac50fa3d6e7f546734745f91549c91dc1dd58939e",
+      "exportMethodCount": 0
+    }
+  ],
+  "summary": {
+    "totalTargets": 5,
+    "totalSize": {
+      "raw": 406321,
+      "gzipped": 110027
+    },
+    "formats": [
+      "ESM",
+      "UMD",
+      "TypeScript"
+    ],
+    "platforms": [
+      "browser",
+      "node",
+      "universal"
+    ]
+  },
+  "governance": {
+    "validatorVersion": "3.2.1",
+    "buildTimestamp": "2025-09-25T08:21:29.742Z",
+    "integrity": {
+      "allTargetsPresent": true,
+      "totalExportMethods": 144
+    }
+  }
+}
