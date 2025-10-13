@@ -16,7 +16,7 @@ import { getCryptoSync } from '../runtime/platform/environment-adapter.js';
  * Uses modern ES modules and import.meta.env for environment variables
  */
 const optaveClient = new OptaveJavaScriptSDK({
-  websocketUrl: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_OPTAVE__WEBSOCKET_URL) || 'wss://ws-incubator.oco.optave.tech/',
+  websocketUrl: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_OPTAVE__WEBSOCKET_URL),
   authRequired: false
 });
 

@@ -5,7 +5,7 @@
 This file was automatically generated from AsyncAPI specification.
 
 - **Generated from**: Optave Client WebSocket API v3.2.1
-- **Generated on**: 2025-09-24T05:22:44.693Z
+- **Generated on**: 2025-09-26T21:27:15.926Z
 - **To regenerate**: `npm run spec:generate:examples`
 
 This directory contains **automatically generated** examples for using the Optave JavaScript SDK. These examples are generated from the AsyncAPI specification to ensure perfect consistency with the current API schema.
@@ -155,4 +155,4 @@ For complete SDK documentation, see:
 ---
 
 **Generated from**: Optave Client WebSocket API v3.2.1
-**Generated on**: 2025-09-24T05:22:44.694Z
+**Generated on**: 2025-09-26T21:27:15.927Z

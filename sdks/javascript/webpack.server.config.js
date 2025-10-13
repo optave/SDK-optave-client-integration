@@ -1,13 +1,11 @@
 import path from 'path';
 import webpack from 'webpack';
 import { readFileSync } from 'fs';
+import TerserPlugin from 'terser-webpack-plugin';
 import { BUILD_TARGETS } from './runtime/core/build-targets.js';
 
-// Read package.json to get version and extract Node.js target
+// Read package.json to get version
 const packageJson = JSON.parse(readFileSync(path.resolve('package.json'), 'utf8'));
-
-// Extract minimum Node.js version from engines field (e.g., ">=18.17" -> "18")
-const nodeTarget = packageJson.engines.node.match(/\d+/)?.[0] || '18';
 
 // Environment variable controls minification vs full builds
 const shouldMinify = process.env.FULL !== '1';
@@ -49,23 +47,7 @@ export default {
     },
     module: {
         rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            ['@babel/preset-env', {
-                                targets: {
-                                    node: nodeTarget
-                                },
-                                modules: false
-                            }]
-                        ],
-                    },
-                },
-            },
+            // No transpilation needed - Node.js 18.17+ supports ES6+ natively
         ],
     },
     plugins: [
@@ -82,5 +64,22 @@ export default {
         usedExports: true, // Mark used/unused exports for tree-shaking
         sideEffects: false, // Let package.json sideEffects field control tree-shaking
         providedExports: true, // Determine exports for each module
+
+        // ALWAYS configure TerserPlugin for license extraction (even in non-minified builds)
+        // This ensures legal compliance regardless of build type
+        minimizer: [
+            new TerserPlugin({
+                minify: shouldMinify ? TerserPlugin.terserMinify : undefined,
+                terserOptions: shouldMinify ? {
+                    format: {
+                        // Preserve important comments (comments starting with !)
+                        comments: /^!/
+                    }
+                } : {},
+                // CRITICAL: Extract licenses in ALL builds (minified and full)
+                // This will automatically catch and extract licenses from bundled dependencies
+                extractComments: true
+            })
+        ]
     }
 };

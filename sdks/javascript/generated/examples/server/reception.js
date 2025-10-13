@@ -39,6 +39,10 @@ async function run() {
         console.log('🚀 Sending reception request...');
 
         optaveClient.reception({
+          "headers": {
+                    "timestamp": "2024-01-15T10:30:00.000Z",
+                    "networkLatencyMs": 120
+          },
           "session": {
                     "sessionId": "b2c3d4f7-f6g7-8901-2345-67890abcdef1",
                     "channel": {

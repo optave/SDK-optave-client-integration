@@ -39,6 +39,10 @@ async function run() {
         console.log('🚀 Sending elevate request...');
 
         optaveClient.elevate({
+          "headers": {
+                    "timestamp": "2024-01-15T10:30:00.000Z",
+                    "networkLatencyMs": 120
+          },
           "session": {
                     "sessionId": "79012345-6789-0123-456789abcdef",
                     "channel": {

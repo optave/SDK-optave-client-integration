@@ -66,6 +66,10 @@ async function sendSummarizeRequest() {
         console.log('🚀 Sending summarize request...');
 
         const response = await optaveClient.summarize({
+          "headers": {
+                    "timestamp": "2024-01-15T10:30:00.000Z",
+                    "networkLatencyMs": 120
+          },
           "session": {
                     "sessionId": "a1b2c3e6-e5f6-7890-1234-56789abcdef0",
                     "channel": {
