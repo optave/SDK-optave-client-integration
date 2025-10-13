@@ -1,8 +1,9 @@
 import path from 'path';
 import webpack from 'webpack';
 import { readFileSync } from 'fs';
+import TerserPlugin from 'terser-webpack-plugin';
 import { BUILD_TARGETS } from './runtime/core/build-targets.js';
-import { browserAliases, fallbackBrowser } from './scripts/build/webpack/aliases.js';
+import { browserAliases, fallbackBrowser } from './scripts/prod/webpack/aliases.js';
 
 // Read package.json to get version
 const packageJson = JSON.parse(readFileSync(path.resolve('package.json'), 'utf8'));
@@ -38,23 +39,7 @@ export default {
     },
     module: {
         rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            ['@babel/preset-env', {
-                                targets: {
-                                    browsers: ['> 1%', 'last 2 versions', 'not ie <= 11']
-                                },
-                                modules: false
-                            }]
-                        ],
-                    },
-                },
-            },
+            // No transpilation needed - target browsers support ES6+ natively
         ],
     },
     plugins: [
@@ -77,5 +62,22 @@ export default {
         usedExports: true, // Mark used/unused exports for tree-shaking
         sideEffects: false, // Let package.json sideEffects field control tree-shaking
         providedExports: true, // Determine exports for each module
+
+        // ALWAYS configure TerserPlugin for license extraction (even in non-minified builds)
+        // This ensures legal compliance regardless of build type
+        minimizer: [
+            new TerserPlugin({
+                minify: shouldMinify ? TerserPlugin.terserMinify : undefined,
+                terserOptions: shouldMinify ? {
+                    format: {
+                        // Preserve important comments (comments starting with !)
+                        comments: /^!/
+                    }
+                } : {},
+                // CRITICAL: Extract licenses in ALL builds (minified and full)
+                // This will automatically catch and extract licenses from bundled dependencies
+                extractComments: true
+            })
+        ]
     }
 };

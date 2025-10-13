@@ -3,14 +3,11 @@ import webpack from 'webpack';
 import { readFileSync } from 'fs';
 import TerserPlugin from 'terser-webpack-plugin';
 import { BUILD_TARGETS } from './runtime/core/build-targets.js';
-import { umdAliases, browserUmdAliases, fallbackUMD, fallbackBrowserUMD, fallbackServerUMD } from './scripts/build/webpack/aliases.js';
-import { LWSStrictModeRemovalPlugin } from './scripts/build/webpack/lws-strict-mode-plugin.js';
+import { umdAliases, browserUmdAliases, fallbackUMD, fallbackBrowserUMD, fallbackServerUMD } from './scripts/prod/webpack/aliases.js';
+import { LWSStrictModeRemovalPlugin } from './scripts/prod/webpack/lws-strict-mode-plugin.js';
 
-// Read package.json to get version and extract Node.js target
+// Read package.json to get version
 const packageJson = JSON.parse(readFileSync(path.resolve('package.json'), 'utf8'));
-
-// Extract minimum Node.js version from engines field (e.g., ">=18.17" -> "18")
-const nodeTarget = packageJson.engines.node.match(/\d+/)?.[0] || '18';
 
 // Shared UMD base (browser + server)
 export const createUMDBase = (options = {}) => {
@@ -65,39 +62,7 @@ export const createUMDBase = (options = {}) => {
 
         module: {
             rules: [
-                {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    use: {
-                        loader: 'babel-loader',
-                        options: {
-                            // Enable source maps for babel-loader
-                            sourceMaps: true,
-                            presets: [
-                                ['@babel/preset-env', {
-                                    targets: buildTarget === 'browser'
-                                        ? { browsers: ['> 1%', 'last 2 versions', 'not ie <= 11'] }
-                                        : { node: nodeTarget },
-                                    modules: false, // Let webpack handle modules for UMD build
-                                    // Server UMD: preserve async/callback handling for timeout scenarios
-                                    ...(buildTarget === 'server' && !minimize && {
-                                        exclude: [
-                                            'transform-async-to-generator',
-                                            'transform-regenerator'
-                                        ]
-                                    })
-                                }]
-                            ],
-                            // Preserve function context for timeout callbacks (non-minified server builds)
-                            plugins: [],
-                            // Browser builds: preserve function names in output
-                            ...(buildTarget === 'browser' && {
-                                compact: false,
-                                minified: false,
-                            })
-                        },
-                    },
-                },
+                // No transpilation needed - target browsers and Node.js support ES6+ natively
             ],
         },
 
@@ -138,44 +103,46 @@ export const createUMDBase = (options = {}) => {
             // Simplified optimization settings for source map generation
             splitChunks: false, // Single file UMD bundle
 
-            // Only add optimizations for minified builds
-            ...(minimize && {
-                minimizer: [
-                    new TerserPlugin({
-                        terserOptions: {
-                            // Salesforce Lightning compatible minification settings
-                            mangle: {
-                                reserved: [
-                                    'globalThis',
-                                    'OptaveJavaScriptSDK',
-                                    'window',
-                                    'self',
-                                    'root',
-                                    'factory',
-                                    'webpackUniversalModuleDefinition',
-                                    '__WEBPACK_BUILD_TARGET__',
-                                    '__SALESFORCE_BUILD__',
-                                    '__SDK_VERSION__',
-                                    '__INCLUDE_WS_REQUIRE__'
-                                ]
-                            },
-                            compress: {
-                                // Preserve build flags and UMD wrapper structure
-                                unused: false,
-                                side_effects: false,
-                                // Keep essential build information
-                                keep_fnames: /^__(WEBPACK_BUILD_TARGET|SALESFORCE_BUILD|SDK_VERSION|INCLUDE_WS_REQUIRE)__|webpackUniversalModuleDefinition$/,
-                                drop_console: false
-                            },
-                            format: {
-                                // Keep critical comments and preserve UMD format
-                                comments: /SECURITY|CRITICAL|Salesforce.*Lightning|webpackUniversalModuleDefinition/i
-                            }
+            // ALWAYS configure TerserPlugin for license extraction (even in non-minified builds)
+            // This ensures legal compliance regardless of build type
+            minimizer: [
+                new TerserPlugin({
+                    minify: minimize ? TerserPlugin.terserMinify : undefined,
+                    terserOptions: minimize ? {
+                        // Salesforce Lightning compatible minification settings
+                        mangle: {
+                            reserved: [
+                                'globalThis',
+                                'OptaveJavaScriptSDK',
+                                'window',
+                                'self',
+                                'root',
+                                'factory',
+                                'webpackUniversalModuleDefinition',
+                                '__WEBPACK_BUILD_TARGET__',
+                                '__SALESFORCE_BUILD__',
+                                '__SDK_VERSION__',
+                                '__INCLUDE_WS_REQUIRE__'
+                            ]
                         },
-                        extractComments: false
-                    })
-                ]
-            })
+                        compress: {
+                            // Preserve build flags and UMD wrapper structure
+                            unused: false,
+                            side_effects: false,
+                            // Keep essential build information
+                            keep_fnames: /^__(WEBPACK_BUILD_TARGET|SALESFORCE_BUILD|SDK_VERSION|INCLUDE_WS_REQUIRE)__|webpackUniversalModuleDefinition$/,
+                            drop_console: false
+                        },
+                        format: {
+                            // Keep critical comments and preserve UMD format
+                            comments: /SECURITY|CRITICAL|Salesforce.*Lightning|webpackUniversalModuleDefinition/i
+                        }
+                    } : {},
+                    // CRITICAL: Extract licenses in ALL builds (minified and full)
+                    // This will automatically catch and extract licenses from bundled dependencies
+                    extractComments: true
+                })
+            ]
         }
     };
 };

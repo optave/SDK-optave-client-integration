@@ -228,7 +228,7 @@ export default class OptaveChatComponent extends LightningElement {
 
     async initializeOptaveSDK() {
         // Access SDK from global scope - Lightning Locker uses globalThis
-        const OptaveSDK = globalThis.OptaveJavaScriptSDK;
+        const OptaveSDK = globalThis.OptaveJavaScriptSDK || window.OptaveJavaScriptSDK;
 
         if (!OptaveSDK) {
             throw new Error('Optave SDK not found in global scope');

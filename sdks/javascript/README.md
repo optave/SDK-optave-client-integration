@@ -74,10 +74,10 @@ The SDK provides four optimized builds, each tailored for specific deployment en
 
 | Build | Module Format | Allows clientSecret | AJV Validation | CSP Safe | Intended Environments | Size (Uncompressed) | Size (Gzipped) |
 |-------|---------------|-------------------|----------------|----------|---------------------|-------------------|----------------|
-| **Browser ESM** | ES Module | ❌ No | ❌ External Only | ✅ Yes | Modern browsers, Vite, Webpack 5+, bundled apps | ~66KB | ~17KB |
-| **Browser UMD** | UMD | ❌ No | ❌ External Only | ✅ Yes | Salesforce Lightning, CDN, legacy browsers, CSP environments | ~222KB | ~46KB |
-| **Server ESM** | ES Module | ✅ Yes | ✅ Full AJV | ❌ No | Node.js servers, microservices, backend APIs | ~181KB | ~50KB |
-| **Server UMD** | UMD | ✅ Yes | ❌ CSP-Safe Only | ✅ Yes | Salesforce backend, mixed browser environments, internal tooling | ~163KB | ~36KB |
+| **Browser ESM** | ES Module | ❌ No | ❌ External Only | ✅ Yes | Modern browsers, Vite, Webpack 5+, bundled apps | ~47KB | ~14KB |
+| **Browser UMD** | UMD | ❌ No | ❌ External Only | ✅ Yes | Salesforce Lightning, CDN, legacy browsers, CSP environments | ~50KB | ~14KB |
+| **Server ESM** | ES Module | ✅ Yes | ✅ Full AJV | ❌ No | Node.js servers, microservices, backend APIs | ~164KB | ~25KB |
+| **Server UMD** | UMD | ✅ Yes | ❌ CSP-Safe Only | ✅ Yes | Salesforce backend, mixed browser environments, internal tooling | ~55KB | ~16KB |
 
 ### Build Selection Guide
 
@@ -235,11 +235,10 @@ npm run size:baseline
 ```
 
 **Current Size Budgets:**
-- Browser UMD: 250KB limit (current: ~222KB) ✅
-- Server UMD: 180KB limit (current: ~163KB) ✅
-- Server UMD Minified: 70KB limit (current: ~62KB) ✅
-- Browser ESM: 80KB limit (current: ~66KB) ✅
-- Server ESM: 200KB limit (current: ~181KB) ✅
+- Browser UMD: 250KB limit (current: ~50KB) ✅
+- Server UMD: 180KB limit (current: ~55KB) ✅
+- Browser ESM: 80KB limit (current: ~47KB) ✅
+- Server ESM: 200KB limit (current: ~164KB) ✅
 
 #### Multi-Build Testing Strategy
 

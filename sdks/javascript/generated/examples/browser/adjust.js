@@ -66,6 +66,10 @@ async function sendAdjustRequest() {
         console.log('🚀 Sending adjust request...');
 
         const response = await optaveClient.adjust({
+          "headers": {
+                    "timestamp": "2024-01-15T10:30:00.000Z",
+                    "networkLatencyMs": 120
+          },
           "session": {
                     "sessionId": "79012345-6789-0123-456789abcdef",
                     "channel": {

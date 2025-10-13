@@ -16,7 +16,7 @@ import process from 'process';
  * Uses Node.js-specific features and process.env for environment variables
  */
 const optaveClient = new OptaveJavaScriptSDK({
-  websocketUrl: process.env.OPTAVE__WEBSOCKET_URL || 'wss://ws-incubator.oco.optave.tech/',
+  websocketUrl: process.env.OPTAVE__WEBSOCKET_URL,
 
   // Server-side authentication with client credentials
   clientId: process.env.OPTAVE__CLIENT_ID,

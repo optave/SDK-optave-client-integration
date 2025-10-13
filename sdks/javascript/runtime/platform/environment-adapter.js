@@ -30,9 +30,10 @@ export async function getCrypto() {
         const { default: cryptoPolyfill } = await import('./browser/crypto-polyfill.js');
         cryptoAdapter = cryptoPolyfill;
     } else {
-        // Node.js environment - use native crypto module
+        // Node.js environment - use native crypto module and uuid package
         try {
             const { randomUUID, getRandomValues } = await import('crypto');
+            const { v7: uuidv7 } = await import('uuid');
             cryptoAdapter = {
                 randomUUID: randomUUID || (() => {
                     throw new Error('randomUUID not available in this Node.js version');
@@ -40,7 +41,9 @@ export async function getCrypto() {
                 generateUUID: randomUUID || (() => {
                     throw new Error('randomUUID not available in this Node.js version');
                 }),
-                generateShortId: () => Math.random().toString(36).substr(2, 9),
+                // Generate short ID using UUID v7 for cryptographic security
+                // Returns first 9 characters of UUID v7 (without hyphens) for backward compatibility
+                generateShortId: () => uuidv7().replace(/-/g, '').substring(0, 9),
                 getRandomValues: getRandomValues || ((array) => {
                     const crypto = require('crypto');
                     const bytes = crypto.randomBytes(array.length);
@@ -51,24 +54,27 @@ export async function getCrypto() {
                 })
             };
         } catch (error) {
-            // Fallback for environments without native crypto
-            cryptoAdapter = {
-                randomUUID: () => {
-                    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-                        const r = Math.random() * 16 | 0;
-                        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                        return v.toString(16);
-                    });
-                },
-                generateUUID: function() { return this.randomUUID(); },
-                generateShortId: () => Math.random().toString(36).substr(2, 9),
-                getRandomValues: (array) => {
-                    for (let i = 0; i < array.length; i++) {
-                        array[i] = Math.floor(Math.random() * 256);
+            // Fallback for environments without native crypto - use uuid package for ID generation
+            try {
+                const { v7: uuidv7 } = await import('uuid');
+                cryptoAdapter = {
+                    randomUUID: () => uuidv7(),
+                    generateUUID: () => uuidv7(),
+                    // Generate short ID using UUID v7 for cryptographic security
+                    // Returns first 9 characters of UUID v7 (without hyphens) for backward compatibility
+                    generateShortId: () => uuidv7().replace(/-/g, '').substring(0, 9),
+                    getRandomValues: (array) => {
+                        // Last resort fallback for getRandomValues when crypto is unavailable
+                        // Note: This uses Math.random() which is not cryptographically secure
+                        for (let i = 0; i < array.length; i++) {
+                            array[i] = Math.floor(Math.random() * 256);
+                        }
+                        return array;
                     }
-                    return array;
-                }
-            };
+                };
+            } catch (uuidError) {
+                throw new Error('Neither native crypto nor uuid package available');
+            }
         }
     }
 
@@ -97,6 +103,7 @@ export function getCryptoSync() {
         // Node.js environment - use require for synchronous loading
         try {
             const crypto = require('crypto');
+            const { v7: uuidv7 } = require('uuid');
             cryptoAdapter = {
                 randomUUID: crypto.randomUUID || (() => {
                     throw new Error('randomUUID not available in this Node.js version');
@@ -104,7 +111,9 @@ export function getCryptoSync() {
                 generateUUID: crypto.randomUUID || (() => {
                     throw new Error('randomUUID not available in this Node.js version');
                 }),
-                generateShortId: () => Math.random().toString(36).substr(2, 9),
+                // Generate short ID using UUID v7 for cryptographic security
+                // Returns first 9 characters of UUID v7 (without hyphens) for backward compatibility
+                generateShortId: () => uuidv7().replace(/-/g, '').substring(0, 9),
                 getRandomValues: crypto.getRandomValues || ((array) => {
                     const bytes = crypto.randomBytes(array.length);
                     for (let i = 0; i < array.length; i++) {

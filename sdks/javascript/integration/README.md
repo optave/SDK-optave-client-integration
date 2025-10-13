@@ -75,7 +75,7 @@ import OptaveJavaScriptSDK from '../dist/server.mjs';
 
 **Use Cases:**
 - Node.js applications with `type: "module"` in package.json
-- Modern Node.js environments (18+) with native ES module support
+- Modern Node.js environments (20+) with native ES module support
 - Server-side applications, APIs, and microservices
 
 **Features:**
@@ -152,7 +152,7 @@ window.OPTAVE_CONFIG = {
 
 ### Server Environment Variables
 ```bash
-export OPTAVE__WEBSOCKET_URL="wss://ws-incubator.oco.optave.tech/"
+export OPTAVE__WEBSOCKET_URL="wss://your-websocket-url"
 export OPTAVE__CLIENT_ID="your_client_id"
 export OPTAVE__CLIENT_SECRET="your_client_secret"
 export OPTAVE__ORGANIZATION_ID="your_org_id"
@@ -193,7 +193,7 @@ node server-esm-integration.mjs
 | **Salesforce (Alt)** | **UMD Global** | **`salesforce-lightning-server-umd.js`** | **✅ Working** |
 | Legacy Node.js | CommonJS | Use `server.mjs` with import() | ✅ Alternative |
 
-*UMD builds are designed for global access (window.OptaveJavaScriptSDK), not Node.js require(). For require() testing, copy to .cjs extension. See UMD-TESTING-GUIDE.md for proper testing methods.
+*UMD builds are designed for global access (window.OptaveJavaScriptSDK), not Node.js require(). For require() testing, copy to .cjs extension.
 
 ## Security Notes
 

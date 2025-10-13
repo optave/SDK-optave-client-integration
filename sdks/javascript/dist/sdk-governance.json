@@ -1,9 +1,9 @@
 {
   "metadata": {
     "version": "1.0.0",
-    "generatedAt": "2025-09-25T08:21:29.741Z",
+    "generatedAt": "2025-10-13T06:08:02.189Z",
     "sdkVersion": "3.2.1",
-    "nodeVersion": "v22.19.0"
+    "nodeVersion": "v22.20.0"
   },
   "buildTargets": [
     {
@@ -15,11 +15,11 @@
       "path": "dist/browser.mjs",
       "exists": true,
       "size": {
-        "raw": 74474,
-        "gzipped": 19604
+        "raw": 47679,
+        "gzipped": 14076
       },
-      "hash": "b55c1ca6c83cda2ad868f50a96730e1f7094a0ec1b90aac28efed56410dff3ef",
-      "exportMethodCount": 27
+      "hash": "d73b6c0256e64b2c4016738bbe8d746517713578ff2cf6d03f816ab51d17f721",
+      "exportMethodCount": 14
     },
     {
       "name": "server-esm",
@@ -30,11 +30,11 @@
       "path": "dist/server.mjs",
       "exists": true,
       "size": {
-        "raw": 184628,
-        "gzipped": 51100
+        "raw": 167771,
+        "gzipped": 25560
       },
-      "hash": "35df01a2414e1c3ae08d272b6837f4261dfaabdf59ecc49b21cd5c5603146b12",
-      "exportMethodCount": 68
+      "hash": "41e74756a85416ba4e8bdf48262ba2d80903742ec1747560f413b9fed0cbbe19",
+      "exportMethodCount": 58
     },
     {
       "name": "browser-umd",
@@ -45,11 +45,11 @@
       "path": "dist/browser.umd.js",
       "exists": true,
       "size": {
-        "raw": 86992,
-        "gzipped": 21868
+        "raw": 56254,
+        "gzipped": 16291
       },
-      "hash": "983411a3d1a39fd27f4435a2c8d5633aff67d65df5286019a8f5f82de78df3e1",
-      "exportMethodCount": 31
+      "hash": "c055ccf4ce7b6925c16318816fc732d80a3b37289624ff75c53d17b57c94ae02",
+      "exportMethodCount": 18
     },
     {
       "name": "server-umd",
@@ -60,10 +60,10 @@
       "path": "dist/server.umd.js",
       "exists": true,
       "size": {
-        "raw": 56763,
-        "gzipped": 16377
+        "raw": 56831,
+        "gzipped": 16410
       },
-      "hash": "e742ce5fb89b54e0da3eee33776bcf5bb2d35f1e8339648ceb6e0734b5456304",
+      "hash": "cba54a04adbb5c797be5b863fef69a04146dc8ba217f528463528fc04cf59c08",
       "exportMethodCount": 18
     },
     {
@@ -85,8 +85,8 @@
   "summary": {
     "totalTargets": 5,
     "totalSize": {
-      "raw": 406321,
-      "gzipped": 110027
+      "raw": 331999,
+      "gzipped": 73415
     },
     "formats": [
       "ESM",
@@ -101,10 +101,10 @@
   },
   "governance": {
     "validatorVersion": "3.2.1",
-    "buildTimestamp": "2025-09-25T08:21:29.742Z",
+    "buildTimestamp": "2025-10-13T06:08:02.190Z",
     "integrity": {
       "allTargetsPresent": true,
-      "totalExportMethods": 144
+      "totalExportMethods": 108
     }
   }
 }

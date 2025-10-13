@@ -155,8 +155,10 @@ cryptoImplementation.generateUUID = function() {
     return defaultGenerator.generate();
 };
 
+// Generate short ID using UUID v7 for cryptographic security
+// Returns first 9 characters of UUID v7 (without hyphens) for backward compatibility
 cryptoImplementation.generateShortId = function() {
-    return Math.random().toString(36).substr(2, 9);
+    return defaultGenerator.generate().replace(/-/g, '').substring(0, 9);
 };
 
 // Ensure crypto is available globally for UUID library

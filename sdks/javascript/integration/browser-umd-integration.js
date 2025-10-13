@@ -40,8 +40,7 @@
    * Compatible with older browsers and module systems
    */
   var optaveClient = new OptaveJavaScriptSDK({
-    websocketUrl: (window.OPTAVE_CONFIG && window.OPTAVE_CONFIG.websocketUrl) ||
-                  'wss://ws-incubator.oco.optave.tech/',
+    websocketUrl: (window.OPTAVE_CONFIG && window.OPTAVE_CONFIG.websocketUrl),
 
     authTransport: 'subprotocol',
 
