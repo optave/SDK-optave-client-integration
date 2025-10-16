@@ -1,5 +1,5 @@
 // AUTO-GENERATED FILE. DO NOT EDIT.
-// Source: specs/asyncapi.yaml (info.version: 3.2.1)
+// Source: specs/asyncapi.yaml (info.version: 3.2.3)
 
 export type OptaveAction = 'adjust' | 'elevate' | 'customerinteraction' | 'interaction' | 'reception' | 'summarize' | 'translate' | 'recommend' | 'insights';
 

@@ -1,8 +1,8 @@
 // AUTO-GENERATED FILE. DO NOT EDIT.
-// Source: config/specs/asyncapi.yaml (info.version: 3.2.1)
+// Source: config/specs/asyncapi.yaml (info.version: 3.2.3)
 
 // SDK Constants derived from AsyncAPI spec
-export const SPEC_VERSION = "3.2.1";
+export const SPEC_VERSION = "3.2.3";
 
 // Schema ref is derived from spec major
 const SPEC_MAJOR = SPEC_VERSION.split('.')[0];

@@ -341,7 +341,7 @@ public with sharing class OptaveController {
         try {
             // Make HTTP callout to your backend to get Optave token
             HttpRequest req = new HttpRequest();
-            req.setEndpoint('https://your-backend.com/api/optave/token');
+            req.setEndpoint('https://your-backend.com/auth/oauth2/token');
             req.setMethod('POST');
             req.setHeader('Content-Type', 'application/json');
             req.setHeader('Authorization', 'Bearer ' + getYourBackendToken());

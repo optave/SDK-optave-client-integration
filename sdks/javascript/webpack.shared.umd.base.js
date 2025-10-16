@@ -14,6 +14,9 @@ export const createUMDBase = (options = {}) => {
     const {
         buildTarget = 'browser', // 'browser' or 'server' (legacy)
         filename = 'build.umd.js',
+        // Note: Uses 'minimize' as parameter name (not 'shouldMinify' like standalone configs)
+        // This follows webpack's standard terminology for reusable factory functions
+        // Standalone configs compute their own minification logic and pass it here
         minimize = false,
         salesforceBuild = false
     } = options;
@@ -45,7 +48,9 @@ export const createUMDBase = (options = {}) => {
         },
 
         mode: 'production',
-        devtool: 'source-map', // External source maps with automatic URL comment
+        // External source maps for CSP compliance and debugging
+        // source-map generates external .map files (required for Salesforce Lightning CSP)
+        devtool: 'source-map',
 
         // Lightning Web Security Compliance: Avoid explicit "use strict" injection
         // Server UMD must be completely self-contained with no externals for Salesforce deployment

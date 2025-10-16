@@ -687,6 +687,28 @@ class OptaveJavaScriptSDK extends EventEmitter {
           timeout: timeoutMs,
           url: this.options.websocketUrl,
         }).message;
+
+        // CRITICAL: Close the WebSocket to prevent zombie connections
+        // Without this, the WebSocket continues attempting to connect in the background
+        // causing resource leaks, race conditions, and connection conflicts on retry attempts
+        if (this.wss) {
+          // Clear event handlers first to prevent them from firing during close
+          this.wss.onopen = null;
+          this.wss.onmessage = null;
+          this.wss.onclose = null;
+          this.wss.onerror = null;
+
+          // Close the connection
+          try {
+            this.wss.close();
+          } catch (e) {
+            // Ignore errors if WebSocket is in invalid state
+          }
+
+          // Mark as no active connection
+          this.wss = null;
+        }
+
         this.handleError(ErrorCategory.WEBSOCKET, 'CONNECTION_TIMEOUT', errorMessage);
         reject({
           category: ErrorCategory.WEBSOCKET,
