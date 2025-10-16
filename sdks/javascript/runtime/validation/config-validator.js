@@ -223,7 +223,7 @@ export function setSmartDefaults(options) {
 
     // Default connection timeout (ms) for WebSocket connection establishment
     if (typeof options.connectionTimeoutMs !== 'number') {
-        options.connectionTimeoutMs = 10000; // 10 seconds default for connection establishment
+        options.connectionTimeoutMs = 30000; // 30 seconds default for connection establishment
     }
 
     // Provide safe no-op logger interface if not supplied (debug/info/warn/error)

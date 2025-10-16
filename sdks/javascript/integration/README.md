@@ -2,6 +2,22 @@
 
 This folder contains integration examples for different build formats of the Optave JavaScript SDK. Each example demonstrates how to properly use a specific build in its intended environment.
 
+## 🌐 Universal SDK - Works with Any Platform
+
+**The Optave JavaScript SDK is platform-agnostic and works with ANY application or CRM platform.** While we provide detailed examples for Salesforce and Zendesk, the SDK is designed to integrate seamlessly with:
+
+- **CRM Platforms**: Salesforce, Zendesk, HubSpot, Microsoft Dynamics, Zoho, SugarCRM, Pipedrive, or any custom CRM
+- **Customer Support Tools**: Intercom, Freshdesk, Help Scout, LiveChat, or custom support platforms
+- **E-commerce Platforms**: Shopify, WooCommerce, Magento, BigCommerce, or custom storefronts
+- **Custom Web Applications**: Internal tools, dashboards, admin panels, or any JavaScript application
+- **Content Management Systems**: WordPress, Drupal, Joomla, or custom CMS implementations
+- **Communication Platforms**: Slack apps, Microsoft Teams extensions, or custom chat applications
+
+**The examples below focus on Salesforce and Zendesk because:**
+- We've created and maintain custom demonstration implementations for these platforms
+
+**To integrate with other platforms:** Use these examples as templates and adapt them to your platform's specific requirements. The SDK's flexible architecture makes it easy to integrate anywhere JavaScript runs.
+
 ## Available Integration Examples
 
 ### Browser Integrations

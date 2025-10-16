@@ -1,6 +1,6 @@
 {
 	"name": "@optave/client-sdk",
-	"version": "3.2.1",
+	"version": "3.2.3",
 	"description": "Optave client SDK (browser + Node)",
 	"private": false,
 	"packageManager": "npm@10.8.1",
@@ -73,9 +73,8 @@
 		"test:browser": "vitest run --config vitest.config.browser.js",
 		"test:umd-server": "cross-env SDK_BUILD=umd-server vitest run --config vitest.config.umd.js",
 		"test:umd-browser": "cross-env SDK_BUILD=umd-browser vitest run --config vitest.config.umd.js",
-		"test:csp-harness": "node scripts/dev/testing/csp-harness-runner.js",
 		"test:all-builds": "npm run test:server && npm run test:browser && npm run test:umd-server && npm run test:umd-browser",
-		"test:all-builds:csp": "npm run test:all-builds && npm run test:csp-harness",
+		"test:all-builds:csp": "npm run test:all-builds && npm run check:csp",
 		"test:builds-parallel": "npm run test:server & npm run test:browser & npm run test:umd-server & npm run test:umd-browser & wait",
 		"size": "size-limit",
 		"size:why": "size-limit --why",
@@ -103,6 +102,7 @@
 		"export-surface:quick": "node scripts/dev/analysis/export-surface.js --mode=quick",
 		"export-surface:diff": "node scripts/dev/analysis/export-surface.js --mode=diff",
 		"check:export-surface": "node scripts/dev/analysis/export-surface.js --mode=quick",
+		"check:csp": "node scripts/dev/validation/csp-harness-runner.js",
 		"diff:export-surface": "node scripts/dev/analysis/export-surface.js --mode=diff",
 		"spec:validate": "echo 'AsyncAPI validation only available in CI (to avoid dependency conflicts)'",
 		"spec:generate:html": "echo 'AsyncAPI HTML generation only available in CI (to avoid dependency conflicts)'",
@@ -116,7 +116,6 @@
 		"spec:generate:examples": "npm run spec:examples",
 		"spec:drift-guard": "node scripts/dev/validation/schema-drift-guard.js",
 		"assert:umd-bundles": "node scripts/dev/validation/assert-umd-bundles.cjs",
-		"security:scan": "node scripts/dev/validation/security-scanner.js",
 		"governance:check": "node scripts/dev/validation/governance-check.js",
 		"governance:manifest": "node scripts/generation/generate-governance-manifest.js"
 	},
@@ -136,7 +135,7 @@
 		"tsup": "^8.0.1",
 		"typescript": "^5.9.3",
 		"vitest": "^3.2.4",
-		"webpack": "^5.102.0",
+		"webpack": "^5.102.1",
 		"webpack-bundle-analyzer": "^4.10.2",
 		"webpack-cli": "^6.0.1",
 		"yaml": "^2.8.1"

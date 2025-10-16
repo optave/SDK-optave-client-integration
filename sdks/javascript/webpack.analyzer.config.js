@@ -34,17 +34,26 @@ export function createAnalyzerConfig(buildTarget = 'server', options = {}, env =
     } = options;
 
     // Support both old minimize and new FULL environment variable systems
-    // New system: FULL=1 means non-minified, otherwise minified
+    // New system: FULL=1 means non-minified, FULL=0 or absence means minified
     // Old system: minimize=true means minified
     let shouldMinimize;
     if (env.minimize !== undefined) {
         // Old system for backward compatibility
         shouldMinimize = env.minimize === 'true' || env.minimize === true;
+    } else if (options.minimize !== undefined) {
+        // If minimize is explicitly passed in options, use it (takes precedence)
+        shouldMinimize = options.minimize;
     } else {
-        // New system: FULL=1 means non-minified, otherwise minified (default)
+        // New system: Check FULL environment variable
         const fullBuild = process.env.FULL === '1' || env.full === 'true' || env.full === true;
-        // For analyzer, default to minified unless explicitly set to full
-        shouldMinimize = !fullBuild;
+
+        if (fullBuild) {
+            // FULL=1 explicitly requests non-minified
+            shouldMinimize = false;
+        } else {
+            // Default when FULL is absent or FULL=0: minified (production-ready analyzer builds)
+            shouldMinimize = true;
+        }
     }
 
     // Ensure filename reflects build type for better differentiation
@@ -58,7 +67,7 @@ export function createAnalyzerConfig(buildTarget = 'server', options = {}, env =
 
     const baseConfig = createUMDBase({
         buildTarget,
-        filename,
+        filename: actualFilename,
         minimize: shouldMinimize,
         ...otherOptions
     });

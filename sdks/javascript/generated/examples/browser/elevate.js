@@ -19,7 +19,7 @@ const optaveClient = new OptaveJavaScriptSDK({
 
     // ✅ BROWSER SECURITY: Never use clientSecret in browsers!
     tokenProvider: async () => {
-        const response = await fetch('/api/optave/token', {
+        const response = await fetch('/auth/oauth2/token', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' }

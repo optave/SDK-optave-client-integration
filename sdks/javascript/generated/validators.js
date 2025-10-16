@@ -1,5 +1,5 @@
 // AUTO-GENERATED FILE. DO NOT EDIT.
-// Precompiled validators built from specs/asyncapi.yaml (info.version: 3.2.1)
+// Precompiled validators built from specs/asyncapi.yaml (info.version: 3.2.3)
 // Generated using AJV standalone compilation - no runtime AJV dependency required
 
 

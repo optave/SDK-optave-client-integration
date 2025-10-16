@@ -146,7 +146,7 @@ const OptaveJavaScriptSDK = require('@optave/client-sdk/server-umd');
   import OptaveJavaScriptSDK from 'https://unpkg.com/@optave/client-sdk/dist/browser.mjs';
 
   const sdk = new OptaveJavaScriptSDK({
-    websocketUrl: 'wss://api.optave.com/ws',
+    websocketUrl: 'wss://client-identifier.oco.optave.tech',
     // ... configuration
   });
 </script>
@@ -158,7 +158,7 @@ const OptaveJavaScriptSDK = require('@optave/client-sdk/server-umd');
 <script>
   // OptaveJavaScriptSDK is now available globally
   const sdk = new OptaveJavaScriptSDK({
-    websocketUrl: 'wss://api.optave.com/ws',
+    websocketUrl: 'wss://client-identifier.oco.optave.tech',
     // ... configuration
   });
 </script>
@@ -343,7 +343,7 @@ const sdk = new OptaveJavaScriptSDK({
 
 **Environment variables (.env):**
 ```bash
-VITE_OPTAVE__WEBSOCKET_URL=wss://api.optave.com/ws
+VITE_OPTAVE__WEBSOCKET_URL=wss://client-identifier.oco.optave.tech
 ```
 
 #### Create React App
@@ -371,7 +371,7 @@ const sdk = new OptaveJavaScriptSDK({
 
 **Environment variables (.env):**
 ```bash
-REACT_APP_OPTAVE__WEBSOCKET_URL=wss://api.optave.com/ws
+REACT_APP_OPTAVE__WEBSOCKET_URL=wss://client-identifier.oco.optave.tech
 ```
 
 #### Next.js
@@ -399,7 +399,7 @@ const sdk = new OptaveJavaScriptSDK({
 
 **Environment variables (.env.local):**
 ```bash
-NEXT_PUBLIC_OPTAVE__WEBSOCKET_URL=wss://api.optave.com/ws
+NEXT_PUBLIC_OPTAVE__WEBSOCKET_URL=wss://client-identifier.oco.optave.tech
 ```
 
 #### Generic Browser (without build tools)
@@ -412,7 +412,7 @@ import OptaveJavaScriptSDK from '@optave/client-sdk/browser';
 // Use the UMD CDN example shown in "Build System & Imports" section
 
 const sdk = new OptaveJavaScriptSDK({
-    websocketUrl: 'wss://api.optave.com/ws', // Direct configuration
+    websocketUrl: 'wss://client-identifier.oco.optave.tech', // Direct configuration
     tokenProvider: async () => {
         const response = await fetch('/api/optave/ws-ticket', {
             method: 'POST',
@@ -469,7 +469,7 @@ Specifically tested and optimized for Salesforce Lightning environments:
 import OptaveJavaScriptSDK from '@optave/client-sdk/browser';
 
 const sdk = new OptaveJavaScriptSDK({
-    websocketUrl: 'wss://api.optave.com/ws',
+    websocketUrl: 'wss://client-identifier.oco.optave.tech',
     tokenProvider: async () => {
         // Fetch from your Lightning backend
         const response = await fetch('/services/data/v58.0/optave/token', {
@@ -613,7 +613,7 @@ const sdk = new OptaveJavaScriptSDK({
 
 ```javascript
 // Example Express.js token endpoint
-app.post('/api/optave/token', (req, res) => {
+app.post('/auth/oauth2/token', (req, res) => {
     const origin = req.headers.origin;
     const allowedOrigins = ['https://yourdomain.com', 'https://app.yourdomain.com'];
 
